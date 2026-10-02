@@ -10,14 +10,8 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.WallBlock;
-import net.minecraft.world.level.block.state.properties.Half;
-import net.minecraft.world.level.block.state.properties.SlabType;
-import net.minecraft.world.level.block.state.properties.StairsShape;
-import net.minecraft.world.level.block.state.properties.WallSide;
-import net.minecraftforge.client.model.generators.BlockModelBuilder;
-import net.minecraftforge.client.model.generators.BlockStateProvider;
-import net.minecraftforge.client.model.generators.ConfiguredModel;
-import net.minecraftforge.client.model.generators.ModelFile;
+import net.minecraft.world.level.block.state.properties.*;
+import net.minecraftforge.client.model.generators.*;
 import net.minecraftforge.client.model.generators.ModelFile.UncheckedModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.RegistryObject;
@@ -38,22 +32,25 @@ public class SCBEBlockStateProvider extends BlockStateProvider {
                 SCBEBlocks.REINFORCED_REINFORCED_DEEPSLATE,
                 mcLoc("block/reinforced_deepslate_bottom"),
                 mcLoc("block/reinforced_deepslate_top"),
-                mcLoc("block/reinforced_deepslate_side")
+                mcLoc("block/reinforced_deepslate_side"),
+                null
         );
 
          reinforcedCubeAll(
                  "reinforced_wet_sponge",
                  SCBEBlocks.REINFORCED_WET_SPONGE,
-                 mcLoc("block/wet_sponge")
+                 mcLoc("block/wet_sponge"),
+                 null
          );
 
         // 兼容模块方块：统一由 Mods 收集，未加载模块不会返回数据
         for (SCBEBlockModelData data : Mods.collectBlockModelData()) {
             switch (data.type()) {
-                case SIMPLE -> reinforcedBlock(data.name(), data.block(), data.parentModel(), data.textures());
+                case SIMPLE -> reinforcedBlock(data.name(), data.block(), data.parentModel(), data.textures(), data.renderType(),data.itemModel());
                 case STAIRS -> reinforcedStairs(data.name(), data.block().get(), data.textures().get("side"));
                 case SLAB -> reinforcedSlab(data.name(), data.block().get(), data.textures().get("side"));
                 case WALL -> reinforcedWall(data.name(), (WallBlock) data.block().get(), data.textures().get("wall"));
+                case PILLAR -> reinforcedPillar(data.name(), data.block(), data.parentModel(), data.textures());
             }
         }
     }
@@ -67,21 +64,40 @@ public class SCBEBlockStateProvider extends BlockStateProvider {
      * @param block       方块的 RegistryObject
      * @param parentModel 父模型路径，例如 "block/reinforced_cube_all"（securitycraft 命名空间）
      * @param textures    纹理映射，key 为父模型中的占位符（如 "all"、"bottom"、"top"、"side"）
+     * @param renderType  渲染类型
      */
     private void reinforcedBlock(String name,
                                  Supplier<? extends Block> block,
                                  String parentModel,
-                                 Map<String, ResourceLocation> textures) {
+                                 Map<String, ResourceLocation> textures,String renderType,
+                                 SCBEBlockModelData itemModel) {
 
         BlockModelBuilder builder = models().getBuilder(name)
                 .parent(new UncheckedModelFile(
                         securitycraftLoc(parentModel)));
 
+        if (renderType != null && !renderType.isEmpty()) {
+            builder.renderType(renderType);
+        }
+
         textures.forEach(builder::texture);
         ModelFile blockModel = builder;
 
         simpleBlock(block.get(), blockModel);
-        itemModels().withExistingParent(name, modLoc("block/" + name));
+        if (itemModel != null){
+            ItemModelBuilder itemBuilder = itemModels().getBuilder(name)
+                    .parent(new UncheckedModelFile(securitycraftLoc(itemModel.parentModel())));
+            itemModel.textures().forEach(itemBuilder::texture);
+        }else {
+            itemModels().withExistingParent(name, modLoc("block/" + name));
+        }
+    }
+
+    private void reinforcedBlock(String name,
+                                 Supplier<? extends Block> block,
+                                 String parentModel,
+                                 Map<String, ResourceLocation> textures,String renderType) {
+        reinforcedBlock(name,block,parentModel,textures,renderType,null);
     }
 
     /**
@@ -89,8 +105,8 @@ public class SCBEBlockStateProvider extends BlockStateProvider {
      */
     private void reinforcedCubeAll(String name,
                                    RegistryObject<? extends Block> block,
-                                   ResourceLocation allTexture) {
-        reinforcedBlock(name, block, "block/reinforced_cube_all", Map.of("all", allTexture));
+                                   ResourceLocation allTexture,String renderType) {
+        reinforcedBlock(name, block, "block/reinforced_cube_all", Map.of("all", allTexture),renderType);
     }
 
     /**
@@ -100,25 +116,27 @@ public class SCBEBlockStateProvider extends BlockStateProvider {
                                          RegistryObject<? extends Block> block,
                                          ResourceLocation bottom,
                                          ResourceLocation top,
-                                         ResourceLocation side) {
+                                         ResourceLocation side,
+                                         String renderType) {
         reinforcedBlock(name, block, "block/reinforced_cube_bottom_top", Map.of(
                 "bottom", bottom,
                 "top", top,
                 "side", side
-        ));
+        ), renderType);
     }
 
     /**
      * 便捷方法：父模型为 securitycraft:block/reinforced_cube_column，纹理占位符为 end/side
      */
     private void reinforcedCubeColumn(String name,
-                                      RegistryObject<? extends Block> block,
+                                      Supplier<? extends Block> block,
                                       ResourceLocation end,
-                                      ResourceLocation side) {
+                                      ResourceLocation side,
+                                      String renderType) {
         reinforcedBlock(name, block, "block/reinforced_cube_column", Map.of(
                 "end", end,
                 "side", side
-        ));
+        ), renderType);
     }
 
     // --- 专用生成方法 ---
@@ -219,6 +237,52 @@ public class SCBEBlockStateProvider extends BlockStateProvider {
 
         itemModels().withExistingParent(name, securitycraftLoc("block/reinforced_wall_inventory"))
                 .texture("wall", texture);
+    }
+
+    private void reinforcedPillar(String name,
+                                  Supplier<? extends Block> block,
+                                  String parentModel,
+                                  Map<String, ResourceLocation> textures) {
+
+        ResourceLocation end  = textures.get("end");
+        ResourceLocation side = textures.get("side");
+
+        // 竖直模型：直接使用 data.parentModel
+        ModelFile vertical = models().withExistingParent(name, securitycraftLoc(parentModel))
+                .texture("end", end)
+                .texture("side", side);
+
+        // 水平模型：父模型换成 horizontal 变体
+        ModelFile horizontal = models()
+                .withExistingParent(name + "_horizontal",
+                        securitycraftLoc("block/reinforced_cube_column_horizontal"))
+                .texture("end", end)
+                .texture("side", side);
+
+        getVariantBuilder(block.get())
+                .forAllStatesExcept(state -> {
+                            Direction.Axis axis = state.getValue(BlockStateProperties.AXIS);
+                            if (axis == Direction.Axis.Y) {
+                                return ConfiguredModel.builder()
+                                        .modelFile(vertical)
+                                        .uvLock(false)
+                                        .build();
+                            }
+                            return ConfiguredModel.builder()
+                                    .modelFile(horizontal)
+                                    .uvLock(false)
+                                    .rotationX(90)
+                                    .rotationY(axis == Direction.Axis.X ? 90 : 0)
+                                    .build();
+                        },
+                        BlockStateProperties.WATERLOGGED,
+                        BlockStateProperties.NORTH,
+                        BlockStateProperties.SOUTH,
+                        BlockStateProperties.EAST,
+                        BlockStateProperties.WEST
+                );
+
+        itemModels().withExistingParent(name, modLoc("block/" + name));
     }
 
     // ========== 工具方法 ==========

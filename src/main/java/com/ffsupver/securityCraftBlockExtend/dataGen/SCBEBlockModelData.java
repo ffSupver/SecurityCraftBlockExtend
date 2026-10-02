@@ -15,7 +15,8 @@ public class SCBEBlockModelData {
         SIMPLE,   // 普通方块 (cube_all, cube_bottom_top 等)
         STAIRS,   // 楼梯
         SLAB,     // 半砖
-        WALL      // 墙
+        WALL,      // 墙
+        PILLAR    // 轴向柱体（需要按 AXIS 旋转）
     }
 
     private String name;
@@ -23,23 +24,35 @@ public class SCBEBlockModelData {
     private String parentModel;
     private Map<String, ResourceLocation> textures;
     private BlockType type;
+    private final String renderType;
+    private final SCBEBlockModelData itemModel;
 
     public SCBEBlockModelData(
             String name,
             Supplier<? extends Block> block,
             String parentModel,
             Map<String, ResourceLocation> textures,
-            BlockType type
+            String renderType,
+            BlockType type, SCBEBlockModelData itemModel
     ){
         this.name = name;
         this.block = block;
         this.parentModel = parentModel;
         this.textures = textures;
+        this.renderType = renderType;
         this.type = type;
+        this.itemModel = itemModel;
+    }
+    public SCBEBlockModelData(String name, Supplier<? extends Block> block, String parentModel, Map<String, ResourceLocation> textures,String renderType, BlockType type) {
+        this(name, block, parentModel, textures,renderType, type, null);
     }
     public SCBEBlockModelData(String name, Supplier<? extends Block> block, String parentModel, Map<String, ResourceLocation> textures) {
-        this(name, block, parentModel, textures, BlockType.SIMPLE);
+        this(name, block, parentModel, textures,null, BlockType.SIMPLE, null);
     }
+    public SCBEBlockModelData(String name, Supplier<? extends Block> block, String parentModel, Map<String, ResourceLocation> textures, BlockType type) {
+        this(name, block, parentModel, textures,null, type, null);
+    }
+
 
     public String name() {
         return name;
@@ -55,5 +68,11 @@ public class SCBEBlockModelData {
     }
     public BlockType type() {
         return type;
+    }
+    public String renderType() {
+        return renderType;
+    }
+    public SCBEBlockModelData itemModel() {
+        return itemModel;
     }
 }

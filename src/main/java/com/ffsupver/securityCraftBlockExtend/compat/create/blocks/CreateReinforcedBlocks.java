@@ -6,16 +6,16 @@ import com.ffsupver.securityCraftBlockExtend.dataGen.SCBEBlockModelData;
 import com.ffsupver.securityCraftBlockExtend.dataGen.SCBEBlockTagData;
 import com.ffsupver.securityCraftBlockExtend.registeries.SCBEBlocks;
 import com.simibubi.create.AllBlocks;
+import com.simibubi.create.AllSpriteShifts;
 import com.simibubi.create.Create;
 import com.simibubi.create.content.decoration.palettes.*;
+import com.simibubi.create.foundation.block.connected.*;
 import com.simibubi.create.foundation.data.CreateRegistrate;
+import com.tterrag.registrate.builders.BlockBuilder;
 import com.tterrag.registrate.providers.ProviderType;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
-import net.geforcemods.securitycraft.blocks.reinforced.BaseReinforcedBlock;
-import net.geforcemods.securitycraft.blocks.reinforced.ReinforcedSlabBlock;
-import net.geforcemods.securitycraft.blocks.reinforced.ReinforcedStairsBlock;
-import net.geforcemods.securitycraft.blocks.reinforced.ReinforcedWallBlock;
+import net.geforcemods.securitycraft.blocks.reinforced.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.BlockItem;
@@ -27,6 +27,7 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
@@ -43,11 +44,38 @@ public class CreateReinforcedBlocks {
     public static List<Supplier<ItemLike>> creativeTabItems = new ArrayList<>();
 
     public static final BlockEntry<BaseReinforcedBlock> REINFORCED_BRASS_BLOCK = registerReinforcedBlock("reinforced_brass_block", AllBlocks.BRASS_BLOCK);
+    public static final BlockEntry<ReinforcedGlassBlock> REINFORCED_FRAMED_GLASS =
+            registerReinforcedGlassBlock(
+                    "reinforced_framed_glass",
+                    AllPaletteBlocks.FRAMED_GLASS::get,
+                    builder -> builder
+                            .onRegister(CreateRegistrate.connectedTextures(
+                                    () -> new SimpleCTBehaviour(AllSpriteShifts.FRAMED_GLASS)
+                            ))
+            );
+    public static final BlockEntry<ReinforcedGlassBlock> REINFORCED_HORIZONTAL_FRAMED_GLASS =
+            registerReinforcedGlassBlock(
+                    "reinforced_horizontal_framed_glass",
+                    AllPaletteBlocks.HORIZONTAL_FRAMED_GLASS::get,
+                    builder -> builder
+                            .onRegister(CreateRegistrate.connectedTextures(
+                                    () -> new HorizontalCTBehaviour(AllSpriteShifts.HORIZONTAL_FRAMED_GLASS, AllSpriteShifts.FRAMED_GLASS)
+                            ))
+            );
+    public static final BlockEntry<ReinforcedGlassBlock> REINFORCED_VERTICAL_FRAMED_GLASS =
+            registerReinforcedGlassBlock(
+                    "reinforced_vertical_framed_glass",
+                    AllPaletteBlocks.VERTICAL_FRAMED_GLASS::get,
+                    builder -> builder
+                            .onRegister(CreateRegistrate.connectedTextures(
+                                    () -> new HorizontalCTBehaviour(AllSpriteShifts.VERTICAL_FRAMED_GLASS)
+                            ))
+            );
 
-    public static void registerDiorite() {
-        PaletteBlockPattern[] patterns = AllPaletteStoneTypes.DIORITE.variantTypes;
-        PalettesVariantEntry variants = AllPaletteStoneTypes.DIORITE.getVariants();
-        String stoneTypesName = AllPaletteStoneTypes.DIORITE.name().toLowerCase();
+    public static void registerPaletteStoneBlocks(AllPaletteStoneTypes stoneTypes) {
+        PaletteBlockPattern[] patterns = stoneTypes.variantTypes;
+        PalettesVariantEntry variants = stoneTypes.getVariants();
+        String stoneTypesName = stoneTypes.name().toLowerCase();
 
         int partialIdx = 0;
 
@@ -58,14 +86,41 @@ public class CreateReinforcedBlocks {
             BlockEntry<? extends Block> blockEntry = variants.registeredBlocks.get(i);
             String name = blockEntry.getId().getPath();
             String reinforcedName = "reinforced_" + name;
-            BlockEntry<BaseReinforcedBlock> reinforced =
-                    registerReinforcedBlock(reinforcedName, blockEntry::get);
+            BlockEntry<? extends BaseReinforcedBlock> reinforced;
+            if (pattern.equals(LAYERED)){
+                final String variant = stoneTypesName;
+                reinforced = registerReinforcedBlock(reinforcedName, blockEntry::get,
+                    builder -> builder.onRegister(
+                            CreateRegistrate.connectedTextures(() ->
+                                    new HorizontalCTBehaviour(
+                                            createCTShift(variant, "layered", AllCTTypes.HORIZONTAL_KRYPPERS),
+                                            createCTShift(variant, "cap",     AllCTTypes.OMNIDIRECTIONAL)
+                                    )
+                            )
+                    )
+                );
+            }else if (pattern.equals(PILLAR)) {
+                final String variant = stoneTypesName;
+                reinforced = registerReinforcedPillarBlock(reinforcedName, blockEntry::get,
+                        b->b.onRegister(
+                                CreateRegistrate.connectedTextures(() ->
+                                        new RotatedPillarCTBehaviour(
+                                                createCTShift(variant, "pillar", AllCTTypes.RECTANGLE),
+                                                createCTShift(variant, "cap",    AllCTTypes.OMNIDIRECTIONAL)
+                                        )
+                                )
+                        )
+                );
+            } else {
+                reinforced = registerReinforcedBlock(reinforcedName, blockEntry::get);
+            }
 
             SecurityCraftBlockExtend.LOGGER.info(
                     "Registered reinforced block: {} (pattern={})", reinforcedName, pattern);
 
             String blockModel;
             Map<String, ResourceLocation> blockTextures;
+            SCBEBlockModelData.BlockType blockType = SIMPLE;
             if (pattern.equals(LAYERED)) {
                 blockModel = "block/reinforced_cube_column";
                 blockTextures = Map.of(
@@ -78,6 +133,7 @@ public class CreateReinforcedBlocks {
                         "end", paletteTexture(stoneTypesName, "cap"),
                         "side", paletteTexture(stoneTypesName, "pillar")
                 );
+                blockType = SCBEBlockModelData.BlockType.PILLAR;
             } else {// CUT / BRICKS / SMALL_BRICKS / POLISHED —— 都是 cube_all
                 blockModel = "block/reinforced_cube_all";
                 blockTextures = Map.of(
@@ -85,13 +141,13 @@ public class CreateReinforcedBlocks {
                 );
             }
             blockModelData.add(new SCBEBlockModelData(
-                    reinforcedName, reinforced, blockModel, blockTextures
+                    reinforcedName, reinforced, blockModel, blockTextures,blockType
             ));
 
             blockLootData.add(new SCBEBlockLootData(reinforced, SCBEBlockLootData.BlockLootType.DROP_SELF));
             blockTagData.add(new SCBEBlockTagData(
                     reinforced,
-                    List.of(BlockTags.MINEABLE_WITH_PICKAXE)
+                    List.of(BlockTags.MINEABLE_WITH_PICKAXE, BlockTags.WITHER_IMMUNE, BlockTags.DRAGON_IMMUNE)
             ));
 
             // ================= 该 pattern 下的 partials =================
@@ -100,6 +156,7 @@ public class CreateReinforcedBlocks {
                 String partialPath = partialEntry.getId().getPath();
                 String reinforcedPartialName = "reinforced_" + partialPath;
 
+                BlockEntry<? extends Block> reinforcedBlockEntry = null;
                 if (partial == PaletteBlockPartial.STAIR) {
                     BlockEntry<ReinforcedStairsBlock> reinforcedStair =
                             registerReinforcedStairBlock(reinforcedPartialName, partialEntry::get);
@@ -122,6 +179,7 @@ public class CreateReinforcedBlocks {
                             List.of(BlockTags.MINEABLE_WITH_PICKAXE, BlockTags.STAIRS)
                     ));
 
+                    reinforcedBlockEntry = reinforcedStair;
                 } else if (partial == PaletteBlockPartial.SLAB || partial == PaletteBlockPartial.UNIQUE_SLAB) {
                     BlockEntry<ReinforcedSlabBlock> reinforcedSlab =
                             registerReinforcedSlabBlock(reinforcedPartialName, partialEntry::get);
@@ -144,6 +202,7 @@ public class CreateReinforcedBlocks {
                             List.of(BlockTags.MINEABLE_WITH_PICKAXE, BlockTags.SLABS)
                     ));
 
+                    reinforcedBlockEntry = reinforcedSlab;
                 } else if (partial == PaletteBlockPartial.WALL) {
                     BlockEntry<ReinforcedWallBlock> reinforcedWall =
                             registerReinforcedWallBlock(reinforcedPartialName, partialEntry::get);
@@ -166,10 +225,19 @@ public class CreateReinforcedBlocks {
                             List.of(BlockTags.MINEABLE_WITH_PICKAXE, BlockTags.WALLS)
                     ));
 
+                    reinforcedBlockEntry = reinforcedWall;
                 } else {
                     SecurityCraftBlockExtend.LOGGER.warn(
                             "Unhandled partial type: {} (pattern={}, class={})",
                             reinforcedPartialName, pattern, partial.getClass().getSimpleName());
+                }
+                if (reinforcedBlockEntry != null){
+                    blockTagData.add(
+                            new SCBEBlockTagData(
+                                    reinforcedBlockEntry,
+                                    List.of(BlockTags.WITHER_IMMUNE,BlockTags.DRAGON_IMMUNE)
+                            )
+                    );
                 }
             }
         }
@@ -178,6 +246,16 @@ public class CreateReinforcedBlocks {
     private static ResourceLocation paletteTexture(String variant, String texture) {
         String fileName = variant + (texture.equals("cut") ? "_" : "_cut_") + texture;
         return Create.asResource("block/palettes/stone_types/" + texture + "/" + fileName);
+    }
+
+    /**
+     * 按 Create 的 ct(...) 语义，构造一个指向 _connected 变体的 CT shift。
+     * src 就是 paletteTexture 生成的路径。
+     */
+    private static CTSpriteShiftEntry createCTShift(String variant, String texture, CTType type) {
+        ResourceLocation src = paletteTexture(variant, texture);
+        ResourceLocation target = ResourceLocation.tryBuild(src.getNamespace(), src.getPath() + "_connected");
+        return CTSpriteShifter.getCT(type, src, target);
     }
 
     public static void register(IEventBus modEventBus){
@@ -189,58 +267,142 @@ public class CreateReinforcedBlocks {
      * 注意这里只返回 Supplier，不会在类加载时立即访问方块实例。
      */
     public static List<SCBEBlockModelData> getBlockModelData() {
-         blockModelData.add(
+         blockModelData.addAll(List.of(
                 new SCBEBlockModelData(
                         "reinforced_brass_block",
                         REINFORCED_BRASS_BLOCK,
                         "block/reinforced_cube_all",
-                        Map.of("all", ResourceLocation.tryBuild("create", "block/brass_block"))
-                )
-        );
+                        Map.of("all", Create.asResource("block/brass_block"))
+                ),
+                 new SCBEBlockModelData(
+                         "reinforced_framed_glass",
+                         REINFORCED_FRAMED_GLASS,
+                         "block/reinforced_cube_all",
+                         Map.of("all", Create.asResource("block/palettes/framed_glass")),
+                         "minecraft:cutout",
+                         SIMPLE
+                 ),
+                 new SCBEBlockModelData(
+                         "reinforced_horizontal_framed_glass",
+                         REINFORCED_HORIZONTAL_FRAMED_GLASS,
+                         "block/reinforced_cube_all",
+                         Map.of("all", Create.asResource("block/palettes/framed_glass")),
+                         "minecraft:cutout",
+                         SIMPLE,
+                         new SCBEBlockModelData(
+                                 "reinforced_horizontal_framed_glass",
+                                 REINFORCED_HORIZONTAL_FRAMED_GLASS,
+                                 "block/reinforced_cube_column",
+                                 Map.of("end", Create.asResource("block/palettes/framed_glass"), "side", Create.asResource("block/palettes/horizontal_framed_glass")),
+                                 "minecraft:cutout",
+                                 SIMPLE
+                         )
+                 ),
+                 new SCBEBlockModelData(
+                         "reinforced_vertical_framed_glass",
+                         REINFORCED_VERTICAL_FRAMED_GLASS,
+                         "block/reinforced_cube_all",
+                         Map.of("all", Create.asResource("block/palettes/framed_glass")),
+                         "minecraft:cutout",
+                         SIMPLE,
+                         new SCBEBlockModelData(
+                                 "reinforced_vertical_framed_glass",
+                                 REINFORCED_VERTICAL_FRAMED_GLASS,
+                                 "block/reinforced_cube_column",
+                                 Map.of("end", Create.asResource("block/palettes/framed_glass"), "side", Create.asResource("block/palettes/vertical_framed_glass")),
+                                 "minecraft:cutout",
+                                 SIMPLE
+                         )
+                 )
+         ));
         return blockModelData;
     }
 
     public static List<SCBEBlockLootData> getBlockLootData() {
-        blockLootData.add(
-                new SCBEBlockLootData(
-                        REINFORCED_BRASS_BLOCK,
-                        SCBEBlockLootData.BlockLootType.DROP_SELF
+        blockLootData.addAll(List.of(
+                SCBEBlockLootData.dropSelf(REINFORCED_BRASS_BLOCK),
+                SCBEBlockLootData.dropSelf(REINFORCED_FRAMED_GLASS),
+                SCBEBlockLootData.dropSelf(REINFORCED_HORIZONTAL_FRAMED_GLASS),
+                SCBEBlockLootData.dropSelf(REINFORCED_VERTICAL_FRAMED_GLASS)
                 )
         );
         return blockLootData;
     }
 
     public static List<SCBEBlockTagData> getBlockTagData() {
-        blockTagData.add(
+        blockTagData.addAll(List.of(
                 new SCBEBlockTagData(
                         REINFORCED_BRASS_BLOCK,
                         List.of(
                                 BlockTags.MINEABLE_WITH_PICKAXE,
                                 BlockTags.NEEDS_IRON_TOOL
                         )
+                ),
+                new SCBEBlockTagData(
+                        REINFORCED_FRAMED_GLASS,
+                        List.of(
+                                BlockTags.MINEABLE_WITH_PICKAXE
+                        )
                 )
-        );
+        ));
         return blockTagData;
     }
+
+
     public static BlockEntry<BaseReinforcedBlock> registerReinforcedBlock(String name, Supplier<Block> vanillaBlock) {
-        return registerReinforcedBlock(name, (p) -> new BaseReinforcedBlock(SCBEBlocks.reinforcedCopy(vanillaBlock.get(), UnaryOperator.identity()), vanillaBlock.get()));
+        return registerReinforcedBlock(name, vanillaBlock, (builder) -> {});
+    }
+    public static BlockEntry<BaseReinforcedBlock> registerReinforcedBlock(String name, Supplier<Block> vanillaBlock, Consumer<BlockBuilder<BaseReinforcedBlock, CreateRegistrate>> blockBuilderConsumer) {
+        BlockEntry<BaseReinforcedBlock> blockEntry =  registerReinforcedBlock(name, (p) -> new BaseReinforcedBlock(SCBEBlocks.reinforcedCopy(vanillaBlock.get(), UnaryOperator.identity()), vanillaBlock.get()),blockBuilderConsumer);
+        SCBEBlocks.registerReinforcedBlockMapping(blockEntry,blockEntry);
+        return blockEntry;
     }
     public static BlockEntry<ReinforcedStairsBlock> registerReinforcedStairBlock(String name, Supplier<Block> vanillaBlock) {
-        return registerReinforcedBlock(name, (p) -> new ReinforcedStairsBlock(SCBEBlocks.reinforcedCopy(vanillaBlock.get(), UnaryOperator.identity()), vanillaBlock.get()));
+        BlockEntry<ReinforcedStairsBlock> blockEntry =  registerReinforcedBlock(name, (p) -> new ReinforcedStairsBlock(SCBEBlocks.reinforcedCopy(vanillaBlock.get(), UnaryOperator.identity()), vanillaBlock.get()));
+        SCBEBlocks.registerReinforcedBlockMapping(blockEntry,blockEntry);
+        return blockEntry;
     }
     public static BlockEntry<ReinforcedSlabBlock> registerReinforcedSlabBlock(String name, Supplier<Block> vanillaBlock) {
-        return registerReinforcedBlock(name, (p) -> new ReinforcedSlabBlock(SCBEBlocks.reinforcedCopy(vanillaBlock.get(), UnaryOperator.identity()), vanillaBlock.get()));
+        BlockEntry<ReinforcedSlabBlock> blockEntry =  registerReinforcedBlock(name, (p) -> new ReinforcedSlabBlock(SCBEBlocks.reinforcedCopy(vanillaBlock.get(), UnaryOperator.identity()), vanillaBlock.get()));
+        SCBEBlocks.registerReinforcedBlockMapping(blockEntry,blockEntry);
+        return blockEntry;
     }
     public static BlockEntry<ReinforcedWallBlock> registerReinforcedWallBlock(String name, Supplier<Block> vanillaBlock) {
-        return registerReinforcedBlock(name, (p) -> new ReinforcedWallBlock(SCBEBlocks.reinforcedCopy(vanillaBlock.get(), UnaryOperator.identity()), vanillaBlock.get()));
+        BlockEntry<ReinforcedWallBlock> blockEntry =  registerReinforcedBlock(name, (p) -> new ReinforcedWallBlock(SCBEBlocks.reinforcedCopy(vanillaBlock.get(), UnaryOperator.identity()), vanillaBlock.get()));
+        SCBEBlocks.registerReinforcedBlockMapping(blockEntry,blockEntry);
+        return blockEntry;
     }
+    public static BlockEntry<ReinforcedConnectedPillarBlock> registerReinforcedPillarBlock(
+            String name, Supplier<Block> vanillaBlock,Consumer<BlockBuilder<ReinforcedConnectedPillarBlock, CreateRegistrate>> blockBuilderConsumer) {
+        BlockEntry<ReinforcedConnectedPillarBlock> blockEntry = registerReinforcedBlock(name, (p) ->
+                new ReinforcedConnectedPillarBlock(
+                        SCBEBlocks.reinforcedCopy(vanillaBlock.get(), UnaryOperator.identity()),
+                        vanillaBlock.get()),
+                blockBuilderConsumer);
+        SCBEBlocks.registerReinforcedBlockMapping(blockEntry,blockEntry);
+        return blockEntry;
+    }
+
+    public static BlockEntry<ReinforcedGlassBlock> registerReinforcedGlassBlock(String name, Supplier<Block> vanillaBlock, Consumer<BlockBuilder<ReinforcedGlassBlock, CreateRegistrate>> blockBuilderConsumer){
+        BlockEntry<ReinforcedGlassBlock> blockEntry = registerReinforcedBlock(name, (p) -> new ReinforcedGlassBlock(SCBEBlocks.reinforcedCopy(vanillaBlock.get(), UnaryOperator.identity()), vanillaBlock.get()), blockBuilderConsumer);
+        SCBEBlocks.registerReinforcedBlockMapping(blockEntry,blockEntry);
+        return blockEntry;
+    }
+
     public static <B extends Block> BlockEntry<B> registerReinforcedBlock(String name, Function<BlockBehaviour.Properties,B> reinforcedBlock) {
-        BlockEntry<B> blockEntry = REGISTRATE
+        return registerReinforcedBlock(name, reinforcedBlock, (builder) -> {});
+    }
+    public static <B extends Block> BlockEntry<B> registerReinforcedBlock(String name, Function<BlockBehaviour.Properties,B> reinforcedBlock, Consumer<BlockBuilder<B, CreateRegistrate>> blockBuilderConsumer) {
+        BlockBuilder<B, CreateRegistrate> builder = REGISTRATE
                 .block(name,
                         reinforcedBlock::apply)
                 .setData(ProviderType.BLOCKSTATE, NonNullBiConsumer.noop()) // No blockstate data
                 .setData(ProviderType.LANG, NonNullBiConsumer.noop()) // No language data
-                .setData(ProviderType.LOOT, NonNullBiConsumer.noop()) // No loot table data
+                .setData(ProviderType.LOOT, NonNullBiConsumer.noop()); // No loot table data
+
+        blockBuilderConsumer.accept(builder);
+
+        BlockEntry<B> blockEntry = builder
                 .item(BlockItem::new)
                 .setData(ProviderType.ITEM_MODEL, NonNullBiConsumer.noop()) // No item model data
                 .build()
@@ -256,6 +418,18 @@ public class CreateReinforcedBlocks {
 
     static {
         BlockEntry<ConnectedGlassBlock> frameGlass = AllPaletteBlocks.FRAMED_GLASS;
-        registerDiorite();
+        registerPaletteStoneBlocks(AllPaletteStoneTypes.DIORITE);
+        registerPaletteStoneBlocks(AllPaletteStoneTypes.ANDESITE);
+        registerPaletteStoneBlocks(AllPaletteStoneTypes.GRANITE);
+        registerPaletteStoneBlocks(AllPaletteStoneTypes.ASURINE);
+        registerPaletteStoneBlocks(AllPaletteStoneTypes.CALCITE);
+        registerPaletteStoneBlocks(AllPaletteStoneTypes.CRIMSITE);
+        registerPaletteStoneBlocks(AllPaletteStoneTypes.DEEPSLATE);
+        registerPaletteStoneBlocks(AllPaletteStoneTypes.DRIPSTONE);
+        registerPaletteStoneBlocks(AllPaletteStoneTypes.LIMESTONE);
+        registerPaletteStoneBlocks(AllPaletteStoneTypes.OCHRUM);
+        registerPaletteStoneBlocks(AllPaletteStoneTypes.SCORCHIA);
+        registerPaletteStoneBlocks(AllPaletteStoneTypes.TUFF);
+        registerPaletteStoneBlocks(AllPaletteStoneTypes.VERIDIUM);
     }
 }
