@@ -5,6 +5,7 @@ import com.ffsupver.securityCraftBlockExtend.compat.SCBEModCompat;
 import com.ffsupver.securityCraftBlockExtend.compat.create.blocks.CreateReinforcedBlocks;
 import com.ffsupver.securityCraftBlockExtend.dataGen.SCBEBlockLootData;
 import com.ffsupver.securityCraftBlockExtend.dataGen.SCBEBlockModelData;
+import com.ffsupver.securityCraftBlockExtend.dataGen.SCBEBlockTagData;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.eventbus.api.IEventBus;
 
@@ -34,5 +35,10 @@ public class CreateCompat implements SCBEModCompat {
 
     public List<Supplier<ItemLike>> getCreativeTabItems(){
        return CreateReinforcedBlocks.getCreativeTabItems();
+    }
+
+    @Override
+    public List<SCBEBlockTagData> getBlockTagData() {
+        return CreateReinforcedBlocks.getBlockTagData();
     }
 }

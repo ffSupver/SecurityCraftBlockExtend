@@ -42,6 +42,7 @@ public class SCBEBlocks {
         copy.isSuffocating = original.isSuffocating;
         copy.isViewBlocking = original.isViewBlocking;
         copy.drops = original.drops;
+//        copy.requiresCorrectToolForDrops = original.requiresCorrectToolForDrops;  // 原模组未复制这个
         return copy;
     }
 

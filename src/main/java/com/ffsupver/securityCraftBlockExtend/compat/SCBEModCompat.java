@@ -2,6 +2,7 @@ package com.ffsupver.securityCraftBlockExtend.compat;
 
 import com.ffsupver.securityCraftBlockExtend.dataGen.SCBEBlockLootData;
 import com.ffsupver.securityCraftBlockExtend.dataGen.SCBEBlockModelData;
+import com.ffsupver.securityCraftBlockExtend.dataGen.SCBEBlockTagData;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.eventbus.api.IEventBus;
 
@@ -24,6 +25,9 @@ public interface SCBEModCompat {
         return List.of();
     }
     default List<Supplier<ItemLike>> getCreativeTabItems() {
+        return List.of();
+    }
+    default List<SCBEBlockTagData> getBlockTagData() {
         return List.of();
     }
 }

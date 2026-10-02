@@ -24,6 +24,7 @@ public class SCBEClientHandler {
     public static void onRegisterBlockColors(RegisterColorHandlersEvent.Block event) {
         for (Supplier<? extends Block> reg : SCBEBlocks.getReinforcedTintBlocks()) {
             event.register(SCBEClientHandler::reinforcedBlockColor, reg.get());
+            SecurityCraftBlockExtend.LOGGER.info("Registered block color for " + reg.get().getDescriptionId());
         }
     }
 

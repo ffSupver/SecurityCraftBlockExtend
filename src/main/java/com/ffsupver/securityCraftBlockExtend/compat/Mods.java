@@ -5,6 +5,7 @@ import com.ffsupver.securityCraftBlockExtend.SecurityCraftBlockExtend;
 import com.ffsupver.securityCraftBlockExtend.compat.create.CreateCompat;
 import com.ffsupver.securityCraftBlockExtend.dataGen.SCBEBlockLootData;
 import com.ffsupver.securityCraftBlockExtend.dataGen.SCBEBlockModelData;
+import com.ffsupver.securityCraftBlockExtend.dataGen.SCBEBlockTagData;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModList;
@@ -87,6 +88,11 @@ public class Mods {
     public static List<SCBEBlockLootData> collectBlockLootData() {
         List<SCBEBlockLootData> result = new ArrayList<>();
         executeIfLoad(compat -> result.addAll(compat.getBlockLootData()));
+        return result;
+    }
+    public static List<SCBEBlockTagData> collectBlockTagData() {
+        List<SCBEBlockTagData> result = new ArrayList<>();
+        executeIfLoad(compat -> result.addAll(compat.getBlockTagData()));
         return result;
     }
 
