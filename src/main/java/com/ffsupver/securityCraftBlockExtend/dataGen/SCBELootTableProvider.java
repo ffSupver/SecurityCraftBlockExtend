@@ -1,5 +1,6 @@
 package com.ffsupver.securityCraftBlockExtend.dataGen;
 
+import com.ffsupver.securityCraftBlockExtend.compat.Mods;
 import com.ffsupver.securityCraftBlockExtend.registeries.SCBEBlocks;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.loot.BlockLootSubProvider;
@@ -9,9 +10,9 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraftforge.registries.RegistryObject;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public class SCBELootTableProvider extends LootTableProvider {
 
@@ -34,13 +35,30 @@ public class SCBELootTableProvider extends LootTableProvider {
         protected void generate() {
             dropSelf(SCBEBlocks.REINFORCED_WET_SPONGE.get());
             add(SCBEBlocks.REINFORCED_REINFORCED_DEEPSLATE.get(),noDrop());
+
+            // 兼容模块方块
+            for (SCBEBlockLootData data : Mods.collectBlockLootData()) {
+                Block block = data.block().get();
+                switch (data.type()) {
+                    case DROP_SELF -> dropSelf(block);
+                    case NO_DROP -> add(block, noDrop());
+                }
+            }
         }
 
         @Override
         protected Iterable<Block> getKnownBlocks() {
-            return SCBEBlocks.BLOCKS.getEntries().stream()
+            List<Block> blocks = new ArrayList<>();
+
+            // 原生方块
+            SCBEBlocks.BLOCKS.getEntries().stream()
                     .map(RegistryObject::get)
-                    .collect(Collectors.toList());
+                    .forEach(blocks::add);
+
+            // 兼容模块方块
+            Mods.collectBlockLootData().forEach(data -> blocks.add(data.block().get()));
+
+            return blocks;
         }
     }
 }

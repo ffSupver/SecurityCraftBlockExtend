@@ -65,10 +65,16 @@ description='''${mod_description}'''
     versionRange="${minecraft_version_range}"
     ordering="NONE"
     side="BOTH"
-[[dependencies.${mod_id}]] #SecurityCraft
+[[dependencies.${mod_id}]] # SecurityCraft
 modId="securitycraft"
 mandatory=true
 versionRange="[1.10.2.1,)"
+ordering="AFTER"
+side="BOTH"
+[[dependencies.${mod_id}]] # Create
+modId="create"
+mandatory=false
+versionRange="[6.0.8,)"
 ordering="AFTER"
 side="BOTH"
 

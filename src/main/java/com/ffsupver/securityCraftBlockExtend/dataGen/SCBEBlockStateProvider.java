@@ -1,6 +1,7 @@
 package com.ffsupver.securityCraftBlockExtend.dataGen;
 
 import com.ffsupver.securityCraftBlockExtend.SecurityCraftBlockExtend;
+import com.ffsupver.securityCraftBlockExtend.compat.Mods;
 import com.ffsupver.securityCraftBlockExtend.registeries.SCBEBlocks;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
@@ -13,6 +14,7 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.RegistryObject;
 
 import java.util.Map;
+import java.util.function.Supplier;
 
 public class SCBEBlockStateProvider extends BlockStateProvider {
 
@@ -22,7 +24,6 @@ public class SCBEBlockStateProvider extends BlockStateProvider {
 
     @Override
     protected void registerStatesAndModels() {
-        // 示例：使用 reinforced_cube_bottom_top 父模型
         reinforcedCubeBottomTop(
                 "reinforced_reinforced_deepslate",
                 SCBEBlocks.REINFORCED_REINFORCED_DEEPSLATE,
@@ -36,6 +37,11 @@ public class SCBEBlockStateProvider extends BlockStateProvider {
                  SCBEBlocks.REINFORCED_WET_SPONGE,
                  mcLoc("block/wet_sponge")
          );
+
+        // 兼容模块方块：统一由 Mods 收集，未加载模块不会返回数据
+        for (SCBEBlockModelData data : Mods.collectBlockModelData()) {
+            reinforcedBlock(data.name(), data.block(), data.parentModel(), data.textures());
+        }
     }
 
     // ========== 通用方法 ==========
@@ -49,21 +55,18 @@ public class SCBEBlockStateProvider extends BlockStateProvider {
      * @param textures    纹理映射，key 为父模型中的占位符（如 "all"、"bottom"、"top"、"side"）
      */
     private void reinforcedBlock(String name,
-                                 RegistryObject<? extends Block> block,
+                                 Supplier<? extends Block> block,
                                  String parentModel,
                                  Map<String, ResourceLocation> textures) {
 
-        // 1. 方块模型：使用 UncheckedModelFile 跳过父模型存在性检查
         BlockModelBuilder builder = models().getBuilder(name)
-                .parent(new UncheckedModelFile(ResourceLocation.tryBuild("securitycraft", parentModel)));
+                .parent(new UncheckedModelFile(
+                        ResourceLocation.tryBuild("securitycraft", parentModel)));
 
         textures.forEach(builder::texture);
         ModelFile blockModel = builder;
 
-        // 2. 方块状态
         simpleBlock(block.get(), blockModel);
-
-        // 3. 物品模型：继承方块模型
         itemModels().withExistingParent(name, modLoc("block/" + name));
     }
 

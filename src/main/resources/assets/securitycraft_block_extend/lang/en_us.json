@@ -2,5 +2,7 @@
   "itemGroup.security_craft_block_extend.main": "SecurityCraft Block Extend",
 
   "block.securitycraft_block_extend.reinforced_reinforced_deepslate":"Reinforced Reinforced Deepslate",
-  "block.securitycraft_block_extend.reinforced_wet_sponge":"Reinforced Wet Sponge"
+  "block.securitycraft_block_extend.reinforced_wet_sponge":"Reinforced Wet Sponge",
+
+  "block.securitycraft_block_extend.reinforced_brass_block":"Reinforced Brass Block"
 }

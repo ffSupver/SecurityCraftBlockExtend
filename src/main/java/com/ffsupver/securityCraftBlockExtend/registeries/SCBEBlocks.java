@@ -22,7 +22,7 @@ import java.util.function.UnaryOperator;
 public class SCBEBlocks {
     public static DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, SecurityCraftBlockExtend.MODID);
     /** 所有需要"强化深色色调"的方块，注册时自动加入 */
-    private static final List<RegistryObject<? extends Block>> REINFORCED_TINT_BLOCKS = new ArrayList<>();
+    private static final List<Supplier<? extends Block>> REINFORCED_TINT_BLOCKS = new ArrayList<>();
 
     public static RegistryObject<BaseReinforcedBlock> REINFORCED_WET_SPONGE = reinforcedBlock("reinforced_wet_sponge",Blocks.WET_SPONGE);
     public static RegistryObject<BaseReinforcedBlock> REINFORCED_REINFORCED_DEEPSLATE = reinforcedBlock("reinforced_reinforced_deepslate", Blocks.REINFORCED_DEEPSLATE);
@@ -51,38 +51,55 @@ public class SCBEBlocks {
     }
 
     public static RegistryObject<BaseReinforcedBlock> reinforcedBlock(String name, Block vanillaBlock) {
-        return reinforcedBlock(name, vanillaBlock, UnaryOperator.identity());
+        return reinforcedBlock(name, vanillaBlock, BLOCKS);
+    }
+
+    public static RegistryObject<BaseReinforcedBlock> reinforcedBlock(String name, RegistryObject<Block> vanillaBlock, DeferredRegister<Block> registry) {
+        return reinforcedBlock(name, vanillaBlock.get(), registry);
+    }
+    public static RegistryObject<BaseReinforcedBlock> reinforcedBlock(String name, Block vanillaBlock, DeferredRegister<Block> registry) {
+        return reinforcedBlock(name, vanillaBlock, UnaryOperator.identity(), registry);
     }
 
     public static RegistryObject<BaseReinforcedBlock> reinforcedBlock(
             String name, Block vanillaBlock,
-            UnaryOperator<BlockBehaviour.Properties> propertyEditor) {
+            UnaryOperator<BlockBehaviour.Properties> propertyEditor,
+            DeferredRegister<Block> registry
+            ) {
         return registerReinforcedBlock(name, (p) -> new BaseReinforcedBlock(p, vanillaBlock),
-                reinforcedCopy(vanillaBlock, propertyEditor));
+                reinforcedCopy(vanillaBlock, propertyEditor),registry);
     }
 
     private static <B extends Block> RegistryObject<B> registerReinforcedBlock(
             String name,
             Function<BlockBehaviour.Properties, ? extends B> constructor,
-            BlockBehaviour.Properties properties) {
+            BlockBehaviour.Properties properties,
+            DeferredRegister<Block> registry
+            ) {
 
-        RegistryObject<B> reg = registerBlock(name, constructor, properties);
-        REINFORCED_TINT_BLOCKS.add(reg);   // ⬅ 关键：自动登记
+        RegistryObject<B> reg = registerBlock(name, constructor, properties,registry);
+        REINFORCED_TINT_BLOCKS.add(reg);
         return reg;
     }
 
     private static <B extends Block> RegistryObject<B> registerBlock(
             String name,
             Function<BlockBehaviour.Properties, ? extends B> constructor,
-            BlockBehaviour.Properties properties) {
+            BlockBehaviour.Properties properties,
+            DeferredRegister<Block> registry
+            ) {
         Supplier<Block> block = () -> constructor.apply(properties);
         @SuppressWarnings("unchecked")
-        RegistryObject<B> reg = (RegistryObject<B>) BLOCKS.register(name, block);
+        RegistryObject<B> reg = (RegistryObject<B>) registry.register(name, block);
         SCBEItems.ITEMS.register(name, () -> new BlockItem(reg.get(), new Item.Properties()));
         return reg;
     }
 
-    public static List<RegistryObject<? extends Block>> getReinforcedTintBlocks() {
+    public static void registerReinforcedTintBlock(Supplier<? extends Block> block){
+        REINFORCED_TINT_BLOCKS.add(block);
+    }
+
+    public static List<Supplier<? extends Block>> getReinforcedTintBlocks() {
         return Collections.unmodifiableList(REINFORCED_TINT_BLOCKS);
     }
 }

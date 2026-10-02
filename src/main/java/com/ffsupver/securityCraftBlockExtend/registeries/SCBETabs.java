@@ -1,6 +1,7 @@
 package com.ffsupver.securityCraftBlockExtend.registeries;
 
 import com.ffsupver.securityCraftBlockExtend.SecurityCraftBlockExtend;
+import com.ffsupver.securityCraftBlockExtend.compat.Mods;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
@@ -24,6 +25,8 @@ public class SCBETabs {
             .displayItems((parameters, output) -> {
                 output.accept(REINFORCED_REINFORCED_DEEPSLATE.get());
                 output.accept(REINFORCED_WET_SPONGE.get());
+
+                Mods.collectCreativeTabItems().forEach(itemLikeSupplier -> output.accept(itemLikeSupplier.get()));
             }).build());
 
 
