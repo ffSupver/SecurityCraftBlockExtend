@@ -42,6 +42,7 @@ public class SCBELootTableProvider extends LootTableProvider {
                 switch (data.type()) {
                     case DROP_SELF -> dropSelf(block);
                     case NO_DROP -> add(block, noDrop());
+                    case SLAB -> add(block,createSlabItemTable(block));
                 }
             }
         }

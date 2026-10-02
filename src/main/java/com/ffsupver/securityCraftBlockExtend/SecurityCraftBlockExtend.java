@@ -2,11 +2,13 @@ package com.ffsupver.securityCraftBlockExtend;
 
 import com.ffsupver.securityCraftBlockExtend.compat.Mods;
 import com.ffsupver.securityCraftBlockExtend.dataGen.SCBEBlockStateProvider;
+import com.ffsupver.securityCraftBlockExtend.dataGen.SCBEBlockTagsProvider;
 import com.ffsupver.securityCraftBlockExtend.dataGen.SCBELootTableProvider;
 import com.ffsupver.securityCraftBlockExtend.registeries.SCBEBlocks;
 import com.ffsupver.securityCraftBlockExtend.registeries.SCBEItems;
 import com.ffsupver.securityCraftBlockExtend.registeries.SCBETabs;
 import com.mojang.logging.LogUtils;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -18,6 +20,8 @@ import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
+
+import java.util.concurrent.CompletableFuture;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(SecurityCraftBlockExtend.MODID)
@@ -62,10 +66,13 @@ public class SecurityCraftBlockExtend
 
         DataGenerator gen = event.getGenerator();
         ExistingFileHelper efh = event.getExistingFileHelper();
+        CompletableFuture<HolderLookup.Provider> lookup = event.getLookupProvider();
 
         gen.addProvider(event.includeClient(),
                 new SCBEBlockStateProvider(gen.getPackOutput(), efh));
         gen.addProvider(event.includeServer(),
                 new SCBELootTableProvider(gen.getPackOutput()));
+        gen.addProvider(event.includeServer(),
+                new SCBEBlockTagsProvider(gen.getPackOutput(), lookup, efh));
     }
 }

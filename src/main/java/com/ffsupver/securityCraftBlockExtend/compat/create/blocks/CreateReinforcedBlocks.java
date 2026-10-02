@@ -138,7 +138,7 @@ public class CreateReinforcedBlocks {
                             SLAB
                     ));
 
-                    blockLootData.add(new SCBEBlockLootData(reinforcedSlab, SCBEBlockLootData.BlockLootType.DROP_SELF));
+                    blockLootData.add(new SCBEBlockLootData(reinforcedSlab, SCBEBlockLootData.BlockLootType.SLAB));
                     blockTagData.add(new SCBEBlockTagData(
                             reinforcedSlab,
                             List.of(BlockTags.MINEABLE_WITH_PICKAXE, BlockTags.SLABS)

@@ -12,6 +12,8 @@ public record SCBEBlockLootData(
         /** 掉落自身 */
         DROP_SELF,
         /** 无掉落 */
-        NO_DROP
+        NO_DROP,
+        /** 台阶掉落 根据BlockState */
+        SLAB
     }
 }
