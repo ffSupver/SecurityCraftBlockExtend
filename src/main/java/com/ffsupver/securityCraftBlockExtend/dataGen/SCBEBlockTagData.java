@@ -1,5 +1,6 @@
 package com.ffsupver.securityCraftBlockExtend.dataGen;
 
+import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
 
@@ -13,4 +14,8 @@ import java.util.function.Supplier;
 public record SCBEBlockTagData(
         Supplier<? extends Block> block,
         List<TagKey<Block>> tags
-) {}
+) {
+    public static SCBEBlockTagData mineWithPickaxe(Supplier<Block> block){
+        return new SCBEBlockTagData(block,List.of(BlockTags.MINEABLE_WITH_PICKAXE));
+    }
+}

@@ -341,7 +341,8 @@ public class CreateReinforcedBlocks {
                 SCBEBlockLootData.dropSelf(REINFORCED_BRASS_BLOCK),
                 SCBEBlockLootData.dropSelf(REINFORCED_FRAMED_GLASS),
                 SCBEBlockLootData.dropSelf(REINFORCED_HORIZONTAL_FRAMED_GLASS),
-                SCBEBlockLootData.dropSelf(REINFORCED_VERTICAL_FRAMED_GLASS)
+                SCBEBlockLootData.dropSelf(REINFORCED_VERTICAL_FRAMED_GLASS),
+                SCBEBlockLootData.dropSelf(REINFORCED_FRAMED_GLASS_PANE)
                 )
         );
         return blockLootData;
@@ -356,12 +357,10 @@ public class CreateReinforcedBlocks {
                                 BlockTags.NEEDS_IRON_TOOL
                         )
                 ),
-                new SCBEBlockTagData(
-                        REINFORCED_FRAMED_GLASS,
-                        List.of(
-                                BlockTags.MINEABLE_WITH_PICKAXE
-                        )
-                )
+                SCBEBlockTagData.mineWithPickaxe(REINFORCED_FRAMED_GLASS::get),
+                SCBEBlockTagData.mineWithPickaxe(REINFORCED_HORIZONTAL_FRAMED_GLASS::get),
+                SCBEBlockTagData.mineWithPickaxe(REINFORCED_VERTICAL_FRAMED_GLASS::get),
+                SCBEBlockTagData.mineWithPickaxe(REINFORCED_FRAMED_GLASS_PANE::get)
         ));
         return blockTagData;
     }

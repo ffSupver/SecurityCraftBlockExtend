@@ -3,7 +3,9 @@ package com.ffsupver.securityCraftBlockExtend;
 import com.ffsupver.securityCraftBlockExtend.compat.Mods;
 import com.ffsupver.securityCraftBlockExtend.dataGen.SCBEBlockStateProvider;
 import com.ffsupver.securityCraftBlockExtend.dataGen.SCBEBlockTagsProvider;
+import com.ffsupver.securityCraftBlockExtend.dataGen.SCBEItemModelProvider;
 import com.ffsupver.securityCraftBlockExtend.dataGen.SCBELootTableProvider;
+import com.ffsupver.securityCraftBlockExtend.item.ChainedUniversalBlockReinforcerItem;
 import com.ffsupver.securityCraftBlockExtend.registeries.SCBEBlocks;
 import com.ffsupver.securityCraftBlockExtend.registeries.SCBEItems;
 import com.ffsupver.securityCraftBlockExtend.registeries.SCBETabs;
@@ -14,6 +16,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.data.event.GatherDataEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -66,7 +69,6 @@ public class SecurityCraftBlockExtend
 
     @SubscribeEvent
     public static void gatherData(GatherDataEvent event) {
-        System.out.println("gatherData");
 
         DataGenerator gen = event.getGenerator();
         ExistingFileHelper efh = event.getExistingFileHelper();
@@ -74,9 +76,16 @@ public class SecurityCraftBlockExtend
 
         gen.addProvider(event.includeClient(),
                 new SCBEBlockStateProvider(gen.getPackOutput(), efh));
+        gen.addProvider(event.includeClient(),
+                new SCBEItemModelProvider(gen.getPackOutput(), efh));
         gen.addProvider(event.includeServer(),
                 new SCBELootTableProvider(gen.getPackOutput()));
         gen.addProvider(event.includeServer(),
                 new SCBEBlockTagsProvider(gen.getPackOutput(), lookup, efh));
+    }
+
+    @SubscribeEvent
+    public void onLeftClickBlock(PlayerInteractEvent.LeftClickBlock event) {
+        ChainedUniversalBlockReinforcerItem.leftClickOnBlock(event);
     }
 }

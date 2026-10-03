@@ -13,6 +13,7 @@ import net.minecraftforge.registries.RegistryObject;
 
 import static com.ffsupver.securityCraftBlockExtend.registeries.SCBEBlocks.REINFORCED_REINFORCED_DEEPSLATE;
 import static com.ffsupver.securityCraftBlockExtend.registeries.SCBEBlocks.REINFORCED_WET_SPONGE;
+import static com.ffsupver.securityCraftBlockExtend.registeries.SCBEItems.*;
 
 public class SCBETabs {
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, SecurityCraftBlockExtend.MODID);
@@ -25,6 +26,9 @@ public class SCBETabs {
             .displayItems((parameters, output) -> {
                 output.accept(REINFORCED_REINFORCED_DEEPSLATE.get());
                 output.accept(REINFORCED_WET_SPONGE.get());
+                output.accept(CHAINED_UNIVERSAL_BLOCK_REINFORCER_LV1.get());
+                output.accept(CHAINED_UNIVERSAL_BLOCK_REINFORCER_LV2.get());
+                output.accept(CHAINED_UNIVERSAL_BLOCK_REINFORCER_LV3.get());
 
                 Mods.collectCreativeTabItems().forEach(itemLikeSupplier -> output.accept(itemLikeSupplier.get()));
             }).build());

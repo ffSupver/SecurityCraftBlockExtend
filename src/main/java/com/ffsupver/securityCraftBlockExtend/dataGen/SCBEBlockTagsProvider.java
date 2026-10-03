@@ -5,11 +5,13 @@ import com.ffsupver.securityCraftBlockExtend.compat.Mods;
 import com.ffsupver.securityCraftBlockExtend.registeries.SCBEBlocks;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.data.BlockTagsProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -39,14 +41,22 @@ public class SCBEBlockTagsProvider extends BlockTagsProvider {
 
         // ===== 兼容模块方块标签 =====
         // 先把 block -> tags 映射收集起来，按 tag 分组
-        Map<TagKey<Block>, List<Block>> grouped = new HashMap<>();
+        Map<TagKey<Block>, List<ResourceLocation>> grouped = new HashMap<>();
         for (SCBEBlockTagData data : Mods.collectBlockTagData()) {
             Block block = data.block().get();
+            ResourceLocation loc = ForgeRegistries.BLOCKS.getKey(block);
+            if (loc == null) continue;
+
             for (TagKey<Block> tag : data.tags()) {
-                grouped.computeIfAbsent(tag, k -> new ArrayList<>()).add(block);
+                grouped.computeIfAbsent(tag, k -> new ArrayList<>()).add(loc);
             }
         }
-        // 再逐个 tag 写入
-        grouped.forEach((tag, blocks) -> tag(tag).add(blocks.toArray(Block[]::new)));
+
+        grouped.forEach((tag, blocks) -> {
+            IntrinsicTagAppender<Block> appender = tag(tag);
+            for (ResourceLocation loc : blocks) {
+                appender.addOptional(loc);
+            }
+        });
     }
 }
