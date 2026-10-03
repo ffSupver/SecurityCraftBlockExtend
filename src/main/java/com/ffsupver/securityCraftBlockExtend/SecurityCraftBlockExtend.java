@@ -10,6 +10,7 @@ import com.ffsupver.securityCraftBlockExtend.registeries.SCBETabs;
 import com.mojang.logging.LogUtils;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.data.event.GatherDataEvent;
@@ -32,6 +33,9 @@ public class SecurityCraftBlockExtend
     // Directly reference a slf4j logger
     public static final Logger LOGGER = LogUtils.getLogger();
 
+    public static ResourceLocation asResource(String path) {
+        return ResourceLocation.tryBuild(MODID, path);
+    }
 
     public SecurityCraftBlockExtend(FMLJavaModLoadingContext context)
     {

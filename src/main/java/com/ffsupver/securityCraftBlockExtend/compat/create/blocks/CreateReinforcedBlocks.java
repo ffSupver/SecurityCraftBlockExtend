@@ -71,6 +71,16 @@ public class CreateReinforcedBlocks {
                                     () -> new HorizontalCTBehaviour(AllSpriteShifts.VERTICAL_FRAMED_GLASS)
                             ))
             );
+    public static final BlockEntry<ReinforcedPaneBlock> REINFORCED_FRAMED_GLASS_PANE =
+            registerReinforcedPaneBlock(
+                    "reinforced_framed_glass_pane",
+                    AllPaletteBlocks.FRAMED_GLASS_PANE::get,
+                    builder -> builder
+                            .onRegister(CreateRegistrate.connectedTextures(
+                                    () -> new GlassPaneCTBehaviour(CTSpriteShifter.getCT(AllCTTypes.OMNIDIRECTIONAL, SecurityCraftBlockExtend.asResource("block/reinforced_framed_glass"),SecurityCraftBlockExtend.asResource("block/reinforced_framed_glass_connected")))
+                            )),
+                    false
+            );
 
     public static void registerPaletteStoneBlocks(AllPaletteStoneTypes stoneTypes) {
         PaletteBlockPattern[] patterns = stoneTypes.variantTypes;
@@ -313,6 +323,14 @@ public class CreateReinforcedBlocks {
                                  "minecraft:cutout",
                                  SIMPLE
                          )
+                 ),
+                 new SCBEBlockModelData(
+                         "reinforced_framed_glass_pane",
+                         REINFORCED_FRAMED_GLASS_PANE,
+                         "block/reinforced_cube_all",
+                         Map.of("edge", SecurityCraftBlockExtend.asResource("block/reinforced_framed_glass_pane_top"),"pane", SecurityCraftBlockExtend.asResource("block/reinforced_framed_glass")),
+                         "minecraft:cutout",
+                         CREATE_CONNECTED_PANE
                  )
          ));
         return blockModelData;
@@ -389,10 +407,19 @@ public class CreateReinforcedBlocks {
         return blockEntry;
     }
 
+    public static BlockEntry<ReinforcedPaneBlock> registerReinforcedPaneBlock(String name, Supplier<Block> vanillaBlock, Consumer<BlockBuilder<ReinforcedPaneBlock, CreateRegistrate>> blockBuilderConsumer,boolean registerReinforcedTint){
+        BlockEntry<ReinforcedPaneBlock> blockEntry = registerReinforcedBlock(name, (p) -> new ReinforcedPaneBlock(SCBEBlocks.reinforcedCopy(vanillaBlock.get(), UnaryOperator.identity()), vanillaBlock.get()), blockBuilderConsumer, registerReinforcedTint);
+        SCBEBlocks.registerReinforcedBlockMapping(blockEntry,blockEntry);
+        return blockEntry;
+    }
+
     public static <B extends Block> BlockEntry<B> registerReinforcedBlock(String name, Function<BlockBehaviour.Properties,B> reinforcedBlock) {
         return registerReinforcedBlock(name, reinforcedBlock, (builder) -> {});
     }
     public static <B extends Block> BlockEntry<B> registerReinforcedBlock(String name, Function<BlockBehaviour.Properties,B> reinforcedBlock, Consumer<BlockBuilder<B, CreateRegistrate>> blockBuilderConsumer) {
+        return registerReinforcedBlock(name, reinforcedBlock, blockBuilderConsumer, true);
+    }
+    public static <B extends Block> BlockEntry<B> registerReinforcedBlock(String name, Function<BlockBehaviour.Properties,B> reinforcedBlock, Consumer<BlockBuilder<B, CreateRegistrate>> blockBuilderConsumer,boolean registerReinforcedTint) {
         BlockBuilder<B, CreateRegistrate> builder = REGISTRATE
                 .block(name,
                         reinforcedBlock::apply)
@@ -407,7 +434,9 @@ public class CreateReinforcedBlocks {
                 .setData(ProviderType.ITEM_MODEL, NonNullBiConsumer.noop()) // No item model data
                 .build()
                 .register();
-        SCBEBlocks.registerReinforcedTintBlock(blockEntry);
+        if (registerReinforcedTint){
+            SCBEBlocks.registerReinforcedTintBlock(blockEntry);
+        }
         creativeTabItems.add(blockEntry::get);
         return blockEntry;
     }

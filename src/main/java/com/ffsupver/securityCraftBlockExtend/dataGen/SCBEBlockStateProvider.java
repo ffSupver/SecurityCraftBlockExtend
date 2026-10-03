@@ -3,6 +3,8 @@ package com.ffsupver.securityCraftBlockExtend.dataGen;
 import com.ffsupver.securityCraftBlockExtend.SecurityCraftBlockExtend;
 import com.ffsupver.securityCraftBlockExtend.compat.Mods;
 import com.ffsupver.securityCraftBlockExtend.registeries.SCBEBlocks;
+import com.simibubi.create.Create;
+import net.geforcemods.securitycraft.blocks.reinforced.ReinforcedPaneBlock;
 import net.geforcemods.securitycraft.blocks.reinforced.ReinforcedSlabBlock;
 import net.geforcemods.securitycraft.blocks.reinforced.ReinforcedStairsBlock;
 import net.minecraft.core.Direction;
@@ -51,6 +53,7 @@ public class SCBEBlockStateProvider extends BlockStateProvider {
                 case SLAB -> reinforcedSlab(data.name(), data.block().get(), data.textures().get("side"));
                 case WALL -> reinforcedWall(data.name(), (WallBlock) data.block().get(), data.textures().get("wall"));
                 case PILLAR -> reinforcedPillar(data.name(), data.block(), data.parentModel(), data.textures());
+                case CREATE_CONNECTED_PANE -> reinforcedPane(data.name(), (ReinforcedPaneBlock) data.block().get(), data.renderType(), data.textures());
             }
         }
     }
@@ -68,13 +71,13 @@ public class SCBEBlockStateProvider extends BlockStateProvider {
      */
     private void reinforcedBlock(String name,
                                  Supplier<? extends Block> block,
-                                 String parentModel,
+                                 ResourceLocation parentModel,
                                  Map<String, ResourceLocation> textures,String renderType,
                                  SCBEBlockModelData itemModel) {
 
         BlockModelBuilder builder = models().getBuilder(name)
                 .parent(new UncheckedModelFile(
-                        securitycraftLoc(parentModel)));
+                        parentModel));
 
         if (renderType != null && !renderType.isEmpty()) {
             builder.renderType(renderType);
@@ -86,7 +89,7 @@ public class SCBEBlockStateProvider extends BlockStateProvider {
         simpleBlock(block.get(), blockModel);
         if (itemModel != null){
             ItemModelBuilder itemBuilder = itemModels().getBuilder(name)
-                    .parent(new UncheckedModelFile(securitycraftLoc(itemModel.parentModel())));
+                    .parent(new UncheckedModelFile(itemModel.parentModel()));
             itemModel.textures().forEach(itemBuilder::texture);
         }else {
             itemModels().withExistingParent(name, modLoc("block/" + name));
@@ -95,7 +98,7 @@ public class SCBEBlockStateProvider extends BlockStateProvider {
 
     private void reinforcedBlock(String name,
                                  Supplier<? extends Block> block,
-                                 String parentModel,
+                                 ResourceLocation parentModel,
                                  Map<String, ResourceLocation> textures,String renderType) {
         reinforcedBlock(name,block,parentModel,textures,renderType,null);
     }
@@ -106,7 +109,7 @@ public class SCBEBlockStateProvider extends BlockStateProvider {
     private void reinforcedCubeAll(String name,
                                    RegistryObject<? extends Block> block,
                                    ResourceLocation allTexture,String renderType) {
-        reinforcedBlock(name, block, "block/reinforced_cube_all", Map.of("all", allTexture),renderType);
+        reinforcedBlock(name, block, securitycraftLoc("block/reinforced_cube_all"), Map.of("all", allTexture),renderType);
     }
 
     /**
@@ -118,7 +121,7 @@ public class SCBEBlockStateProvider extends BlockStateProvider {
                                          ResourceLocation top,
                                          ResourceLocation side,
                                          String renderType) {
-        reinforcedBlock(name, block, "block/reinforced_cube_bottom_top", Map.of(
+        reinforcedBlock(name, block, securitycraftLoc("block/reinforced_cube_bottom_top"), Map.of(
                 "bottom", bottom,
                 "top", top,
                 "side", side
@@ -133,7 +136,7 @@ public class SCBEBlockStateProvider extends BlockStateProvider {
                                       ResourceLocation end,
                                       ResourceLocation side,
                                       String renderType) {
-        reinforcedBlock(name, block, "block/reinforced_cube_column", Map.of(
+        reinforcedBlock(name, block, securitycraftLoc("block/reinforced_cube_column"), Map.of(
                 "end", end,
                 "side", side
         ), renderType);
@@ -241,14 +244,14 @@ public class SCBEBlockStateProvider extends BlockStateProvider {
 
     private void reinforcedPillar(String name,
                                   Supplier<? extends Block> block,
-                                  String parentModel,
+                                  ResourceLocation parentModel,
                                   Map<String, ResourceLocation> textures) {
 
         ResourceLocation end  = textures.get("end");
         ResourceLocation side = textures.get("side");
 
         // 竖直模型：直接使用 data.parentModel
-        ModelFile vertical = models().withExistingParent(name, securitycraftLoc(parentModel))
+        ModelFile vertical = models().withExistingParent(name, parentModel)
                 .texture("end", end)
                 .texture("side", side);
 
@@ -285,13 +288,76 @@ public class SCBEBlockStateProvider extends BlockStateProvider {
         itemModels().withExistingParent(name, modLoc("block/" + name));
     }
 
+
+    private void reinforcedPane(String name, ReinforcedPaneBlock block, String renderType,
+                                Map<String, ResourceLocation> textures) {
+        ResourceLocation paneTexture = textures.get("pane");
+        ResourceLocation edgeTexture = textures.get("edge");
+
+        ModelFile post     = buildPaneModel(name + "_post",     Create.asResource("block/connected_glass_pane/post"),     renderType, paneTexture, edgeTexture);
+        ModelFile side     = buildPaneModel(name + "_side",     Create.asResource("block/connected_glass_pane/side"),     renderType, paneTexture, edgeTexture);
+        ModelFile sideAlt  = buildPaneModel(name + "_side_alt", Create.asResource("block/connected_glass_pane/side_alt"), renderType, paneTexture, edgeTexture);
+        ModelFile noSide   = buildPaneModel(name + "_noside",     Create.asResource("block/connected_glass_pane/noside"),     renderType, paneTexture, edgeTexture);
+        ModelFile noSideAlt= buildPaneModel(name + "_noside_alt", Create.asResource("block/connected_glass_pane/noside_alt"), renderType, paneTexture, edgeTexture);
+
+        getMultipartBuilder(block)
+                .part().modelFile(post).addModel().end()
+
+                .part().modelFile(side).addModel()
+                .condition(BlockStateProperties.NORTH, true).end()
+
+                .part().modelFile(noSide).addModel()
+                .condition(BlockStateProperties.NORTH, false).end()
+
+                .part().modelFile(side).rotationY(90).addModel()
+                .condition(BlockStateProperties.EAST, true).end()
+
+                .part().modelFile(sideAlt).addModel()
+                .condition(BlockStateProperties.SOUTH, true).end()
+
+                .part().modelFile(sideAlt).rotationY(90).addModel()
+                .condition(BlockStateProperties.WEST, true).end()
+
+                .part().modelFile(noSideAlt).addModel()
+                .condition(BlockStateProperties.EAST, false).end()
+
+                .part().modelFile(noSideAlt).rotationY(90).addModel()
+                .condition(BlockStateProperties.SOUTH, false).end()
+
+                .part().modelFile(noSide).rotationY(270).addModel()
+                .condition(BlockStateProperties.WEST, false).end();
+
+        // 物品模型：使用原版 item/generated
+        itemModels().withExistingParent(name, mcLoc("item/generated"))
+                .texture("layer0", paneTexture);
+    }
+
+    /**
+     * 构造单个 pane 模型。
+     * @param edgeTexture 为 null 时仅设置 pane 纹理（noside 系列只需要 pane）。
+     */
+    private ModelFile buildPaneModel(String name, ResourceLocation parentPath, String renderType,
+                                     ResourceLocation paneTexture, ResourceLocation edgeTexture) {
+        BlockModelBuilder builder = models().getBuilder(name)
+                .parent(new UncheckedModelFile(parentPath))
+                .texture("pane", paneTexture);
+
+        if (edgeTexture != null) {
+            builder.texture("edge", edgeTexture);
+        }
+        if (renderType != null && !renderType.isEmpty()) {
+            builder.renderType(renderType);
+        }
+        return builder;
+    }
+
     // ========== 工具方法 ==========
 
     /** 快速创建 minecraft 命名空间的 ResourceLocation */
     public ResourceLocation mcLoc(String path) {
         return ResourceLocation.tryBuild("minecraft", path);
     }
-    public ResourceLocation securitycraftLoc(String path) {
+    public static ResourceLocation securitycraftLoc(String path) {
         return ResourceLocation.tryBuild("securitycraft", path);
     }
 }
