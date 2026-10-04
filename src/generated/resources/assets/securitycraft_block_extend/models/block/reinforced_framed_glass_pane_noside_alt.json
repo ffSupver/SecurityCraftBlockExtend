@@ -1,0 +1,8 @@
+{
+  "parent": "create:block/connected_glass_pane/noside_alt",
+  "render_type": "minecraft:cutout",
+  "textures": {
+    "edge": "securitycraft_block_extend:block/reinforced_framed_glass_pane_top",
+    "pane": "securitycraft_block_extend:block/reinforced_framed_glass"
+  }
+}

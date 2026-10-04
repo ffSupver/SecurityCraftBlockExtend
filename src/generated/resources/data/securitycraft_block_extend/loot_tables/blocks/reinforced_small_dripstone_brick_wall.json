@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "securitycraft_block_extend:reinforced_small_dripstone_brick_wall"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "securitycraft_block_extend:blocks/reinforced_small_dripstone_brick_wall"
+}

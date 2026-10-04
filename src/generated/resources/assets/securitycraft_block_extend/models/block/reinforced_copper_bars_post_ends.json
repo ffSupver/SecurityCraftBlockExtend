@@ -1,0 +1,9 @@
+{
+  "parent": "create:block/bars/post_ends",
+  "render_type": "minecraft:cutout_mipped",
+  "textures": {
+    "bars": "securitycraft_block_extend:block/reinforced_copper_bars",
+    "edge": "create:block/bars/copper_bars_edge",
+    "particle": "securitycraft_block_extend:block/reinforced_copper_bars"
+  }
+}

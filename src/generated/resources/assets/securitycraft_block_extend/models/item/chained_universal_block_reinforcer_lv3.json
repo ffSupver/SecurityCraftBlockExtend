@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "securitycraft_block_extend:item/chained_universal_block_reinforcer_lv3"
+  }
+}

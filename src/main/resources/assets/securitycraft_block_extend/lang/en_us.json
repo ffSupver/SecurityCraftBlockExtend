@@ -1,13 +1,14 @@
 {
   "itemGroup.security_craft_block_extend.main": "SecurityCraft Block Extend",
 
-  "item.securitycraft_block_extend.chained_universal_block_reinforcer_lv1":"Chained Universal Block Reinforcer LV1",
-  "item.securitycraft_block_extend.chained_universal_block_reinforcer_lv2":"Chained Universal Block Reinforcer LV2",
-  "item.securitycraft_block_extend.chained_universal_block_reinforcer_lv3":"Chained Universal Block Reinforcer LV3",
+  "item.securitycraft_block_extend.chained_universal_block_reinforcer_lv1":"Chained Universal Block Reinforcer (LvL1)",
+  "item.securitycraft_block_extend.chained_universal_block_reinforcer_lv2":"Chained Universal Block Reinforcer (LvL2)",
+  "item.securitycraft_block_extend.chained_universal_block_reinforcer_lv3":"Chained Universal Block Reinforcer (LvL3)",
   "tooltip.securitycraft_block_extend.chained_universal_block_reinforcer.description": "Press shift and break blocks to chain convert them to reinforced or vanilla variants. This will convert all same type blocks connected to the clicked block.",
 
   "block.securitycraft_block_extend.reinforced_reinforced_deepslate":"Reinforced Reinforced Deepslate",
   "block.securitycraft_block_extend.reinforced_wet_sponge":"Reinforced Wet Sponge",
+
   "block.securitycraft_block_extend.reinforced_brass_bars":"Reinforced Brass Bars",
   "block.securitycraft_block_extend.reinforced_andesite_bars":"Reinforced Andesite Bars",
   "block.securitycraft_block_extend.reinforced_copper_bars":"Reinforced Copper Bars",

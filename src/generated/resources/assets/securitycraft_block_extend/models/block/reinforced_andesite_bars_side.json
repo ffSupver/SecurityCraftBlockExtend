@@ -1,0 +1,9 @@
+{
+  "parent": "create:block/bars/side",
+  "render_type": "minecraft:cutout_mipped",
+  "textures": {
+    "bars": "securitycraft_block_extend:block/reinforced_andesite_bars",
+    "edge": "create:block/bars/andesite_bars_edge",
+    "particle": "securitycraft_block_extend:block/reinforced_andesite_bars"
+  }
+}

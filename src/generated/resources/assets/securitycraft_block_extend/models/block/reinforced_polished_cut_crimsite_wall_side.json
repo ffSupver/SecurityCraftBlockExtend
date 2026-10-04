@@ -1,0 +1,6 @@
+{
+  "parent": "securitycraft:block/template_reinforced_wall_side",
+  "textures": {
+    "wall": "create:block/palettes/stone_types/polished/crimsite_cut_polished"
+  }
+}

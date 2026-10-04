@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "securitycraft_block_extend:block/reinforced_brass_bars"
+  }
+}

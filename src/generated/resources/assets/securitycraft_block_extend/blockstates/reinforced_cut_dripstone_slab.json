@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "securitycraft_block_extend:block/reinforced_cut_dripstone_slab"
+    },
+    "type=double": {
+      "model": "securitycraft_block_extend:block/reinforced_cut_dripstone_slab_double"
+    },
+    "type=top": {
+      "model": "securitycraft_block_extend:block/reinforced_cut_dripstone_slab_top"
+    }
+  }
+}
