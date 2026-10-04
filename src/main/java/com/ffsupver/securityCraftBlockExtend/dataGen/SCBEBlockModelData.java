@@ -19,7 +19,8 @@ public class SCBEBlockModelData {
         SLAB,     // 半砖
         WALL,      // 墙
         PILLAR,    // 轴向柱体（需要按 AXIS 旋转）
-        CREATE_CONNECTED_PANE
+        CREATE_CONNECTED_PANE,
+        CREATE_BARS
     }
 
     private String name;

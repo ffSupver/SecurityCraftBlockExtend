@@ -34,7 +34,7 @@ public class ChainedUniversalBlockReinforcerItem extends UniversalBlockReinforce
                 Block clickBlock = state.getBlock();
                 boolean canConverted = UniversalBlockReinforcerItem.convertBlock(state,level,stack,pos,player);
                 if (canConverted){
-                    if (!player.isShiftKeyDown() && stack.getItem() instanceof ChainedUniversalBlockReinforcerItem){
+                    if (player.isShiftKeyDown() && stack.getItem() instanceof ChainedUniversalBlockReinforcerItem){
                         Set<BlockPos> chainBlocks = new HashSet<>();
                         int remain = stack.isDamageableItem() ? Math.min(Config.chainedReinforcerMaxBlocks, stack.getMaxDamage() - stack.getDamageValue()) : Config.chainedReinforcerMaxBlocks;
                         BlockUtil.walkAllBlocks(

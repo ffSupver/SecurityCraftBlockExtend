@@ -81,6 +81,27 @@ public class CreateReinforcedBlocks {
                             )),
                     false
             );
+    public static final BlockEntry<ReinforcedPaneBlock> REINFORCED_BRASS_BARS =
+            registerReinforcedPaneBlock(
+                    "reinforced_brass_bars",
+                    AllBlocks.BRASS_BARS::get,
+                    b->{},
+                    false
+            );
+    public static final BlockEntry<ReinforcedPaneBlock> REINFORCED_ANDESITE_BARS =
+            registerReinforcedPaneBlock(
+                    "reinforced_andesite_bars",
+                    AllBlocks.ANDESITE_BARS::get,
+                    b->{},
+                    false
+            );
+    public static final BlockEntry<ReinforcedPaneBlock> REINFORCED_COPPER_BARS =
+            registerReinforcedPaneBlock(
+                    "reinforced_copper_bars",
+                    AllBlocks.COPPER_BARS::get,
+                    b->{},
+                    false
+            );
 
     public static void registerPaletteStoneBlocks(AllPaletteStoneTypes stoneTypes) {
         PaletteBlockPattern[] patterns = stoneTypes.variantTypes;
@@ -327,10 +348,28 @@ public class CreateReinforcedBlocks {
                  new SCBEBlockModelData(
                          "reinforced_framed_glass_pane",
                          REINFORCED_FRAMED_GLASS_PANE,
-                         "block/reinforced_cube_all",
+                         "不使用，任意占位",
                          Map.of("edge", SecurityCraftBlockExtend.asResource("block/reinforced_framed_glass_pane_top"),"pane", SecurityCraftBlockExtend.asResource("block/reinforced_framed_glass")),
                          "minecraft:cutout",
                          CREATE_CONNECTED_PANE
+                 ),
+                 createBars(
+                         "reinforced_brass_bars", REINFORCED_BRASS_BARS,
+                          SecurityCraftBlockExtend.asResource("block/reinforced_brass_bars"),
+                          Create.asResource("block/bars/brass_bars_edge"),
+                          SecurityCraftBlockExtend.asResource("block/reinforced_brass_bars")
+                 ),
+                createBars(
+                        "reinforced_andesite_bars",REINFORCED_ANDESITE_BARS,
+                        SecurityCraftBlockExtend.asResource("block/reinforced_andesite_bars"),
+                        Create.asResource("block/bars/andesite_bars_edge"),
+                        SecurityCraftBlockExtend.asResource("block/reinforced_andesite_bars")
+                ),
+                 createBars(
+                         "reinforced_copper_bars",REINFORCED_COPPER_BARS,
+                         SecurityCraftBlockExtend.asResource("block/reinforced_copper_bars"),
+                         Create.asResource("block/bars/copper_bars_edge"),
+                         SecurityCraftBlockExtend.asResource("block/reinforced_copper_bars")
                  )
          ));
         return blockModelData;
@@ -342,7 +381,10 @@ public class CreateReinforcedBlocks {
                 SCBEBlockLootData.dropSelf(REINFORCED_FRAMED_GLASS),
                 SCBEBlockLootData.dropSelf(REINFORCED_HORIZONTAL_FRAMED_GLASS),
                 SCBEBlockLootData.dropSelf(REINFORCED_VERTICAL_FRAMED_GLASS),
-                SCBEBlockLootData.dropSelf(REINFORCED_FRAMED_GLASS_PANE)
+                SCBEBlockLootData.dropSelf(REINFORCED_FRAMED_GLASS_PANE),
+                SCBEBlockLootData.dropSelf(REINFORCED_BRASS_BARS),
+                SCBEBlockLootData.dropSelf(REINFORCED_ANDESITE_BARS),
+                SCBEBlockLootData.dropSelf(REINFORCED_COPPER_BARS)
                 )
         );
         return blockLootData;
@@ -350,17 +392,14 @@ public class CreateReinforcedBlocks {
 
     public static List<SCBEBlockTagData> getBlockTagData() {
         blockTagData.addAll(List.of(
-                new SCBEBlockTagData(
-                        REINFORCED_BRASS_BLOCK,
-                        List.of(
-                                BlockTags.MINEABLE_WITH_PICKAXE,
-                                BlockTags.NEEDS_IRON_TOOL
-                        )
-                ),
+                new SCBEBlockTagData.Builder(REINFORCED_BRASS_BLOCK).pickaxe().ironTool().reinforced().build(),
                 SCBEBlockTagData.mineWithPickaxe(REINFORCED_FRAMED_GLASS::get),
                 SCBEBlockTagData.mineWithPickaxe(REINFORCED_HORIZONTAL_FRAMED_GLASS::get),
                 SCBEBlockTagData.mineWithPickaxe(REINFORCED_VERTICAL_FRAMED_GLASS::get),
-                SCBEBlockTagData.mineWithPickaxe(REINFORCED_FRAMED_GLASS_PANE::get)
+                SCBEBlockTagData.mineWithPickaxe(REINFORCED_FRAMED_GLASS_PANE::get),
+                new SCBEBlockTagData.Builder(REINFORCED_BRASS_BARS).pickaxe().ironTool().reinforced().build(),
+                new SCBEBlockTagData.Builder(REINFORCED_ANDESITE_BARS).pickaxe().ironTool().reinforced().build(),
+                new SCBEBlockTagData.Builder(REINFORCED_COPPER_BARS).pickaxe().ironTool().reinforced().build()
         ));
         return blockTagData;
     }
@@ -444,8 +483,15 @@ public class CreateReinforcedBlocks {
         return creativeTabItems;
     }
 
+    public static SCBEBlockModelData createBars(String name, BlockEntry<? extends Block> block, ResourceLocation bars, ResourceLocation edge, ResourceLocation particle){
+        return new SCBEBlockModelData(name,block,"该字段对 BARS 不使用，任意占位",Map.of(
+                "bars",bars,"edge",edge,"particle",particle
+        ),"minecraft:cutout_mipped", CREATE_BARS);
+    }
+
     static {
-        BlockEntry<ConnectedGlassBlock> frameGlass = AllPaletteBlocks.FRAMED_GLASS;
+        // 显式触发 AllPaletteBlocks 类初始化，保证后续 palette 变体可用
+//        BlockEntry<ConnectedGlassBlock> frameGlass = AllPaletteBlocks.FRAMED_GLASS; 已经由AllPaletteBlocks.FRAMED_GLASS 引用触发
         registerPaletteStoneBlocks(AllPaletteStoneTypes.DIORITE);
         registerPaletteStoneBlocks(AllPaletteStoneTypes.ANDESITE);
         registerPaletteStoneBlocks(AllPaletteStoneTypes.GRANITE);

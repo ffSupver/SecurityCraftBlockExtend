@@ -18,6 +18,7 @@ import net.minecraftforge.client.model.generators.ModelFile.UncheckedModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.RegistryObject;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
 
@@ -54,6 +55,8 @@ public class SCBEBlockStateProvider extends BlockStateProvider {
                 case WALL -> reinforcedWall(data.name(), (WallBlock) data.block().get(), data.textures().get("wall"));
                 case PILLAR -> reinforcedPillar(data.name(), data.block(), data.parentModel(), data.textures());
                 case CREATE_CONNECTED_PANE -> reinforcedPane(data.name(), (ReinforcedPaneBlock) data.block().get(), data.renderType(), data.textures());
+                case CREATE_BARS -> reinforcedBars(data.name(), (ReinforcedPaneBlock) data.block().get(),
+                        data.renderType(), data.textures());
             }
         }
     }
@@ -338,13 +341,79 @@ public class SCBEBlockStateProvider extends BlockStateProvider {
      */
     private ModelFile buildPaneModel(String name, ResourceLocation parentPath, String renderType,
                                      ResourceLocation paneTexture, ResourceLocation edgeTexture) {
-        BlockModelBuilder builder = models().getBuilder(name)
-                .parent(new UncheckedModelFile(parentPath))
-                .texture("pane", paneTexture);
-
+        Map<String, ResourceLocation> textures = new HashMap<>();
+        textures.put("pane", paneTexture);
         if (edgeTexture != null) {
-            builder.texture("edge", edgeTexture);
+            textures.put("edge", edgeTexture);
         }
+        return buildSubModel(name, parentPath, renderType, textures);
+    }
+
+    private void reinforcedBars(String name, ReinforcedPaneBlock block, String renderType,
+                                Map<String, ResourceLocation> textures) {
+        // 六个部件模型，父模型全部指向 Create 的 bars 模板
+        ModelFile postEnds = buildSubModel(name + "_post_ends", Create.asResource("block/bars/post_ends"), renderType, textures);
+        ModelFile post     = buildSubModel(name + "_post",      Create.asResource("block/bars/post"),      renderType, textures);
+        ModelFile cap      = buildSubModel(name + "_cap",       Create.asResource("block/bars/cap"),       renderType, textures);
+        ModelFile capAlt   = buildSubModel(name + "_cap_alt",   Create.asResource("block/bars/cap_alt"),   renderType, textures);
+        ModelFile side     = buildSubModel(name + "_side",      Create.asResource("block/bars/side"),      renderType, textures);
+        ModelFile sideAlt  = buildSubModel(name + "_side_alt",  Create.asResource("block/bars/side_alt"),  renderType, textures);
+
+        getMultipartBuilder(block)
+                // post_ends 恒显示
+                .part().modelFile(postEnds).addModel().end()
+
+                // 四周都不连接 → post
+                .part().modelFile(post).addModel()
+                .condition(BlockStateProperties.NORTH, false)
+                .condition(BlockStateProperties.EAST,  false)
+                .condition(BlockStateProperties.SOUTH, false)
+                .condition(BlockStateProperties.WEST,  false).end()
+
+                // 只有 N/E/S/W 一个方向连接 → cap / cap_alt
+                .part().modelFile(cap).addModel()
+                .condition(BlockStateProperties.NORTH, true)
+                .condition(BlockStateProperties.EAST,  false)
+                .condition(BlockStateProperties.SOUTH, false)
+                .condition(BlockStateProperties.WEST,  false).end()
+                .part().modelFile(cap).rotationY(90).addModel()
+                .condition(BlockStateProperties.NORTH, false)
+                .condition(BlockStateProperties.EAST,  true)
+                .condition(BlockStateProperties.SOUTH, false)
+                .condition(BlockStateProperties.WEST,  false).end()
+                .part().modelFile(capAlt).addModel()
+                .condition(BlockStateProperties.NORTH, false)
+                .condition(BlockStateProperties.EAST,  false)
+                .condition(BlockStateProperties.SOUTH, true)
+                .condition(BlockStateProperties.WEST,  false).end()
+                .part().modelFile(capAlt).rotationY(90).addModel()
+                .condition(BlockStateProperties.NORTH, false)
+                .condition(BlockStateProperties.EAST,  false)
+                .condition(BlockStateProperties.SOUTH, false)
+                .condition(BlockStateProperties.WEST,  true).end()
+
+                // 每个方向连接 → side / side_alt，带朝向旋转
+                .part().modelFile(side).addModel()
+                .condition(BlockStateProperties.NORTH, true).end()
+                .part().modelFile(side).rotationY(90).addModel()
+                .condition(BlockStateProperties.EAST,  true).end()
+                .part().modelFile(sideAlt).addModel()
+                .condition(BlockStateProperties.SOUTH, true).end()
+                .part().modelFile(sideAlt).rotationY(90).addModel()
+                .condition(BlockStateProperties.WEST,  true).end();
+
+        // 物品模型：使用原版 item/generated
+        itemModels().withExistingParent(name, mcLoc("item/generated"))
+                .texture("layer0", textures.get("bars"));
+    }
+
+    private ModelFile buildSubModel(String name,
+                                    ResourceLocation parent,
+                                    String renderType,
+                                    Map<String, ResourceLocation> textures) {
+        BlockModelBuilder builder = models().getBuilder(name)
+                .parent(new UncheckedModelFile(parent));
+        textures.forEach(builder::texture);
         if (renderType != null && !renderType.isEmpty()) {
             builder.renderType(renderType);
         }
