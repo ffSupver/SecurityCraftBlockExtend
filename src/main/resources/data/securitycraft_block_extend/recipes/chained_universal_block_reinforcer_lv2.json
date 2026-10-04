@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "S": {
+      "item": "securitycraft:universal_block_reinforcer_lvl2"
+    },
+    "W": {
+      "item": "minecraft:popped_chorus_fruit"
+    },
+    "E": {
+      "item": "minecraft:end_rod"
+    },
+    "I": {
+      "item": "minecraft:gold_ingot"
+    }
+  },
+  "pattern": [
+    " WI",
+    "WSW",
+    "EW "
+  ],
+  "result": {
+    "item": "securitycraft_block_extend:chained_universal_block_reinforcer_lv2"
+  },
+  "show_notification": true
+}
