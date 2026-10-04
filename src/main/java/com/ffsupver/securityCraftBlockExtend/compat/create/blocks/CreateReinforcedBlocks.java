@@ -44,6 +44,7 @@ public class CreateReinforcedBlocks {
     public static List<Supplier<ItemLike>> creativeTabItems = new ArrayList<>();
 
     public static final BlockEntry<BaseReinforcedBlock> REINFORCED_BRASS_BLOCK = registerReinforcedBlock("reinforced_brass_block", AllBlocks.BRASS_BLOCK);
+    public static final BlockEntry<BaseReinforcedBlock> REINFORCED_ANDESITE_ALLOY_BLOCK = registerReinforcedBlock("reinforced_andesite_alloy_block", AllBlocks.ANDESITE_ALLOY_BLOCK);
     public static final BlockEntry<ReinforcedGlassBlock> REINFORCED_FRAMED_GLASS =
             registerReinforcedGlassBlock(
                     "reinforced_framed_glass",
@@ -306,6 +307,12 @@ public class CreateReinforcedBlocks {
                         Map.of("all", Create.asResource("block/brass_block"))
                 ),
                  new SCBEBlockModelData(
+                        "reinforced_andesite_alloy_block",
+                        REINFORCED_ANDESITE_ALLOY_BLOCK,
+                         "block/reinforced_cube_all",
+                        Map.of("all", Create.asResource("block/andesite_block"))
+                 ),
+                 new SCBEBlockModelData(
                          "reinforced_framed_glass",
                          REINFORCED_FRAMED_GLASS,
                          "block/reinforced_cube_all",
@@ -378,6 +385,7 @@ public class CreateReinforcedBlocks {
     public static List<SCBEBlockLootData> getBlockLootData() {
         blockLootData.addAll(List.of(
                 SCBEBlockLootData.dropSelf(REINFORCED_BRASS_BLOCK),
+                SCBEBlockLootData.dropSelf(REINFORCED_ANDESITE_ALLOY_BLOCK),
                 SCBEBlockLootData.dropSelf(REINFORCED_FRAMED_GLASS),
                 SCBEBlockLootData.dropSelf(REINFORCED_HORIZONTAL_FRAMED_GLASS),
                 SCBEBlockLootData.dropSelf(REINFORCED_VERTICAL_FRAMED_GLASS),
@@ -393,6 +401,7 @@ public class CreateReinforcedBlocks {
     public static List<SCBEBlockTagData> getBlockTagData() {
         blockTagData.addAll(List.of(
                 new SCBEBlockTagData.Builder(REINFORCED_BRASS_BLOCK).pickaxe().ironTool().reinforced().build(),
+                new SCBEBlockTagData.Builder(REINFORCED_ANDESITE_ALLOY_BLOCK).pickaxe().add(BlockTags.NEEDS_STONE_TOOL).reinforced().build(),
                 SCBEBlockTagData.mineWithPickaxe(REINFORCED_FRAMED_GLASS::get),
                 SCBEBlockTagData.mineWithPickaxe(REINFORCED_HORIZONTAL_FRAMED_GLASS::get),
                 SCBEBlockTagData.mineWithPickaxe(REINFORCED_VERTICAL_FRAMED_GLASS::get),
