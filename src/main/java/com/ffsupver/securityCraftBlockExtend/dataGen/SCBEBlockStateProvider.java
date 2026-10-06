@@ -16,10 +16,10 @@ import net.minecraft.world.level.block.state.properties.*;
 import net.minecraftforge.client.model.generators.*;
 import net.minecraftforge.client.model.generators.ModelFile.UncheckedModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Supplier;
 
 public class SCBEBlockStateProvider extends BlockStateProvider {
@@ -47,9 +47,13 @@ public class SCBEBlockStateProvider extends BlockStateProvider {
          );
 
         // 兼容模块方块：统一由 Mods 收集，未加载模块不会返回数据
+        Map<Block, List<SCBEBlockModelData>> simpleGroups = new LinkedHashMap<>();
+
         for (SCBEBlockModelData data : Mods.collectBlockModelData()) {
             switch (data.type()) {
-                case SIMPLE -> reinforcedBlock(data.name(), data.block(), data.parentModel(), data.textures(), data.renderType(),data.itemModel());
+                case SIMPLE -> simpleGroups
+                        .computeIfAbsent(data.block().get(), k -> new ArrayList<>())
+                        .add(data);
                 case STAIRS -> reinforcedStairs(data.name(), data.block().get(), data.textures().get("side"));
                 case SLAB -> reinforcedSlab(data.name(), data.block().get(), data.textures().get("side"));
                 case WALL -> reinforcedWall(data.name(), (WallBlock) data.block().get(), data.textures().get("wall"));
@@ -59,9 +63,59 @@ public class SCBEBlockStateProvider extends BlockStateProvider {
                         data.renderType(), data.textures());
             }
         }
+
+        simpleGroups.forEach(this::simpleGroup);
+//        reinforcedBlock(data.name(), data.block(), data.parentModel(), data.textures(), data.renderType(),data.itemModel());
+    }
+
+    private void simpleGroup(Block block, List<SCBEBlockModelData> dataList) {
+        if (dataList.isEmpty()){
+            return;
+        }
+
+        List<ModelFile> blockModels = new ArrayList<>();
+
+        for (SCBEBlockModelData data : dataList) {
+            blockModels.add(modelWithParent(data.name(), data.parentModel(), data.textures(), data.renderType()));
+        }
+
+        if (blockModels.size() == 1){
+            simpleBlock(block, blockModels.get(0));
+        }else {
+            getVariantBuilder(block)
+                    .partialState()
+                    .addModels(blockModels.stream().map(ConfiguredModel::new).toArray(ConfiguredModel[]::new));
+        }
+
+        SCBEBlockModelData first = dataList.get(0);
+        String itemModelName = ForgeRegistries.BLOCKS.getKey(block).getPath();
+        if (first.itemModel() != null) {
+            ItemModelBuilder itemBuilder = itemModels().getBuilder(itemModelName)
+                    .parent(new UncheckedModelFile(first.itemModel().parentModel()));
+            first.itemModel().textures().forEach(itemBuilder::texture);
+        } else {
+            itemModels().withExistingParent(itemModelName, modLoc("block/" + first.name()));
+        }
     }
 
     // ========== 通用方法 ==========
+
+    private ModelFile modelWithParent(String name,
+                                      ResourceLocation parentModel,
+                                      Map<String, ResourceLocation> textures, String renderType
+    ){
+        BlockModelBuilder builder = models().getBuilder(name)
+                .parent(new UncheckedModelFile(
+                        parentModel));
+
+        if (renderType != null && !renderType.isEmpty()) {
+            builder.renderType(renderType);
+        }
+
+        textures.forEach(builder::texture);
+
+        return builder;
+    }
 
     /**
      * 为方块生成 blockstate、block model 和 item model。
@@ -77,17 +131,7 @@ public class SCBEBlockStateProvider extends BlockStateProvider {
                                  ResourceLocation parentModel,
                                  Map<String, ResourceLocation> textures,String renderType,
                                  SCBEBlockModelData itemModel) {
-
-        BlockModelBuilder builder = models().getBuilder(name)
-                .parent(new UncheckedModelFile(
-                        parentModel));
-
-        if (renderType != null && !renderType.isEmpty()) {
-            builder.renderType(renderType);
-        }
-
-        textures.forEach(builder::texture);
-        ModelFile blockModel = builder;
+        ModelFile blockModel = modelWithParent(name, parentModel, textures, renderType);
 
         simpleBlock(block.get(), blockModel);
         if (itemModel != null){

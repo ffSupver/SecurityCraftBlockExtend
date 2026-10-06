@@ -1,0 +1,18 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "securitycraft_block_extend:block/crimsite_3"
+      },
+      {
+        "model": "securitycraft_block_extend:block/crimsite_1"
+      },
+      {
+        "model": "securitycraft_block_extend:block/crimsite_2"
+      },
+      {
+        "model": "securitycraft_block_extend:block/crimsite_0"
+      }
+    ]
+  }
+}

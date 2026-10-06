@@ -13,13 +13,20 @@
   "block.securitycraft_block_extend.reinforced_andesite_bars":"Reinforced Andesite Bars",
   "block.securitycraft_block_extend.reinforced_copper_bars":"Reinforced Copper Bars",
 
-
   "block.securitycraft_block_extend.reinforced_brass_block":"Reinforced Block of Brass",
   "block.securitycraft_block_extend.reinforced_andesite_alloy_block":"Reinforced Block of Andesite Alloy",
   "block.securitycraft_block_extend.reinforced_framed_glass":"Reinforced Framed Glass",
   "block.securitycraft_block_extend.reinforced_horizontal_framed_glass":"Reinforced Horizontal Framed Glass",
   "block.securitycraft_block_extend.reinforced_vertical_framed_glass":"Reinforced Vertical Framed Glass",
   "block.securitycraft_block_extend.reinforced_framed_glass_pane":"Reinforced Framed Glass Pane",
+
+  "block.securitycraft_block_extend.reinforced_asurine":"Reinforced Asurine",
+  "block.securitycraft_block_extend.reinforced_crimsite":"Reinforced Crimsite",
+  "block.securitycraft_block_extend.reinforced_ochrum":"Reinforced Ochrum",
+  "block.securitycraft_block_extend.reinforced_limestone":"Reinforced Limestone",
+  "block.securitycraft_block_extend.reinforced_scorchia":"Reinforced Scorchia",
+  "block.securitycraft_block_extend.reinforced_scoria":"Reinforced Scoria",
+  "block.securitycraft_block_extend.reinforced_veridium":"Reinforced Veridium",
 
   "block.securitycraft_block_extend.reinforced_cut_diorite":"Reinforced Cut Diorite",
   "block.securitycraft_block_extend.reinforced_cut_diorite_stairs":"Reinforced Cut Diorite Stairs",
@@ -266,5 +273,24 @@
   "block.securitycraft_block_extend.reinforced_small_veridium_brick_slab":"Reinforced Small Veridium Brick Slab",
   "block.securitycraft_block_extend.reinforced_small_veridium_brick_wall":"Reinforced Small Veridium Brick Wall",
   "block.securitycraft_block_extend.reinforced_layered_veridium":"Reinforced Layered Veridium",
-  "block.securitycraft_block_extend.reinforced_veridium_pillar":"Reinforced Veridium Pillar"
+  "block.securitycraft_block_extend.reinforced_veridium_pillar":"Reinforced Veridium Pillar",
+
+  "block.securitycraft_block_extend.reinforced_cut_scoria":"Reinforced Cut Scoria",
+  "block.securitycraft_block_extend.reinforced_cut_scoria_stairs":"Reinforced Cut Scoria Stairs",
+  "block.securitycraft_block_extend.reinforced_cut_scoria_slab":"Reinforced Cut Scoria Slab",
+  "block.securitycraft_block_extend.reinforced_cut_scoria_wall":"Reinforced Cut Scoria Wall",
+  "block.securitycraft_block_extend.reinforced_polished_cut_scoria":"Reinforced Polished Cut Scoria",
+  "block.securitycraft_block_extend.reinforced_polished_cut_scoria_stairs":"Reinforced Polished Cut Scoria Stairs",
+  "block.securitycraft_block_extend.reinforced_polished_cut_scoria_slab":"Reinforced Polished Cut Scoria Slab",
+  "block.securitycraft_block_extend.reinforced_polished_cut_scoria_wall":"Reinforced Polished Cut Scoria Wall",
+  "block.securitycraft_block_extend.reinforced_cut_scoria_bricks":"Reinforced Cut Scoria Bricks",
+  "block.securitycraft_block_extend.reinforced_cut_scoria_brick_stairs":"Reinforced Cut Scoria Brick Stairs",
+  "block.securitycraft_block_extend.reinforced_cut_scoria_brick_slab":"Reinforced Cut Scoria Brick Slab",
+  "block.securitycraft_block_extend.reinforced_cut_scoria_brick_wall":"Reinforced Cut Scoria Brick Wall",
+  "block.securitycraft_block_extend.reinforced_small_scoria_bricks":"Reinforced Small Scoria Bricks",
+  "block.securitycraft_block_extend.reinforced_small_scoria_brick_stairs":"Reinforced Small Scoria Brick Stairs",
+  "block.securitycraft_block_extend.reinforced_small_scoria_brick_slab":"Reinforced Small Scoria Brick Slab",
+  "block.securitycraft_block_extend.reinforced_small_scoria_brick_wall":"Reinforced Small Scoria Brick Wall",
+  "block.securitycraft_block_extend.reinforced_layered_scoria":"Reinforced Layered Scoria",
+  "block.securitycraft_block_extend.reinforced_scoria_pillar":"Reinforced Scoria Pillar"
 }

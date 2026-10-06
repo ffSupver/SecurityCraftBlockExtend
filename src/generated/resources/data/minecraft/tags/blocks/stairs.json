@@ -177,6 +177,22 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_cut_scoria_stairs",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_polished_cut_scoria_stairs",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_cut_scoria_brick_stairs",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_small_scoria_brick_stairs",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_cut_tuff_stairs",
       "required": false
     },

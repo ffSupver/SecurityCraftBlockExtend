@@ -24,17 +24,14 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraftforge.eventbus.api.IEventBus;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
 
 import static com.ffsupver.securityCraftBlockExtend.dataGen.SCBEBlockModelData.BlockType.*;
-import static com.simibubi.create.content.decoration.palettes.PaletteBlockPattern.LAYERED;
-import static com.simibubi.create.content.decoration.palettes.PaletteBlockPattern.PILLAR;
+import static com.simibubi.create.content.decoration.palettes.PaletteBlockPattern.*;
 
 public class CreateReinforcedBlocks {
     private static final CreateRegistrate REGISTRATE = CreateRegistrate.create(SecurityCraftBlockExtend.MODID);
@@ -45,6 +42,7 @@ public class CreateReinforcedBlocks {
 
     public static final BlockEntry<BaseReinforcedBlock> REINFORCED_BRASS_BLOCK = registerReinforcedBlock("reinforced_brass_block", AllBlocks.BRASS_BLOCK);
     public static final BlockEntry<BaseReinforcedBlock> REINFORCED_ANDESITE_ALLOY_BLOCK = registerReinforcedBlock("reinforced_andesite_alloy_block", AllBlocks.ANDESITE_ALLOY_BLOCK);
+
     public static final BlockEntry<ReinforcedGlassBlock> REINFORCED_FRAMED_GLASS =
             registerReinforcedGlassBlock(
                     "reinforced_framed_glass",
@@ -105,9 +103,30 @@ public class CreateReinforcedBlocks {
             );
 
     public static void registerPaletteStoneBlocks(AllPaletteStoneTypes stoneTypes) {
+        registerPaletteStoneBlocks(stoneTypes,false,false);
+    }
+    public static void registerPaletteStoneBlocks(AllPaletteStoneTypes stoneTypes,boolean registerBaseBlock,boolean hasNaturalVariants) {
         PaletteBlockPattern[] patterns = stoneTypes.variantTypes;
         PalettesVariantEntry variants = stoneTypes.getVariants();
         String stoneTypesName = stoneTypes.name().toLowerCase();
+
+        if (registerBaseBlock){
+            Map<String,ResourceLocation> modelTextures = new HashMap<>();
+            if (hasNaturalVariants){
+                for (int textureIndex = 0; textureIndex < 4; textureIndex++) {
+                    modelTextures.put(
+                            stoneTypesName + "_" + textureIndex,
+                            paletteTexture("natural/" + stoneTypesName + "_" + textureIndex)
+                    );
+                }
+            }else {
+                modelTextures.put(
+                        "reinforced_" +  stoneTypesName,
+                        paletteTexture(stoneTypesName)
+                );
+            }
+            registerReinforcedStoneBlock("reinforced_" + stoneTypesName, stoneTypes.getBaseBlock(), modelTextures);
+        }
 
         int partialIdx = 0;
 
@@ -131,7 +150,7 @@ public class CreateReinforcedBlocks {
                             )
                     )
                 );
-            }else if (pattern.equals(PILLAR)) {
+            }else if (pattern.equals(PaletteBlockPattern.PILLAR)) {
                 final String variant = stoneTypesName;
                 reinforced = registerReinforcedPillarBlock(reinforcedName, blockEntry::get,
                         b->b.onRegister(
@@ -159,7 +178,7 @@ public class CreateReinforcedBlocks {
                         "end", paletteTexture(stoneTypesName, "cap"),
                         "side", paletteTexture(stoneTypesName, "layered")
                 );
-            } else if (pattern.equals(PILLAR)) {
+            } else if (pattern.equals(PaletteBlockPattern.PILLAR)) {
                 blockModel = "block/reinforced_cube_column";
                 blockTextures = Map.of(
                         "end", paletteTexture(stoneTypesName, "cap"),
@@ -277,7 +296,11 @@ public class CreateReinforcedBlocks {
 
     private static ResourceLocation paletteTexture(String variant, String texture) {
         String fileName = variant + (texture.equals("cut") ? "_" : "_cut_") + texture;
-        return Create.asResource("block/palettes/stone_types/" + texture + "/" + fileName);
+        return paletteTexture(texture + "/" + fileName);
+    }
+
+    private static ResourceLocation paletteTexture(String texture) {
+        return Create.asResource("block/palettes/stone_types/" + texture);
     }
 
     /**
@@ -417,6 +440,20 @@ public class CreateReinforcedBlocks {
     public static BlockEntry<BaseReinforcedBlock> registerReinforcedBlock(String name, Supplier<Block> vanillaBlock) {
         return registerReinforcedBlock(name, vanillaBlock, (builder) -> {});
     }
+    public static BlockEntry<BaseReinforcedBlock> registerReinforcedStoneBlock(String name, Supplier<Block> stone,Map<String,ResourceLocation> textures) {
+        BlockEntry<BaseReinforcedBlock> blockEntry = registerReinforcedBlock(name, stone);
+        for (Map.Entry<String, ResourceLocation> textureN : textures.entrySet()) {
+            blockModelData.add(new SCBEBlockModelData(
+                    textureN.getKey(),
+                    blockEntry,
+                    "block/reinforced_cube_all",
+                    Map.of("all", textureN.getValue())
+            ));
+        }
+        blockLootData.add(SCBEBlockLootData.dropSelf(blockEntry));
+        blockTagData.add(SCBEBlockTagData.mineWithPickaxe(blockEntry::get));
+        return blockEntry;
+    }
     public static BlockEntry<BaseReinforcedBlock> registerReinforcedBlock(String name, Supplier<Block> vanillaBlock, Consumer<BlockBuilder<BaseReinforcedBlock, CreateRegistrate>> blockBuilderConsumer) {
         BlockEntry<BaseReinforcedBlock> blockEntry =  registerReinforcedBlock(name, (p) -> new BaseReinforcedBlock(SCBEBlocks.reinforcedCopy(vanillaBlock.get(), UnaryOperator.identity()), vanillaBlock.get()),blockBuilderConsumer);
         SCBEBlocks.registerReinforcedBlockMapping(blockEntry,blockEntry);
@@ -504,15 +541,16 @@ public class CreateReinforcedBlocks {
         registerPaletteStoneBlocks(AllPaletteStoneTypes.DIORITE);
         registerPaletteStoneBlocks(AllPaletteStoneTypes.ANDESITE);
         registerPaletteStoneBlocks(AllPaletteStoneTypes.GRANITE);
-        registerPaletteStoneBlocks(AllPaletteStoneTypes.ASURINE);
+        registerPaletteStoneBlocks(AllPaletteStoneTypes.ASURINE,true,true);
         registerPaletteStoneBlocks(AllPaletteStoneTypes.CALCITE);
-        registerPaletteStoneBlocks(AllPaletteStoneTypes.CRIMSITE);
+        registerPaletteStoneBlocks(AllPaletteStoneTypes.CRIMSITE,true,true);
         registerPaletteStoneBlocks(AllPaletteStoneTypes.DEEPSLATE);
         registerPaletteStoneBlocks(AllPaletteStoneTypes.DRIPSTONE);
-        registerPaletteStoneBlocks(AllPaletteStoneTypes.LIMESTONE);
-        registerPaletteStoneBlocks(AllPaletteStoneTypes.OCHRUM);
-        registerPaletteStoneBlocks(AllPaletteStoneTypes.SCORCHIA);
+        registerPaletteStoneBlocks(AllPaletteStoneTypes.LIMESTONE,true,false);
+        registerPaletteStoneBlocks(AllPaletteStoneTypes.OCHRUM,true,true);
+        registerPaletteStoneBlocks(AllPaletteStoneTypes.SCORCHIA,true,false);
+        registerPaletteStoneBlocks(AllPaletteStoneTypes.SCORIA,true,false);
         registerPaletteStoneBlocks(AllPaletteStoneTypes.TUFF);
-        registerPaletteStoneBlocks(AllPaletteStoneTypes.VERIDIUM);
+        registerPaletteStoneBlocks(AllPaletteStoneTypes.VERIDIUM,true,true);
     }
 }

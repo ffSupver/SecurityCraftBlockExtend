@@ -1,0 +1,18 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "securitycraft_block_extend:block/asurine_1"
+      },
+      {
+        "model": "securitycraft_block_extend:block/asurine_0"
+      },
+      {
+        "model": "securitycraft_block_extend:block/asurine_3"
+      },
+      {
+        "model": "securitycraft_block_extend:block/asurine_2"
+      }
+    ]
+  }
+}

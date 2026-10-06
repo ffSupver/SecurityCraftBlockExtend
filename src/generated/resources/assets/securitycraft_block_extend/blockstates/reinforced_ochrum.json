@@ -1,0 +1,18 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "securitycraft_block_extend:block/ochrum_0"
+      },
+      {
+        "model": "securitycraft_block_extend:block/ochrum_1"
+      },
+      {
+        "model": "securitycraft_block_extend:block/ochrum_2"
+      },
+      {
+        "model": "securitycraft_block_extend:block/ochrum_3"
+      }
+    ]
+  }
+}

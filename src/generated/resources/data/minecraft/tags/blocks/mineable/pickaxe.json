@@ -217,6 +217,10 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_asurine",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_cut_asurine",
       "required": false
     },
@@ -358,6 +362,10 @@
     },
     {
       "id": "securitycraft_block_extend:reinforced_calcite_pillar",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_crimsite",
       "required": false
     },
     {
@@ -577,6 +585,10 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_limestone",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_cut_limestone",
       "required": false
     },
@@ -646,6 +658,10 @@
     },
     {
       "id": "securitycraft_block_extend:reinforced_limestone_pillar",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_ochrum",
       "required": false
     },
     {
@@ -721,6 +737,10 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_scorchia",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_cut_scorchia",
       "required": false
     },
@@ -793,6 +813,82 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_scoria",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_cut_scoria",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_cut_scoria_stairs",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_cut_scoria_slab",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_cut_scoria_wall",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_polished_cut_scoria",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_polished_cut_scoria_stairs",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_polished_cut_scoria_slab",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_polished_cut_scoria_wall",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_cut_scoria_bricks",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_cut_scoria_brick_stairs",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_cut_scoria_brick_slab",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_cut_scoria_brick_wall",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_small_scoria_bricks",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_small_scoria_brick_stairs",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_small_scoria_brick_slab",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_small_scoria_brick_wall",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_layered_scoria",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_scoria_pillar",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_cut_tuff",
       "required": false
     },
@@ -862,6 +958,10 @@
     },
     {
       "id": "securitycraft_block_extend:reinforced_tuff_pillar",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_veridium",
       "required": false
     },
     {
