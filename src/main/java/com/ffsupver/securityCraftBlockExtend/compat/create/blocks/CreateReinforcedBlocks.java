@@ -1,6 +1,9 @@
 package com.ffsupver.securityCraftBlockExtend.compat.create.blocks;
 
 import com.ffsupver.securityCraftBlockExtend.SecurityCraftBlockExtend;
+import com.ffsupver.securityCraftBlockExtend.compat.create.blocks.mechanicalPiston.ReinforcedMechanicalPistonBlock;
+import com.ffsupver.securityCraftBlockExtend.compat.create.blocks.mechanicalPiston.ReinforcedMechanicalPistonBlockEntity;
+import com.ffsupver.securityCraftBlockExtend.compat.create.blocks.mechanicalPiston.ReinforcedMechanicalPistonRenderer;
 import com.ffsupver.securityCraftBlockExtend.dataGen.SCBEBlockLootData;
 import com.ffsupver.securityCraftBlockExtend.dataGen.SCBEBlockModelData;
 import com.ffsupver.securityCraftBlockExtend.dataGen.SCBEBlockTagData;
@@ -8,11 +11,14 @@ import com.ffsupver.securityCraftBlockExtend.registeries.SCBEBlocks;
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllSpriteShifts;
 import com.simibubi.create.Create;
+import com.simibubi.create.api.stress.BlockStressValues;
 import com.simibubi.create.content.decoration.palettes.*;
+import com.simibubi.create.content.kinetics.base.SingleAxisRotatingVisual;
 import com.simibubi.create.foundation.block.connected.*;
 import com.simibubi.create.foundation.data.CreateRegistrate;
 import com.tterrag.registrate.builders.BlockBuilder;
 import com.tterrag.registrate.providers.ProviderType;
+import com.tterrag.registrate.util.entry.BlockEntityEntry;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
 import net.geforcemods.securitycraft.blocks.reinforced.*;
@@ -24,14 +30,17 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraftforge.eventbus.api.IEventBus;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
 
 import static com.ffsupver.securityCraftBlockExtend.dataGen.SCBEBlockModelData.BlockType.*;
-import static com.simibubi.create.content.decoration.palettes.PaletteBlockPattern.*;
+import static com.simibubi.create.content.decoration.palettes.PaletteBlockPattern.LAYERED;
 
 public class CreateReinforcedBlocks {
     private static final CreateRegistrate REGISTRATE = CreateRegistrate.create(SecurityCraftBlockExtend.MODID);
@@ -101,6 +110,31 @@ public class CreateReinforcedBlocks {
                     b->{},
                     false
             );
+
+    public static final BlockEntry<ReinforcedMechanicalPistonBlock> REINFORCED_MECHANICAL_PISTON_BLOCK = REGISTRATE
+            .block("reinforced_mechanical_piston",ReinforcedMechanicalPistonBlock::normal)
+            .properties(p->SCBEBlocks.reinforcedCopy(AllBlocks.MECHANICAL_PISTON.get(),UnaryOperator.identity()).noOcclusion())
+            .setData(ProviderType.BLOCKSTATE,NonNullBiConsumer.noop())
+            .setData(ProviderType.LOOT,NonNullBiConsumer.noop())
+            .setData(ProviderType.LANG,NonNullBiConsumer.noop())
+            .item().setData(ProviderType.ITEM_MODEL, NonNullBiConsumer.noop()) // No item model data
+            .build()
+            .register();
+    public static final BlockEntry<ReinforcedMechanicalPistonBlock> REINFORCED_STICKY_MECHANICAL_PISTON_BLOCK = REGISTRATE
+            .block("reinforced_sticky_mechanical_piston",ReinforcedMechanicalPistonBlock::sticky)
+            .properties(p->SCBEBlocks.reinforcedCopy(AllBlocks.STICKY_MECHANICAL_PISTON.get(),UnaryOperator.identity()).noOcclusion())
+            .setData(ProviderType.BLOCKSTATE,NonNullBiConsumer.noop())
+            .setData(ProviderType.LOOT,NonNullBiConsumer.noop())
+            .setData(ProviderType.LANG,NonNullBiConsumer.noop())
+            .item().setData(ProviderType.ITEM_MODEL, NonNullBiConsumer.noop()) // No item model data
+            .build()
+            .register();
+    public static final BlockEntityEntry<ReinforcedMechanicalPistonBlockEntity> REINFORCED_MECHANICAL_PISTON_BLOCK_ENTITY = REGISTRATE
+            .blockEntity("reinforced_mechanical_piston",ReinforcedMechanicalPistonBlockEntity::new)
+            .visual(() -> SingleAxisRotatingVisual::shaft, false)
+            .validBlocks(REINFORCED_MECHANICAL_PISTON_BLOCK,REINFORCED_STICKY_MECHANICAL_PISTON_BLOCK)
+            .renderer(()-> ReinforcedMechanicalPistonRenderer::new)
+            .register();
 
     public static void registerPaletteStoneBlocks(AllPaletteStoneTypes stoneTypes) {
         registerPaletteStoneBlocks(stoneTypes,false,false);
@@ -314,7 +348,16 @@ public class CreateReinforcedBlocks {
     }
 
     public static void register(IEventBus modEventBus){
+        // extra reinforced mapping
+        SCBEBlocks.registerReinforcedBlockMapping(REINFORCED_MECHANICAL_PISTON_BLOCK,REINFORCED_MECHANICAL_PISTON_BLOCK);
+        SCBEBlocks.registerReinforcedBlockMapping(REINFORCED_STICKY_MECHANICAL_PISTON_BLOCK,REINFORCED_STICKY_MECHANICAL_PISTON_BLOCK);
+
         REGISTRATE.registerEventListeners(modEventBus);
+    }
+
+    public static void onCommonSetup(){
+        BlockStressValues.IMPACTS.register(REINFORCED_MECHANICAL_PISTON_BLOCK.get(), () -> 4.0);
+        BlockStressValues.IMPACTS.register(REINFORCED_STICKY_MECHANICAL_PISTON_BLOCK.get(), () -> 4.0);
     }
 
     /**
@@ -415,7 +458,9 @@ public class CreateReinforcedBlocks {
                 SCBEBlockLootData.dropSelf(REINFORCED_FRAMED_GLASS_PANE),
                 SCBEBlockLootData.dropSelf(REINFORCED_BRASS_BARS),
                 SCBEBlockLootData.dropSelf(REINFORCED_ANDESITE_BARS),
-                SCBEBlockLootData.dropSelf(REINFORCED_COPPER_BARS)
+                SCBEBlockLootData.dropSelf(REINFORCED_COPPER_BARS),
+                SCBEBlockLootData.dropSelf(REINFORCED_MECHANICAL_PISTON_BLOCK),
+                SCBEBlockLootData.dropSelf(REINFORCED_STICKY_MECHANICAL_PISTON_BLOCK)
                 )
         );
         return blockLootData;
@@ -431,7 +476,9 @@ public class CreateReinforcedBlocks {
                 SCBEBlockTagData.mineWithPickaxe(REINFORCED_FRAMED_GLASS_PANE::get),
                 new SCBEBlockTagData.Builder(REINFORCED_BRASS_BARS).pickaxe().ironTool().reinforced().build(),
                 new SCBEBlockTagData.Builder(REINFORCED_ANDESITE_BARS).pickaxe().ironTool().reinforced().build(),
-                new SCBEBlockTagData.Builder(REINFORCED_COPPER_BARS).pickaxe().ironTool().reinforced().build()
+                new SCBEBlockTagData.Builder(REINFORCED_COPPER_BARS).pickaxe().ironTool().reinforced().build(),
+                SCBEBlockTagData.mineWithPickaxe(REINFORCED_MECHANICAL_PISTON_BLOCK::get),
+                SCBEBlockTagData.mineWithPickaxe(REINFORCED_STICKY_MECHANICAL_PISTON_BLOCK::get)
         ));
         return blockTagData;
     }
@@ -526,6 +573,10 @@ public class CreateReinforcedBlocks {
     }
 
     public static List<Supplier<ItemLike>> getCreativeTabItems() {
+        creativeTabItems.addAll(List.of(
+                REINFORCED_STICKY_MECHANICAL_PISTON_BLOCK::get,
+                REINFORCED_MECHANICAL_PISTON_BLOCK::get
+        ));
         return creativeTabItems;
     }
 

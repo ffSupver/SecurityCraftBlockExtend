@@ -1071,6 +1071,14 @@
     {
       "id": "securitycraft_block_extend:reinforced_copper_bars",
       "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_mechanical_piston",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_sticky_mechanical_piston",
+      "required": false
     }
   ]
 }

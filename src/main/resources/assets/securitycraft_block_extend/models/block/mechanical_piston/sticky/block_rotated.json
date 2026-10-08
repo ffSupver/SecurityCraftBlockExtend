@@ -1,0 +1,10 @@
+{
+	"format_version": "1.21.11",
+	"parent": "create:block/mechanical_piston/sticky/block_rotated",
+	"textures": {
+		"0": "securitycraft_block_extend:block/reinforced_mechanical_piston/reinforced_piston_top",
+		"1": "securitycraft_block_extend:block/reinforced_mechanical_piston/reinforced_piston_back",
+		"2": "securitycraft_block_extend:block/reinforced_mechanical_piston/reinforced_gearbox",
+		"particle": "securitycraft_block_extend:block/reinforced_mechanical_piston/reinforced_piston_top"
+	}
+}

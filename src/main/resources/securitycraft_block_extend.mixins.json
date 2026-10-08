@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "package": "com.ffsupver.securityCraftBlockExtend.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "refmap": "securitycraft_block_extend.refmap.json",
+  "mixins": [
+    "AllContraptionTypesMixin",
+    "LinearActuatorBlockEntityAccessor"
+  ],
+  "client": [
+  ],
+  "minVersion": "0.8"
+}
