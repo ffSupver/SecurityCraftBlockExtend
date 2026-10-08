@@ -49,7 +49,7 @@ import static net.geforcemods.securitycraft.blocks.OwnableBlock.withReinforcedDe
 
 public class ReinforcedMechanicalPistonBlock  extends DirectionalAxisKineticBlock implements IBE<ReinforcedMechanicalPistonBlockEntity>, IReinforcedBlock {
 
-    public static final EnumProperty<MechanicalPistonBlock.PistonState> STATE = EnumProperty.create("state",MechanicalPistonBlock.PistonState.class);
+    public static final EnumProperty<MechanicalPistonBlock.PistonState> STATE = MechanicalPistonBlock.STATE;
     protected boolean isSticky;
     protected final float destroyTimeForOwner;
 
@@ -78,7 +78,7 @@ public class ReinforcedMechanicalPistonBlock  extends DirectionalAxisKineticBloc
     @Override
     public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn,
                                  BlockHitResult hit) {
-        if (!player.mayBuild())
+        if (!player.mayBuild() || !canInteract(worldIn,pos,player))
             return InteractionResult.PASS;
         if (player.isShiftKeyDown())
             return InteractionResult.PASS;
@@ -107,9 +107,10 @@ public class ReinforcedMechanicalPistonBlock  extends DirectionalAxisKineticBloc
         if (!player.isCreative())
             player.getItemInHand(handIn)
                     .shrink(1);
-        worldIn.setBlockAndUpdate(pos, AllBlocks.STICKY_MECHANICAL_PISTON.getDefaultState()
+        worldIn.setBlockAndUpdate(pos, CreateReinforcedBlocks.REINFORCED_STICKY_MECHANICAL_PISTON_BLOCK.getDefaultState()
                 .setValue(FACING, direction)
                 .setValue(AXIS_ALONG_FIRST_COORDINATE, state.getValue(AXIS_ALONG_FIRST_COORDINATE)));
+        MinecraftForge.EVENT_BUS.post(new OwnershipEvent(worldIn, pos, player));
         return InteractionResult.SUCCESS;
     }
 
@@ -161,9 +162,13 @@ public class ReinforcedMechanicalPistonBlock  extends DirectionalAxisKineticBloc
     }
 
     private boolean canBeWrenched(UseOnContext context){
+        return canInteract(context.getLevel(),context.getClickedPos(),context.getPlayer());
+    }
+
+    private boolean canInteract(Level level,BlockPos pos,Player player){
         AtomicReference<Owner> owner = new AtomicReference<>();
-        withBlockEntityDo(context.getLevel(),context.getClickedPos(),be-> owner.set(be.getOwner()));
-        return owner.get().isTreatedTheSameAs(new Owner(context.getPlayer()));
+        withBlockEntityDo(level,pos,be-> owner.set(be.getOwner()));
+        return owner.get().isTreatedTheSameAs(new Owner(player));
     }
 
     @Override
