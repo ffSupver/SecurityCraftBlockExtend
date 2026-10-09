@@ -29,6 +29,7 @@ public class Mods {
 
             addMod(ModIds.CREATE, CreateCompat.class);
             addMod(ModIds.SIMPLYLIGHT, SimplyLightCompat.class);
+            addMod(ModIds.TACZ, TacZCompat.class);
 
             MOD_SUPPLIERS.forEach(Mods::intiMod);
             SecurityCraftBlockExtend.LOGGER.info("[Mod Compat]Loaded {} mods!", MODS.size());
@@ -115,7 +116,8 @@ public class Mods {
 
     public enum ModIds{
         CREATE("create"),
-        SIMPLYLIGHT("simplylight");
+        SIMPLYLIGHT("simplylight"),
+        TACZ("tacz");
         public final String ModId;
 
         ModIds(String modId) {

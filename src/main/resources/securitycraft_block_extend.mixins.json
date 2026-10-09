@@ -5,6 +5,7 @@
   "refmap": "securitycraft_block_extend.refmap.json",
   "mixins": [
     "AllContraptionTypesMixin",
+    "EntityKineticBulletAccessor",
     "LinearActuatorBlockEntityAccessor"
   ],
   "client": [

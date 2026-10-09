@@ -21,6 +21,7 @@ import com.tterrag.registrate.providers.ProviderType;
 import com.tterrag.registrate.util.entry.BlockEntityEntry;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
+import net.geforcemods.securitycraft.SCTags;
 import net.geforcemods.securitycraft.blocks.reinforced.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
@@ -473,7 +474,7 @@ public class CreateReinforcedBlocks {
                 SCBEBlockTagData.mineWithPickaxe(REINFORCED_FRAMED_GLASS::get),
                 SCBEBlockTagData.mineWithPickaxe(REINFORCED_HORIZONTAL_FRAMED_GLASS::get),
                 SCBEBlockTagData.mineWithPickaxe(REINFORCED_VERTICAL_FRAMED_GLASS::get),
-                SCBEBlockTagData.mineWithPickaxe(REINFORCED_FRAMED_GLASS_PANE::get),
+                new SCBEBlockTagData.Builder(REINFORCED_FRAMED_GLASS_PANE).pickaxe().reinforced().add(SCTags.Blocks.REINFORCED_GLASS_PANES).build(),
                 new SCBEBlockTagData.Builder(REINFORCED_BRASS_BARS).pickaxe().ironTool().reinforced().build(),
                 new SCBEBlockTagData.Builder(REINFORCED_ANDESITE_BARS).pickaxe().ironTool().reinforced().build(),
                 new SCBEBlockTagData.Builder(REINFORCED_COPPER_BARS).pickaxe().ironTool().reinforced().build(),

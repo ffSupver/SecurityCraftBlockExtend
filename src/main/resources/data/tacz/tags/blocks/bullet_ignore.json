@@ -1,0 +1,16 @@
+{
+  "values": [
+    {
+      "id": "securitycraft_block_extend:reinforced_brass_bars",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_andesite_bars",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_copper_bars",
+      "required": false
+    }
+    ]
+}
