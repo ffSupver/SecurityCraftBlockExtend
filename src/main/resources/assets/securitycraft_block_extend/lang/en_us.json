@@ -294,5 +294,41 @@
   "block.securitycraft_block_extend.reinforced_small_scoria_brick_slab":"Reinforced Small Scoria Brick Slab",
   "block.securitycraft_block_extend.reinforced_small_scoria_brick_wall":"Reinforced Small Scoria Brick Wall",
   "block.securitycraft_block_extend.reinforced_layered_scoria":"Reinforced Layered Scoria",
-  "block.securitycraft_block_extend.reinforced_scoria_pillar":"Reinforced Scoria Pillar"
+  "block.securitycraft_block_extend.reinforced_scoria_pillar":"Reinforced Scoria Pillar",
+
+
+
+
+  "block.securitycraft_block_extend.illuminant_block": "Reinforced Illuminant Block",
+  "block.securitycraft_block_extend.illuminant_block_on": "Reinforced Illuminant Block(Inverted)",
+  "block.securitycraft_block_extend.illuminant_black_block": "Reinforced Illuminant Black Block",
+  "block.securitycraft_block_extend.illuminant_black_block_on": "Reinforced Illuminant Black Block(Inverted)",
+  "block.securitycraft_block_extend.illuminant_blue_block": "Reinforced Illuminant Blue Block",
+  "block.securitycraft_block_extend.illuminant_blue_block_on": "Reinforced Illuminant Blue Block(Inverted)",
+  "block.securitycraft_block_extend.illuminant_brown_block": "Reinforced Illuminant Brown Block",
+  "block.securitycraft_block_extend.illuminant_brown_block_on": "Reinforced Illuminant Brown Block(Inverted)",
+  "block.securitycraft_block_extend.illuminant_cyan_block": "Reinforced Illuminant Cyan Block",
+  "block.securitycraft_block_extend.illuminant_cyan_block_on": "Reinforced Illuminant Cyan Block(Inverted)",
+  "block.securitycraft_block_extend.illuminant_gray_block": "Reinforced Illuminant Gray Block",
+  "block.securitycraft_block_extend.illuminant_gray_block_on": "Reinforced Illuminant Gray Block(Inverted)",
+  "block.securitycraft_block_extend.illuminant_green_block": "Reinforced Illuminant Green Block",
+  "block.securitycraft_block_extend.illuminant_green_block_on": "Reinforced Illuminant Green Block(Inverted)",
+  "block.securitycraft_block_extend.illuminant_light_blue_block": "Reinforced Illuminant Light Blue Block",
+  "block.securitycraft_block_extend.illuminant_light_blue_block_on": "Reinforced Illuminant Light Blue Block(Inverted)",
+  "block.securitycraft_block_extend.illuminant_light_gray_block": "Reinforced Illuminant Light Gray Block",
+  "block.securitycraft_block_extend.illuminant_light_gray_block_on": "Reinforced Illuminant Light Gray Block(Inverted)",
+  "block.securitycraft_block_extend.illuminant_lime_block": "Reinforced Illuminant Lime Block",
+  "block.securitycraft_block_extend.illuminant_lime_block_on": "Reinforced Illuminant Lime Block(Inverted)",
+  "block.securitycraft_block_extend.illuminant_magenta_block": "Reinforced Illuminant Magenta Block",
+  "block.securitycraft_block_extend.illuminant_magenta_block_on": "Reinforced Illuminant Magenta Block(Inverted)",
+  "block.securitycraft_block_extend.illuminant_orange_block": "Reinforced Illuminant Orange Block",
+  "block.securitycraft_block_extend.illuminant_orange_block_on": "Reinforced Illuminant Orange Block(Inverted)",
+  "block.securitycraft_block_extend.illuminant_pink_block": "Reinforced Illuminant Pink Block",
+  "block.securitycraft_block_extend.illuminant_pink_block_on": "Reinforced Illuminant Pink Block(Inverted)",
+  "block.securitycraft_block_extend.illuminant_purple_block": "Reinforced Illuminant Purple Block",
+  "block.securitycraft_block_extend.illuminant_purple_block_on": "Reinforced Illuminant Purple Block(Inverted)",
+  "block.securitycraft_block_extend.illuminant_red_block": "Reinforced Illuminant Red Block",
+  "block.securitycraft_block_extend.illuminant_red_block_on": "Reinforced Illuminant Red Block(Inverted)",
+  "block.securitycraft_block_extend.illuminant_yellow_block": "Reinforced Illuminant Yellow Block",
+  "block.securitycraft_block_extend.illuminant_yellow_block_on": "Reinforced Illuminant Yellow Block(Inverted)"
 }

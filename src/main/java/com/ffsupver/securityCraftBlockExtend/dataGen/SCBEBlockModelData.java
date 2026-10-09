@@ -20,7 +20,8 @@ public class SCBEBlockModelData {
         WALL,      // 墙
         PILLAR,    // 轴向柱体（需要按 AXIS 旋转）
         CREATE_CONNECTED_PANE,
-        CREATE_BARS
+        CREATE_BARS,
+        ON2STATE
     }
 
     private String name;
@@ -56,8 +57,11 @@ public class SCBEBlockModelData {
     public SCBEBlockModelData(String name, Supplier<? extends Block> block, String parentModel, Map<String, ResourceLocation> textures) {
         this(name, block, securitycraftLoc(parentModel), textures,null, BlockType.SIMPLE, null);
     }
+    public SCBEBlockModelData(String name, Supplier<? extends Block> block, ResourceLocation parentModel, Map<String, ResourceLocation> textures, BlockType type) {
+        this(name, block, parentModel, textures,null, type, null);
+    }
     public SCBEBlockModelData(String name, Supplier<? extends Block> block, String parentModel, Map<String, ResourceLocation> textures, BlockType type) {
-        this(name, block, securitycraftLoc(parentModel), textures,null, type, null);
+        this(name, block, securitycraftLoc(parentModel), textures, type);
     }
 
 

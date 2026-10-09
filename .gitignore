@@ -29,3 +29,4 @@ forge*changelog.txt
 # textures for modeling
 src/main/resources/assets/create
 src/main/resources/assets/minecraft
+src/main/resources/assets/simplylight

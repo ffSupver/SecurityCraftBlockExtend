@@ -3,6 +3,7 @@ package com.ffsupver.securityCraftBlockExtend.dataGen;
 import com.ffsupver.securityCraftBlockExtend.SecurityCraftBlockExtend;
 import com.ffsupver.securityCraftBlockExtend.compat.Mods;
 import com.ffsupver.securityCraftBlockExtend.registeries.SCBEBlocks;
+import com.flanks255.simplylight.blocks.LampBlock;
 import com.simibubi.create.Create;
 import net.geforcemods.securitycraft.blocks.reinforced.ReinforcedPaneBlock;
 import net.geforcemods.securitycraft.blocks.reinforced.ReinforcedSlabBlock;
@@ -61,11 +62,11 @@ public class SCBEBlockStateProvider extends BlockStateProvider {
                 case CREATE_CONNECTED_PANE -> reinforcedPane(data.name(), (ReinforcedPaneBlock) data.block().get(), data.renderType(), data.textures());
                 case CREATE_BARS -> reinforcedBars(data.name(), (ReinforcedPaneBlock) data.block().get(),
                         data.renderType(), data.textures());
+                case ON2STATE -> reinforcedOn2State(data.name(), data.block().get(),data.parentModel(), data.renderType(), data.textures());
             }
         }
 
         simpleGroups.forEach(this::simpleGroup);
-//        reinforcedBlock(data.name(), data.block(), data.parentModel(), data.textures(), data.renderType(),data.itemModel());
     }
 
     private void simpleGroup(Block block, List<SCBEBlockModelData> dataList) {
@@ -462,6 +463,27 @@ public class SCBEBlockStateProvider extends BlockStateProvider {
             builder.renderType(renderType);
         }
         return builder;
+    }
+
+    private void reinforcedOn2State(String name, Block block,ResourceLocation parent, String renderType,
+                                    Map<String, ResourceLocation> textures) {
+        String onName = parent.getPath().equals("default_on") ? name : name + "_lamp_on";
+        String offName = parent.getPath().equals("default_on") ? name + "_lamp_on" : name;
+        System.out.println("onName: " + onName + ", offName: " + offName+" processingBlock:"+name);
+        getVariantBuilder(block)
+                .partialState().with(LampBlock.ON,true)
+                .addModels(new ConfiguredModel(modelWithParent(
+                        onName,modLoc("block/reinforced_lamp"),
+                        Map.of("0",textures.get("on_all"),"particle",textures.get("on_all")),
+                        renderType
+                )))
+                .partialState().with(LampBlock.ON,false)
+                .addModels(new ConfiguredModel(modelWithParent(
+                        offName,modLoc("block/reinforced_lamp"),
+                        Map.of("0",textures.get("off_all"),"particle",textures.get("off_all")),
+                        renderType
+                )));
+        itemModels().withExistingParent(name,modLoc("block/"+name));
     }
 
     // ========== 工具方法 ==========

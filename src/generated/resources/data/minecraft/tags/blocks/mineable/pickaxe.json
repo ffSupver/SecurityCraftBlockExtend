@@ -1,6 +1,134 @@
 {
   "values": [
     {
+      "id": "securitycraft_block_extend:illuminant_block",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:illuminant_block_on",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:illuminant_black_block",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:illuminant_black_block_on",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:illuminant_blue_block",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:illuminant_blue_block_on",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:illuminant_brown_block",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:illuminant_brown_block_on",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:illuminant_cyan_block",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:illuminant_cyan_block_on",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:illuminant_gray_block",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:illuminant_gray_block_on",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:illuminant_green_block",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:illuminant_green_block_on",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:illuminant_light_blue_block",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:illuminant_light_blue_block_on",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:illuminant_light_gray_block",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:illuminant_light_gray_block_on",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:illuminant_lime_block",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:illuminant_lime_block_on",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:illuminant_magenta_block",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:illuminant_magenta_block_on",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:illuminant_orange_block",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:illuminant_orange_block_on",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:illuminant_pink_block",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:illuminant_pink_block_on",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:illuminant_purple_block",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:illuminant_purple_block_on",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:illuminant_red_block",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:illuminant_red_block_on",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:illuminant_yellow_block",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:illuminant_yellow_block_on",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_cut_diorite",
       "required": false
     },

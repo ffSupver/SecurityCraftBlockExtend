@@ -3,6 +3,7 @@ package com.ffsupver.securityCraftBlockExtend.compat;
 
 import com.ffsupver.securityCraftBlockExtend.SecurityCraftBlockExtend;
 import com.ffsupver.securityCraftBlockExtend.compat.create.CreateCompat;
+import com.ffsupver.securityCraftBlockExtend.compat.simplyLight.SimplyLightCompat;
 import com.ffsupver.securityCraftBlockExtend.dataGen.SCBEBlockLootData;
 import com.ffsupver.securityCraftBlockExtend.dataGen.SCBEBlockModelData;
 import com.ffsupver.securityCraftBlockExtend.dataGen.SCBEBlockTagData;
@@ -27,6 +28,7 @@ public class Mods {
             MOD_SUPPLIERS.clear();
 
             addMod(ModIds.CREATE, CreateCompat.class);
+            addMod(ModIds.SIMPLYLIGHT, SimplyLightCompat.class);
 
             MOD_SUPPLIERS.forEach(Mods::intiMod);
             SecurityCraftBlockExtend.LOGGER.info("[Mod Compat]Loaded {} mods!", MODS.size());
@@ -112,7 +114,8 @@ public class Mods {
 
 
     public enum ModIds{
-        CREATE("create");
+        CREATE("create"),
+        SIMPLYLIGHT("simplylight");
         public final String ModId;
 
         ModIds(String modId) {

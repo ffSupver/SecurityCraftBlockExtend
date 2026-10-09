@@ -1,0 +1,7 @@
+{
+  "parent": "securitycraft_block_extend:block/reinforced_lamp",
+  "textures": {
+    "0": "simplylight:block/full_block/illuminant_yellow_block",
+    "particle": "simplylight:block/full_block/illuminant_yellow_block"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "on=false": {
+      "model": "securitycraft_block_extend:block/illuminant_magenta_block_on_lamp_on"
+    },
+    "on=true": {
+      "model": "securitycraft_block_extend:block/illuminant_magenta_block_on"
+    }
+  }
+}

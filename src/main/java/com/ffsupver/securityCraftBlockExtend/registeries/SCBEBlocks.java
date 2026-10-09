@@ -57,35 +57,38 @@ public class SCBEBlocks {
 
 
     public static final BlockBehaviour.Properties reinforcedCopy(Block block, UnaryOperator<BlockBehaviour.Properties> propertyEditor) {
-        return (BlockBehaviour.Properties)propertyEditor.apply(ofFullCopy(block).explosionResistance(Float.MAX_VALUE));
+        return reinforcedCopySupplier(()->block, propertyEditor).get();
+    }
+    public static final Supplier<BlockBehaviour.Properties> reinforcedCopySupplier(Supplier<Block> block, UnaryOperator<BlockBehaviour.Properties> propertyEditor) {
+        return ()->(BlockBehaviour.Properties)propertyEditor.apply(ofFullCopy(block.get()).explosionResistance(Float.MAX_VALUE));
     }
 
     public static RegistryObject<BaseReinforcedBlock> reinforcedBlock(String name, Block vanillaBlock) {
-        return reinforcedBlock(name, vanillaBlock, BLOCKS);
+        return reinforcedBlock(name,()-> vanillaBlock, BLOCKS);
     }
 
-    public static RegistryObject<BaseReinforcedBlock> reinforcedBlock(String name, RegistryObject<Block> vanillaBlock, DeferredRegister<Block> registry) {
-        return reinforcedBlock(name, vanillaBlock.get(), registry);
+    public static RegistryObject<BaseReinforcedBlock> reinforcedBlock(String name, Supplier<Block> vanillaBlock, DeferredRegister<Block> registry) {
+        return reinforcedBlock(name, vanillaBlock,UnaryOperator.identity(), registry);
     }
     public static RegistryObject<BaseReinforcedBlock> reinforcedBlock(String name, Block vanillaBlock, DeferredRegister<Block> registry) {
-        return reinforcedBlock(name, vanillaBlock, UnaryOperator.identity(), registry);
+        return reinforcedBlock(name, ()-> vanillaBlock, registry);
     }
 
     public static RegistryObject<BaseReinforcedBlock> reinforcedBlock(
-            String name, Block vanillaBlock,
+            String name, Supplier<Block> vanillaBlock,
             UnaryOperator<BlockBehaviour.Properties> propertyEditor,
             DeferredRegister<Block> registry
             ) {
-        RegistryObject<BaseReinforcedBlock> reg = registerReinforcedBlockMapping(name, (p) -> new BaseReinforcedBlock(p, vanillaBlock),
-                reinforcedCopy(vanillaBlock, propertyEditor),registry);
+        RegistryObject<BaseReinforcedBlock> reg = registerReinforcedBlock(name, (p) -> new BaseReinforcedBlock(p, vanillaBlock),
+                reinforcedCopySupplier(vanillaBlock, propertyEditor),registry);
         registerReinforcedBlockMapping(reg,reg);
         return reg;
     }
 
-    private static <B extends Block> RegistryObject<B> registerReinforcedBlockMapping(
+    private static <B extends Block> RegistryObject<B> registerReinforcedBlock(
             String name,
             Function<BlockBehaviour.Properties, ? extends B> constructor,
-            BlockBehaviour.Properties properties,
+            Supplier<BlockBehaviour.Properties> properties,
             DeferredRegister<Block> registry
             ) {
 
@@ -94,13 +97,13 @@ public class SCBEBlocks {
         return reg;
     }
 
-    private static <B extends Block> RegistryObject<B> registerBlock(
+    public static <B extends Block> RegistryObject<B> registerBlock(
             String name,
             Function<BlockBehaviour.Properties, ? extends B> constructor,
-            BlockBehaviour.Properties properties,
+            Supplier<BlockBehaviour.Properties> properties,
             DeferredRegister<Block> registry
             ) {
-        Supplier<Block> block = () -> constructor.apply(properties);
+        Supplier<Block> block = () -> constructor.apply(properties.get());
         @SuppressWarnings("unchecked")
         RegistryObject<B> reg = (RegistryObject<B>) registry.register(name, block);
         SCBEItems.ITEMS.register(name, () -> new BlockItem(reg.get(), new Item.Properties()));
