@@ -330,5 +330,7 @@
   "block.securitycraft_block_extend.illuminant_red_block": "Reinforced Illuminant Red Block",
   "block.securitycraft_block_extend.illuminant_red_block_on": "Reinforced Illuminant Red Block(Inverted)",
   "block.securitycraft_block_extend.illuminant_yellow_block": "Reinforced Illuminant Yellow Block",
-  "block.securitycraft_block_extend.illuminant_yellow_block_on": "Reinforced Illuminant Yellow Block(Inverted)"
+  "block.securitycraft_block_extend.illuminant_yellow_block_on": "Reinforced Illuminant Yellow Block(Inverted)",
+  "block.securitycraft_block_extend.reinforced_illuminant_slab": "Reinforced Illuminant Slab",
+  "block.securitycraft_block_extend.reinforced_illuminant_panel": "Reinforced Illuminant Panel"
 }

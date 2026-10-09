@@ -35,14 +35,14 @@ public class ReinforcedLampBlock extends BaseReinforcedBlock {
 
     @Nullable
     public BlockState getStateForPlacement(@Nonnull BlockPlaceContext context) {
-        return (BlockState)this.defaultBlockState().setValue(ON, this.Default);
+        return this.defaultBlockState().setValue(ON, this.Default);
     }
 
     public void setPlacedBy(@Nonnull Level pLevel, @Nonnull BlockPos pPos, @Nonnull BlockState pState, @Nullable LivingEntity pPlacer, @Nonnull ItemStack pStack) {
         super.setPlacedBy(pLevel, pPos, pState, pPlacer, pStack);
         boolean powered = pLevel.hasNeighborSignal(pPos);
         if (powered) {
-            pLevel.setBlockAndUpdate(pPos, (BlockState)this.defaultBlockState().setValue(ON, !this.Default));
+            pLevel.setBlockAndUpdate(pPos, this.defaultBlockState().setValue(ON, !this.Default));
         }
 
     }
@@ -51,7 +51,7 @@ public class ReinforcedLampBlock extends BaseReinforcedBlock {
     public void neighborChanged(BlockState pState, Level pLevel, BlockPos pPos, Block pNeighborBlock, BlockPos pNeighborPos, boolean pMovedByPiston) {
         super.neighborChanged(pState, pLevel, pPos, pNeighborBlock, pNeighborPos, pMovedByPiston);
         boolean on = this.Default != pLevel.hasNeighborSignal(pPos);
-        pLevel.setBlockAndUpdate(pPos, (BlockState)this.defaultBlockState().setValue(ON, on));
+        pLevel.setBlockAndUpdate(pPos, this.defaultBlockState().setValue(ON, on));
     }
 
     @Override

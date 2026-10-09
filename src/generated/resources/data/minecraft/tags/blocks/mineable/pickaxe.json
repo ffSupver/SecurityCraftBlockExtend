@@ -129,6 +129,14 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_illuminant_slab",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_illuminant_panel",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_cut_diorite",
       "required": false
     },

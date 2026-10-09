@@ -75,6 +75,18 @@ public class SimplyLightCompat implements SCBEModCompat {
     public static RegistryObject<ReinforcedLampBlock> ILLUMINANT_BLOCK_RED_ON = registerReinforcedLamp(true,DyeColor.RED,SLBlocks.ILLUMINANT_BLOCK_RED_ON::get);
     public static RegistryObject<ReinforcedLampBlock> ILLUMINANT_BLOCK_YELLOW = registerReinforcedLamp(false,DyeColor.YELLOW,SLBlocks.ILLUMINANT_BLOCK_YELLOW::get);
     public static RegistryObject<ReinforcedLampBlock> ILLUMINANT_BLOCK_YELLOW_ON = registerReinforcedLamp(true,DyeColor.YELLOW,SLBlocks.ILLUMINANT_BLOCK_YELLOW_ON::get);
+    public static RegistryObject<ReinforcedSlabLampBlock> REINFORCED_ILLUMINANT_SLAB = SCBEBlocks.registerBlock(
+            "reinforced_illuminant_slab",
+            p->new ReinforcedSlabLampBlock(8.0,p,SLBlocks.ILLUMINANTSLAB::get),
+            SCBEBlocks.reinforcedCopySupplier(SLBlocks.ILLUMINANTSLAB::get, UnaryOperator.identity()),
+            BLOCKS
+    );
+    public static RegistryObject<ReinforcedSlabLampBlock> REINFORCED_ILLUMINANT_PANEL = SCBEBlocks.registerBlock(
+            "reinforced_illuminant_panel",
+            p->new ReinforcedSlabLampBlock(4.0,p,SLBlocks.ILLUMINANTPANEL::get),
+            SCBEBlocks.reinforcedCopySupplier(SLBlocks.ILLUMINANTPANEL::get, UnaryOperator.identity()),
+            BLOCKS
+    );
 
     private static RegistryObject<ReinforcedLampBlock> registerReinforcedLamp(boolean defaultState,DyeColor dyeColor,Supplier<Block> vanillaBlock){
         return registerReinforcedLamp(
@@ -111,6 +123,8 @@ public class SimplyLightCompat implements SCBEModCompat {
 
     @Override
     public void init(IEventBus eventBus) {
+        SCBEBlocks.registerReinforcedBlockMapping(REINFORCED_ILLUMINANT_SLAB,REINFORCED_ILLUMINANT_SLAB);
+        SCBEBlocks.registerReinforcedBlockMapping(REINFORCED_ILLUMINANT_PANEL,REINFORCED_ILLUMINANT_PANEL);
     }
 
 
@@ -121,16 +135,28 @@ public class SimplyLightCompat implements SCBEModCompat {
 
     @Override
     public List<SCBEBlockLootData> getBlockLootData() {
+        lootDataList.addAll(List.of(
+                SCBEBlockLootData.dropSelf(REINFORCED_ILLUMINANT_SLAB),
+                SCBEBlockLootData.dropSelf(REINFORCED_ILLUMINANT_PANEL)
+        ));
         return lootDataList;
     }
 
     @Override
     public List<SCBEBlockTagData> getBlockTagData() {
+        tagDataList.addAll(List.of(
+                SCBEBlockTagData.mineWithPickaxe(REINFORCED_ILLUMINANT_SLAB::get),
+                SCBEBlockTagData.mineWithPickaxe(REINFORCED_ILLUMINANT_PANEL::get)
+        ));
         return tagDataList;
     }
 
     @Override
     public List<Supplier<ItemLike>> getCreativeTabItems() {
+        creativeTabItems.addAll(List.of(
+                REINFORCED_ILLUMINANT_SLAB::get,
+                REINFORCED_ILLUMINANT_PANEL::get
+        ));
         return creativeTabItems;
     }
 
