@@ -1215,6 +1215,10 @@
     {
       "id": "securitycraft_block_extend:reinforced_sticky_mechanical_piston",
       "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_track",
+      "required": false
     }
   ]
 }

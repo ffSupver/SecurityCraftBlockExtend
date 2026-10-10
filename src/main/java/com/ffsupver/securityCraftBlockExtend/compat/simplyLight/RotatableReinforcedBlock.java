@@ -38,27 +38,14 @@ public class RotatableReinforcedBlock extends BaseReinforcedBlock implements Sim
     @Nonnull
     public VoxelShape getShape(BlockState blockState, @Nonnull BlockGetter world, @Nonnull BlockPos blockPos, @Nonnull CollisionContext context) {
         Direction facing = blockState.getValue(BlockStateProperties.FACING);
-        VoxelShape var10000;
-        switch (facing.get3DDataValue()) {
-            case 0:
-                var10000 = this.DOWN;
-                break;
-            case 1:
-            default:
-                var10000 = this.UP;
-                break;
-            case 2:
-                var10000 = this.NORTH;
-                break;
-            case 3:
-                var10000 = this.SOUTH;
-                break;
-            case 4:
-                var10000 = this.WEST;
-                break;
-            case 5:
-                var10000 = this.EAST;
-        }
+        VoxelShape var10000 = switch (facing.get3DDataValue()) {
+            case 0 -> this.DOWN;
+            case 2 -> this.NORTH;
+            case 3 -> this.SOUTH;
+            case 4 -> this.WEST;
+            case 5 -> this.EAST;
+            default -> this.UP;
+        };
 
         return var10000;
     }

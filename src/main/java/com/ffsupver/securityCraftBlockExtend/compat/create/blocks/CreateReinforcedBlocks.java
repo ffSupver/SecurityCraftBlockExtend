@@ -4,16 +4,22 @@ import com.ffsupver.securityCraftBlockExtend.SecurityCraftBlockExtend;
 import com.ffsupver.securityCraftBlockExtend.compat.create.blocks.mechanicalPiston.ReinforcedMechanicalPistonBlock;
 import com.ffsupver.securityCraftBlockExtend.compat.create.blocks.mechanicalPiston.ReinforcedMechanicalPistonBlockEntity;
 import com.ffsupver.securityCraftBlockExtend.compat.create.blocks.mechanicalPiston.ReinforcedMechanicalPistonRenderer;
+import com.ffsupver.securityCraftBlockExtend.compat.create.blocks.reinforcedTrack.ReinforcedTrack;
+import com.ffsupver.securityCraftBlockExtend.compat.create.blocks.reinforcedTrack.ReinforcedTrackBlockItem;
+import com.ffsupver.securityCraftBlockExtend.compat.create.blocks.reinforcedTrack.ReinforcedTrackEntity;
 import com.ffsupver.securityCraftBlockExtend.dataGen.SCBEBlockLootData;
 import com.ffsupver.securityCraftBlockExtend.dataGen.SCBEBlockModelData;
 import com.ffsupver.securityCraftBlockExtend.dataGen.SCBEBlockTagData;
 import com.ffsupver.securityCraftBlockExtend.registeries.SCBEBlocks;
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllSpriteShifts;
+import com.simibubi.create.AllTags;
 import com.simibubi.create.Create;
 import com.simibubi.create.api.stress.BlockStressValues;
 import com.simibubi.create.content.decoration.palettes.*;
 import com.simibubi.create.content.kinetics.base.SingleAxisRotatingVisual;
+import com.simibubi.create.content.trains.track.TrackRenderer;
+import com.simibubi.create.content.trains.track.TrackVisual;
 import com.simibubi.create.foundation.block.connected.*;
 import com.simibubi.create.foundation.data.CreateRegistrate;
 import com.tterrag.registrate.builders.BlockBuilder;
@@ -40,6 +46,7 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
 
+import static com.ffsupver.securityCraftBlockExtend.compat.create.blocks.reinforcedTrack.ReinforcedTrack.REINFORCED_TRACK_MATERIAL;
 import static com.ffsupver.securityCraftBlockExtend.dataGen.SCBEBlockModelData.BlockType.*;
 import static com.simibubi.create.content.decoration.palettes.PaletteBlockPattern.LAYERED;
 
@@ -135,6 +142,21 @@ public class CreateReinforcedBlocks {
             .visual(() -> SingleAxisRotatingVisual::shaft, false)
             .validBlocks(REINFORCED_MECHANICAL_PISTON_BLOCK,REINFORCED_STICKY_MECHANICAL_PISTON_BLOCK)
             .renderer(()-> ReinforcedMechanicalPistonRenderer::new)
+            .register();
+    public static final BlockEntry<ReinforcedTrack> REINFORCED_TRACK = REGISTRATE
+            .block("reinforced_track", p->(ReinforcedTrack)REINFORCED_TRACK_MATERIAL.createBlock(SCBEBlocks.reinforcedCopySupplier(AllBlocks.TRACK::get, UnaryOperator.identity()).get()))
+            .setData(ProviderType.BLOCKSTATE,NonNullBiConsumer.noop())
+            .setData(ProviderType.LOOT,NonNullBiConsumer.noop())
+            .setData(ProviderType.LANG,NonNullBiConsumer.noop())
+            .item(ReinforcedTrackBlockItem::new).setData(ProviderType.ITEM_MODEL, NonNullBiConsumer.noop()) // No item model data
+            .build()
+            .register();
+
+    public static final BlockEntityEntry<ReinforcedTrackEntity> REINFORCED_TRACK_ENTITY = REGISTRATE
+            .blockEntity("reinforced_track", ReinforcedTrackEntity::new)
+            .visual(() -> TrackVisual::new, false)
+            .validBlocks(REINFORCED_TRACK)
+            .renderer(()-> TrackRenderer::new)
             .register();
 
     public static void registerPaletteStoneBlocks(AllPaletteStoneTypes stoneTypes) {
@@ -444,7 +466,15 @@ public class CreateReinforcedBlocks {
                          SecurityCraftBlockExtend.asResource("block/reinforced_copper_bars"),
                          Create.asResource("block/bars/copper_bars_edge"),
                          SecurityCraftBlockExtend.asResource("block/reinforced_copper_bars")
-                 )
+                 ),
+                new SCBEBlockModelData(
+                        "reinforced_track",
+                        REINFORCED_TRACK,
+                        "不使用，任意占位",
+                        Map.of("item",Create.asResource("item/track")),
+                        "minecraft:cutout_mipped",
+                        CREATE_TRACK
+                )
          ));
         return blockModelData;
     }
@@ -461,7 +491,8 @@ public class CreateReinforcedBlocks {
                 SCBEBlockLootData.dropSelf(REINFORCED_ANDESITE_BARS),
                 SCBEBlockLootData.dropSelf(REINFORCED_COPPER_BARS),
                 SCBEBlockLootData.dropSelf(REINFORCED_MECHANICAL_PISTON_BLOCK),
-                SCBEBlockLootData.dropSelf(REINFORCED_STICKY_MECHANICAL_PISTON_BLOCK)
+                SCBEBlockLootData.dropSelf(REINFORCED_STICKY_MECHANICAL_PISTON_BLOCK),
+                SCBEBlockLootData.dropSelf(REINFORCED_TRACK)
                 )
         );
         return blockLootData;
@@ -479,7 +510,8 @@ public class CreateReinforcedBlocks {
                 new SCBEBlockTagData.Builder(REINFORCED_ANDESITE_BARS).pickaxe().ironTool().reinforced().build(),
                 new SCBEBlockTagData.Builder(REINFORCED_COPPER_BARS).pickaxe().ironTool().reinforced().build(),
                 SCBEBlockTagData.mineWithPickaxe(REINFORCED_MECHANICAL_PISTON_BLOCK::get),
-                SCBEBlockTagData.mineWithPickaxe(REINFORCED_STICKY_MECHANICAL_PISTON_BLOCK::get)
+                SCBEBlockTagData.mineWithPickaxe(REINFORCED_STICKY_MECHANICAL_PISTON_BLOCK::get),
+                new SCBEBlockTagData.Builder(REINFORCED_TRACK).pickaxe().reinforced().add(AllTags.AllBlockTags.TRACKS.tag).build()
         ));
         return blockTagData;
     }

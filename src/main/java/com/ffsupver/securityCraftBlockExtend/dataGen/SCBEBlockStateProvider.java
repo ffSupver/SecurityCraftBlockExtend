@@ -5,6 +5,8 @@ import com.ffsupver.securityCraftBlockExtend.compat.Mods;
 import com.ffsupver.securityCraftBlockExtend.registeries.SCBEBlocks;
 import com.flanks255.simplylight.blocks.LampBlock;
 import com.simibubi.create.Create;
+import com.simibubi.create.content.trains.track.TrackBlock;
+import com.simibubi.create.content.trains.track.TrackShape;
 import net.geforcemods.securitycraft.blocks.reinforced.ReinforcedPaneBlock;
 import net.geforcemods.securitycraft.blocks.reinforced.ReinforcedSlabBlock;
 import net.geforcemods.securitycraft.blocks.reinforced.ReinforcedStairsBlock;
@@ -62,6 +64,7 @@ public class SCBEBlockStateProvider extends BlockStateProvider {
                 case CREATE_CONNECTED_PANE -> reinforcedPane(data.name(), (ReinforcedPaneBlock) data.block().get(), data.renderType(), data.textures());
                 case CREATE_BARS -> reinforcedBars(data.name(), (ReinforcedPaneBlock) data.block().get(),
                         data.renderType(), data.textures());
+                case CREATE_TRACK -> reinforcedTrack(data);
                 case ON2STATE -> reinforcedOn2State(data.name(), data.block().get(),data.parentModel(), data.renderType(), data.textures());
             }
         }
@@ -463,6 +466,68 @@ public class SCBEBlockStateProvider extends BlockStateProvider {
             builder.renderType(renderType);
         }
         return builder;
+    }
+
+    private void reinforcedTrack(SCBEBlockModelData data) {
+        String name = data.name();
+        Block block = data.block().get();
+        String renderType = data.renderType();
+
+        // TrackShape -> Create 原版模型子路径（相对 create:block/track/）
+        Map<TrackShape, String> modelByShape = new LinkedHashMap<>();
+        // TrackShape -> Y 轴旋转（度数）
+        Map<TrackShape, Integer> rotByShape = new HashMap<>();
+
+        modelByShape.put(TrackShape.AE,     "ascending");   rotByShape.put(TrackShape.AE,     270);
+        modelByShape.put(TrackShape.AN,     "ascending");   rotByShape.put(TrackShape.AN,     180);
+        modelByShape.put(TrackShape.AS,     "ascending");   rotByShape.put(TrackShape.AS,     0);
+        modelByShape.put(TrackShape.AW,     "ascending");   rotByShape.put(TrackShape.AW,     90);
+        modelByShape.put(TrackShape.CR_D,   "cross_diag");  rotByShape.put(TrackShape.CR_D,   0);
+        modelByShape.put(TrackShape.CR_NDX, "cross_d2_xo"); rotByShape.put(TrackShape.CR_NDX, 0);
+        modelByShape.put(TrackShape.CR_NDZ, "cross_d2_zo"); rotByShape.put(TrackShape.CR_NDZ, 0);
+        modelByShape.put(TrackShape.CR_O,   "cross_ortho"); rotByShape.put(TrackShape.CR_O,   0);
+        modelByShape.put(TrackShape.CR_PDX, "cross_d1_xo"); rotByShape.put(TrackShape.CR_PDX, 0);
+        modelByShape.put(TrackShape.CR_PDZ, "cross_d1_zo"); rotByShape.put(TrackShape.CR_PDZ, 0);
+        modelByShape.put(TrackShape.ND,     "diag_2");      rotByShape.put(TrackShape.ND,     0);
+        modelByShape.put(TrackShape.PD,     "diag");        rotByShape.put(TrackShape.PD,     0);
+        modelByShape.put(TrackShape.TE,     "teleport");    rotByShape.put(TrackShape.TE,     270);
+        modelByShape.put(TrackShape.TN,     "teleport");    rotByShape.put(TrackShape.TN,     180);
+        modelByShape.put(TrackShape.TS,     "teleport");    rotByShape.put(TrackShape.TS,     0);
+        modelByShape.put(TrackShape.TW,     "teleport");    rotByShape.put(TrackShape.TW,     90);
+        modelByShape.put(TrackShape.XO,     "x_ortho");     rotByShape.put(TrackShape.XO,     0);
+        modelByShape.put(TrackShape.ZO,     "z_ortho");     rotByShape.put(TrackShape.ZO,     0);
+
+        // 每个唯一模型名生成一个自定义模型文件：<modid>:block/<name>/<modelName>
+        // parent 指向 create:block/track/<modelName>，附加 render_type
+        Map<String, ModelFile> modelFiles = new HashMap<>();
+        for (String modelName : new LinkedHashSet<>(modelByShape.values())) {
+            BlockModelBuilder builder = models()
+                    .withExistingParent("block/"+name + "/" + modelName,
+                            Create.asResource("block/track/" + modelName));
+            if (renderType != null && !renderType.isEmpty()) {
+                builder.renderType(renderType);
+            }
+            modelFiles.put(modelName, builder);
+        }
+
+        ModelFile airModel = new UncheckedModelFile(mcLoc("block/air"));
+
+        getVariantBuilder(block).forAllStatesExcept(state -> {
+            TrackShape shape = state.getValue(TrackBlock.SHAPE);
+            String modelName = modelByShape.get(shape);
+            if (modelName == null) {
+                // TrackShape.NONE
+                return ConfiguredModel.builder().modelFile(airModel).build();
+            }
+            return ConfiguredModel.builder()
+                    .modelFile(modelFiles.get(modelName))
+                    .rotationY(rotByShape.getOrDefault(shape, 0))
+                    .build();
+        }, TrackBlock.HAS_BE, TrackBlock.WATERLOGGED);
+
+        // 物品模型：使用原版 item/generated
+        itemModels().withExistingParent(name, mcLoc("item/generated"))
+                .texture("layer0", data.textures().get("item"));
     }
 
     private void reinforcedOn2State(String name, Block block,ResourceLocation parent, String renderType,

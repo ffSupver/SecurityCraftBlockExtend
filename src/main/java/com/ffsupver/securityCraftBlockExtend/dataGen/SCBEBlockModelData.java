@@ -21,14 +21,15 @@ public class SCBEBlockModelData {
         PILLAR,    // 轴向柱体（需要按 AXIS 旋转）
         CREATE_CONNECTED_PANE,
         CREATE_BARS,
+        CREATE_TRACK,
         ON2STATE
     }
 
-    private String name;
-    private Supplier<? extends Block> block;
-    private ResourceLocation parentModel;
-    private Map<String, ResourceLocation> textures;
-    private BlockType type;
+    private final String name;
+    private final Supplier<? extends Block> block;
+    private final ResourceLocation parentModel;
+    private final Map<String, ResourceLocation> textures;
+    private final BlockType type;
     private final String renderType;
     private final SCBEBlockModelData itemModel;
 

@@ -8,7 +8,5 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 @Mixin(LinearActuatorBlockEntity.class)
 public interface LinearActuatorBlockEntityAccessor {
     @Accessor(remap = false)
-    AssemblyException getLastException();
-    @Accessor(remap = false)
     void setLastException(AssemblyException exception);
 }

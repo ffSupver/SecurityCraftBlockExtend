@@ -6,7 +6,9 @@
   "mixins": [
     "AllContraptionTypesMixin",
     "EntityKineticBulletAccessor",
-    "LinearActuatorBlockEntityAccessor"
+    "LinearActuatorBlockEntityAccessor",
+    "PlacementInfoAccessor",
+    "TrackPlacementMixin"
   ],
   "client": [
   ],

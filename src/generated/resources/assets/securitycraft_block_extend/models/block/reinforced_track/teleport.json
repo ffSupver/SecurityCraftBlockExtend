@@ -1,0 +1,4 @@
+{
+  "parent": "create:block/track/teleport",
+  "render_type": "minecraft:cutout_mipped"
+}

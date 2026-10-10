@@ -1,0 +1,67 @@
+{
+  "variants": {
+    "shape=ae": {
+      "model": "securitycraft_block_extend:block/reinforced_track/ascending",
+      "y": 270
+    },
+    "shape=an": {
+      "model": "securitycraft_block_extend:block/reinforced_track/ascending",
+      "y": 180
+    },
+    "shape=as": {
+      "model": "securitycraft_block_extend:block/reinforced_track/ascending"
+    },
+    "shape=aw": {
+      "model": "securitycraft_block_extend:block/reinforced_track/ascending",
+      "y": 90
+    },
+    "shape=cr_d": {
+      "model": "securitycraft_block_extend:block/reinforced_track/cross_diag"
+    },
+    "shape=cr_ndx": {
+      "model": "securitycraft_block_extend:block/reinforced_track/cross_d2_xo"
+    },
+    "shape=cr_ndz": {
+      "model": "securitycraft_block_extend:block/reinforced_track/cross_d2_zo"
+    },
+    "shape=cr_o": {
+      "model": "securitycraft_block_extend:block/reinforced_track/cross_ortho"
+    },
+    "shape=cr_pdx": {
+      "model": "securitycraft_block_extend:block/reinforced_track/cross_d1_xo"
+    },
+    "shape=cr_pdz": {
+      "model": "securitycraft_block_extend:block/reinforced_track/cross_d1_zo"
+    },
+    "shape=nd": {
+      "model": "securitycraft_block_extend:block/reinforced_track/diag_2"
+    },
+    "shape=none": {
+      "model": "minecraft:block/air"
+    },
+    "shape=pd": {
+      "model": "securitycraft_block_extend:block/reinforced_track/diag"
+    },
+    "shape=te": {
+      "model": "securitycraft_block_extend:block/reinforced_track/teleport",
+      "y": 270
+    },
+    "shape=tn": {
+      "model": "securitycraft_block_extend:block/reinforced_track/teleport",
+      "y": 180
+    },
+    "shape=ts": {
+      "model": "securitycraft_block_extend:block/reinforced_track/teleport"
+    },
+    "shape=tw": {
+      "model": "securitycraft_block_extend:block/reinforced_track/teleport",
+      "y": 90
+    },
+    "shape=xo": {
+      "model": "securitycraft_block_extend:block/reinforced_track/x_ortho"
+    },
+    "shape=zo": {
+      "model": "securitycraft_block_extend:block/reinforced_track/z_ortho"
+    }
+  }
+}

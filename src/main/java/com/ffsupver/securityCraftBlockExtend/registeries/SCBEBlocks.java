@@ -56,10 +56,10 @@ public class SCBEBlocks {
     }
 
 
-    public static final BlockBehaviour.Properties reinforcedCopy(Block block, UnaryOperator<BlockBehaviour.Properties> propertyEditor) {
+    public static BlockBehaviour.Properties reinforcedCopy(Block block, UnaryOperator<BlockBehaviour.Properties> propertyEditor) {
         return reinforcedCopySupplier(()->block, propertyEditor).get();
     }
-    public static final Supplier<BlockBehaviour.Properties> reinforcedCopySupplier(Supplier<Block> block, UnaryOperator<BlockBehaviour.Properties> propertyEditor) {
+    public static Supplier<BlockBehaviour.Properties> reinforcedCopySupplier(Supplier<Block> block, UnaryOperator<BlockBehaviour.Properties> propertyEditor) {
         return ()->(BlockBehaviour.Properties)propertyEditor.apply(ofFullCopy(block.get()).explosionResistance(Float.MAX_VALUE));
     }
 
