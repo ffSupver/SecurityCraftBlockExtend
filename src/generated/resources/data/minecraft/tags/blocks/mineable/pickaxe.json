@@ -1219,6 +1219,30 @@
     {
       "id": "securitycraft_block_extend:reinforced_track",
       "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_andesite_catwalk",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_brass_catwalk",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_iron_catwalk",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_copper_catwalk",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_industrial_iron_catwalk",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_zinc_catwalk",
+      "required": false
     }
   ]
 }

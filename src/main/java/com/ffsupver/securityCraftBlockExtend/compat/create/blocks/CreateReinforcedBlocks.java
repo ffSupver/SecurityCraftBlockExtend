@@ -51,7 +51,7 @@ import static com.ffsupver.securityCraftBlockExtend.dataGen.SCBEBlockModelData.B
 import static com.simibubi.create.content.decoration.palettes.PaletteBlockPattern.LAYERED;
 
 public class CreateReinforcedBlocks {
-    private static final CreateRegistrate REGISTRATE = CreateRegistrate.create(SecurityCraftBlockExtend.MODID);
+    public static final CreateRegistrate REGISTRATE = CreateRegistrate.create(SecurityCraftBlockExtend.MODID);
     public static List<SCBEBlockLootData> blockLootData = new ArrayList<>();
     public static List<SCBEBlockTagData> blockTagData = new ArrayList<>();
     public static List<SCBEBlockModelData> blockModelData = new ArrayList<>();
@@ -506,9 +506,9 @@ public class CreateReinforcedBlocks {
                 SCBEBlockTagData.mineWithPickaxe(REINFORCED_HORIZONTAL_FRAMED_GLASS::get),
                 SCBEBlockTagData.mineWithPickaxe(REINFORCED_VERTICAL_FRAMED_GLASS::get),
                 new SCBEBlockTagData.Builder(REINFORCED_FRAMED_GLASS_PANE).pickaxe().reinforced().add(SCTags.Blocks.REINFORCED_GLASS_PANES).build(),
-                new SCBEBlockTagData.Builder(REINFORCED_BRASS_BARS).pickaxe().ironTool().reinforced().build(),
-                new SCBEBlockTagData.Builder(REINFORCED_ANDESITE_BARS).pickaxe().ironTool().reinforced().build(),
-                new SCBEBlockTagData.Builder(REINFORCED_COPPER_BARS).pickaxe().ironTool().reinforced().build(),
+                new SCBEBlockTagData.Builder(REINFORCED_BRASS_BARS).pickaxe().ironTool().add(AllTags.AllBlockTags.FAN_TRANSPARENT.tag).reinforced().build(),
+                new SCBEBlockTagData.Builder(REINFORCED_ANDESITE_BARS).pickaxe().add(AllTags.AllBlockTags.FAN_TRANSPARENT.tag).reinforced().build(),
+                new SCBEBlockTagData.Builder(REINFORCED_COPPER_BARS).pickaxe().add(AllTags.AllBlockTags.FAN_TRANSPARENT.tag).reinforced().build(),
                 SCBEBlockTagData.mineWithPickaxe(REINFORCED_MECHANICAL_PISTON_BLOCK::get),
                 SCBEBlockTagData.mineWithPickaxe(REINFORCED_STICKY_MECHANICAL_PISTON_BLOCK::get),
                 new SCBEBlockTagData.Builder(REINFORCED_TRACK).pickaxe().reinforced().add(AllTags.AllBlockTags.TRACKS.tag).build()

@@ -1,6 +1,7 @@
 modLoader="javafml"
 loaderVersion="${loader_version_range}"
 license="${mod_license}"
+logoFile="icon.png"
 # A URL to refer people to when problems occur with this mod
 #issueTrackerURL="https://change.me.to.your.issue.tracker.example.invalid/" #optional
 [[mods]]
@@ -9,10 +10,7 @@ version="${mod_version}"
 displayName="${mod_name}"
 # A URL to query for updates for this mod. See the JSON update specification https://docs.minecraftforge.net/en/latest/misc/updatechecker/
 #updateJSONURL="https://change.me.example.invalid/updates.json" #optional
-# A URL for the "homepage" for this mod, displayed in the mod UI
-#displayURL="https://change.me.to.your.mods.homepage.example.invalid/" #optional
-# A file name (in the root of the mod JAR) containing a logo for display
-logoFile="icon.png" #optional
+displayURL="https://www.curseforge.com/minecraft/mc-mods/securitycraft-block-extend"
 # A text field displayed in the mod UI
 #credits="" #optional
 # A text field displayed in the mod UI
@@ -71,6 +69,12 @@ side="BOTH"
 modId="tacz"
 mandatory=false
 versionRange="[1.1.8,)"
+ordering="AFTER"
+side="BOTH"
+[[dependencies.${mod_id}]] # TacZ
+modId="createdeco"
+mandatory=false
+versionRange="[2.0.3,)"
 ordering="AFTER"
 side="BOTH"
 

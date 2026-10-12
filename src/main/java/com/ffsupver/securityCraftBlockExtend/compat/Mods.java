@@ -3,6 +3,7 @@ package com.ffsupver.securityCraftBlockExtend.compat;
 
 import com.ffsupver.securityCraftBlockExtend.SecurityCraftBlockExtend;
 import com.ffsupver.securityCraftBlockExtend.compat.create.CreateCompat;
+import com.ffsupver.securityCraftBlockExtend.compat.create.CreateDecoCompat;
 import com.ffsupver.securityCraftBlockExtend.compat.simplyLight.SimplyLightCompat;
 import com.ffsupver.securityCraftBlockExtend.dataGen.SCBEBlockLootData;
 import com.ffsupver.securityCraftBlockExtend.dataGen.SCBEBlockModelData;
@@ -27,6 +28,7 @@ public class Mods {
         if (!hasInit){
             MOD_SUPPLIERS.clear();
 
+            addMod(ModIds.CREATE_DECO, CreateDecoCompat.class); // using REGISTRATE in CreateCompat, loading earlier than CreateCompat
             addMod(ModIds.CREATE, CreateCompat.class);
             addMod(ModIds.SIMPLYLIGHT, SimplyLightCompat.class);
             addMod(ModIds.TACZ, TacZCompat.class);
@@ -117,7 +119,8 @@ public class Mods {
     public enum ModIds{
         CREATE("create"),
         SIMPLYLIGHT("simplylight"),
-        TACZ("tacz");
+        TACZ("tacz"),
+        CREATE_DECO("createdeco");
         public final String ModId;
 
         ModIds(String modId) {

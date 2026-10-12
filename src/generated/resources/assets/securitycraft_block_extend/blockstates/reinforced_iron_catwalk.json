@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "bottom=false,waterlogged=false": {
+      "model": "securitycraft_block_extend:block/reinforced_iron_catwalk"
+    },
+    "bottom=false,waterlogged=true": {
+      "model": "securitycraft_block_extend:block/reinforced_iron_catwalk"
+    },
+    "bottom=true,waterlogged=false": {
+      "model": "securitycraft_block_extend:block/reinforced_iron_catwalk"
+    },
+    "bottom=true,waterlogged=true": {
+      "model": "securitycraft_block_extend:block/reinforced_iron_catwalk"
+    }
+  }
+}

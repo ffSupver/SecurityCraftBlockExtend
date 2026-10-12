@@ -91,7 +91,7 @@ minecraft {
 
             // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
             args '--mod', mod_id, '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/'),
-                    '--existing-mod', 'securitycraft','--existing-mod', 'create','--existing-mod', 'simplylight'
+                    '--existing-mod', 'securitycraft','--existing-mod', 'create','--existing-mod', 'simplylight','--existing-mod', 'createdeco'
         }
     }
 }
@@ -159,6 +159,10 @@ dependencies {
     implementation(fg.deobf("com.tterrag.registrate:Registrate:${registrate_version}"))
     compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:0.4.1"))
     implementation("io.github.llamalad7:mixinextras-forge:0.4.1")
+
+    // Create Deco
+    compileOnly fg.deobf("curse.maven:create-deco-509285:6373226")
+    runtimeOnly fg.deobf("curse.maven:create-deco-509285:6373226")
 
     // Simple Light
     compileOnly fg.deobf("curse.maven:simply-light-300331:4832944")

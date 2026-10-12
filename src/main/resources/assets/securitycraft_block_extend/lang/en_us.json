@@ -333,5 +333,12 @@
   "block.securitycraft_block_extend.illuminant_yellow_block": "Reinforced Illuminant Yellow Block",
   "block.securitycraft_block_extend.illuminant_yellow_block_on": "Reinforced Illuminant Yellow Block(Inverted)",
   "block.securitycraft_block_extend.reinforced_illuminant_slab": "Reinforced Illuminant Slab",
-  "block.securitycraft_block_extend.reinforced_illuminant_panel": "Reinforced Illuminant Panel"
+  "block.securitycraft_block_extend.reinforced_illuminant_panel": "Reinforced Illuminant Panel",
+
+  "block.securitycraft_block_extend.reinforced_andesite_catwalk": "Reinforced Andesite Catwalk",
+  "block.securitycraft_block_extend.reinforced_brass_catwalk": "Reinforced Brass Catwalk",
+  "block.securitycraft_block_extend.reinforced_iron_catwalk": "Reinforced Iron Catwalk",
+  "block.securitycraft_block_extend.reinforced_copper_catwalk": "Reinforced Copper Catwalk",
+  "block.securitycraft_block_extend.reinforced_industrial_iron_catwalk": "Reinforced Industrial Iron Catwalk",
+  "block.securitycraft_block_extend.reinforced_zinc_catwalk": "Reinforced Zinc Catwalk"
 }
