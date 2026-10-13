@@ -2,16 +2,16 @@ package com.ffsupver.securityCraftBlockExtend.compat.create.blocks;
 
 import com.github.talrey.createdeco.blocks.CatwalkBlock;
 import net.geforcemods.securitycraft.ConfigHandler;
-import net.geforcemods.securitycraft.api.INameSetter;
-import net.geforcemods.securitycraft.api.IReinforcedBlock;
-import net.geforcemods.securitycraft.api.OwnableBlockEntity;
+import net.geforcemods.securitycraft.api.*;
 import net.geforcemods.securitycraft.blocks.OwnableBlock;
 import net.geforcemods.securitycraft.misc.OwnershipEvent;
 import net.geforcemods.securitycraft.util.BlockUtils;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -50,6 +50,22 @@ public class ReinforcedCatwalkBlock extends CatwalkBlock implements IReinforcedB
 
         if (stack.hasCustomHoverName() && level.getBlockEntity(pos) instanceof INameSetter nameable)
             nameable.setCustomName(stack.getHoverName());
+    }
+
+    private boolean canInteract(Level level,BlockPos pos,Player player){
+        Owner owner = null;
+        if (level.getBlockEntity(pos) instanceof IOwnable iOwnable){
+            owner = iOwnable.getOwner();
+        }
+        return owner != null && owner.isTreatedTheSameAs(new Owner(player));
+    }
+
+    @Override
+    public InteractionResult onSneakWrenched(BlockState state, UseOnContext context) {
+        if (!canInteract(context.getLevel(), context.getClickedPos(), context.getPlayer())){
+            return InteractionResult.SUCCESS;
+        }
+        return super.onSneakWrenched(state, context);
     }
 
     @Override
