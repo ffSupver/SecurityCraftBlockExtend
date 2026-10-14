@@ -1,0 +1,10 @@
+{
+  "values": [
+    {"id": "securitycraft_block_extend:chained_universal_block_reinforcer_lv1", "required": false},
+    {"id": "securitycraft_block_extend:chained_universal_block_reinforcer_lv2", "required": false},
+    {"id": "securitycraft_block_extend:chained_universal_block_reinforcer_lv3", "required": false},
+    {"id": "securitycraft:universal_block_reinforcer_lvl1", "required": false},
+    {"id": "securitycraft:universal_block_reinforcer_lvl2", "required": false},
+    {"id": "securitycraft:universal_block_reinforcer_lvl3", "required": false}
+  ]
+}
