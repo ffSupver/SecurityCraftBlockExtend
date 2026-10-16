@@ -71,10 +71,22 @@ mandatory=false
 versionRange="[1.1.8,)"
 ordering="AFTER"
 side="BOTH"
-[[dependencies.${mod_id}]] # TacZ
+[[dependencies.${mod_id}]] # Create Deco
 modId="createdeco"
 mandatory=false
 versionRange="[2.0.3,)"
+ordering="AFTER"
+side="BOTH"
+[[dependencies.${mod_id}]] # Quark
+modId="quark"
+mandatory=false
+versionRange="[4.0-462.3531,)"
+ordering="AFTER"
+side="BOTH"
+[[dependencies.${mod_id}]] # Zeta dependance of Quark
+modId="zeta"
+mandatory=false
+versionRange="[1.0-31.1,)"
 ordering="AFTER"
 side="BOTH"
 

@@ -22,7 +22,8 @@ public class SCBEBlockModelData {
         CREATE_CONNECTED_PANE,
         CREATE_BARS,
         CREATE_TRACK,
-        ON2STATE
+        ON2STATE,
+        VERTICAL_SLAB
     }
 
     private final String name;

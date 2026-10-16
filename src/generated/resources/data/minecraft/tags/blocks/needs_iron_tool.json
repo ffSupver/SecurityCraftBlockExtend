@@ -7,6 +7,10 @@
     {
       "id": "securitycraft_block_extend:reinforced_brass_bars",
       "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_raw_gold_bricks_vertical_slab",
+      "required": false
     }
   ]
 }

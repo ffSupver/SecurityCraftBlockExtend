@@ -8,7 +8,8 @@
     "EntityKineticBulletAccessor",
     "LinearActuatorBlockEntityAccessor",
     "PlacementInfoAccessor",
-    "TrackPlacementMixin"
+    "TrackPlacementMixin",
+    "ZetaRegistryMixin"
   ],
   "client": [
   ],

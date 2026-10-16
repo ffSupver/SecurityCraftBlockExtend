@@ -3,6 +3,50 @@
     {
       "id": "securitycraft_block_extend:reinforced_andesite_alloy_block",
       "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_cut_copper_vertical_slab",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_weathered_cut_copper_vertical_slab",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_raw_gold_bricks_vertical_slab",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_exposed_cut_copper_vertical_slab",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_raw_iron_bricks_vertical_slab",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_waxed_exposed_cut_copper_vertical_slab",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_oxidized_cut_copper_vertical_slab",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_raw_copper_bricks_vertical_slab",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_waxed_weathered_cut_copper_vertical_slab",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_waxed_cut_copper_vertical_slab",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_waxed_oxidized_cut_copper_vertical_slab",
+      "required": false
     }
   ]
 }

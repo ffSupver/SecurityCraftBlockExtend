@@ -4,6 +4,9 @@ import com.ffsupver.securityCraftBlockExtend.SecurityCraftBlockExtend;
 import com.ffsupver.securityCraftBlockExtend.compat.Mods;
 import com.ffsupver.securityCraftBlockExtend.registeries.SCBEBlocks;
 import com.flanks255.simplylight.blocks.LampBlock;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.simibubi.create.Create;
 import com.simibubi.create.content.trains.track.TrackBlock;
 import com.simibubi.create.content.trains.track.TrackShape;
@@ -13,6 +16,8 @@ import net.geforcemods.securitycraft.blocks.reinforced.ReinforcedStairsBlock;
 import net.minecraft.core.Direction;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.PackType;
+import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.WallBlock;
 import net.minecraft.world.level.block.state.properties.*;
@@ -21,14 +26,22 @@ import net.minecraftforge.client.model.generators.ModelFile.UncheckedModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+import org.violetmoon.quark.content.building.block.VerticalSlabBlock;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.Reader;
 import java.util.*;
 import java.util.function.Supplier;
 
 public class SCBEBlockStateProvider extends BlockStateProvider {
 
+    private static final Gson GSON = new Gson();
+    private final ExistingFileHelper existingFileHelper;
+
     public SCBEBlockStateProvider(PackOutput output, ExistingFileHelper exFileHelper) {
         super(output, SecurityCraftBlockExtend.MODID, exFileHelper);
+        this.existingFileHelper = exFileHelper;
     }
 
     @Override
@@ -66,6 +79,12 @@ public class SCBEBlockStateProvider extends BlockStateProvider {
                         data.renderType(), data.textures());
                 case CREATE_TRACK -> reinforcedTrack(data);
                 case ON2STATE -> reinforcedOn2State(data.name(), data.block().get(),data.parentModel(), data.renderType(), data.textures());
+                case VERTICAL_SLAB -> reinforcedVerticalSlab(
+                        data.name(),
+                        data.block().get(),
+                        data.textures(),
+                        data.renderType()
+                );
             }
         }
 
@@ -534,7 +553,6 @@ public class SCBEBlockStateProvider extends BlockStateProvider {
                                     Map<String, ResourceLocation> textures) {
         String onName = parent.getPath().equals("default_on") ? name : name + "_lamp_on";
         String offName = parent.getPath().equals("default_on") ? name + "_lamp_on" : name;
-        System.out.println("onName: " + onName + ", offName: " + offName+" processingBlock:"+name);
         getVariantBuilder(block)
                 .partialState().with(LampBlock.ON,true)
                 .addModels(new ConfiguredModel(modelWithParent(
@@ -551,6 +569,66 @@ public class SCBEBlockStateProvider extends BlockStateProvider {
         itemModels().withExistingParent(name,modLoc("block/"+name));
     }
 
+    private void reinforcedVerticalSlab(String name, Block block,
+                                        Map<String, ResourceLocation> textures,
+                                        String renderType) {
+
+        ResourceLocation side;
+        ResourceLocation bottom;
+        ResourceLocation top;
+
+        ResourceLocation parentId = textures.get("parentId");
+        if (parentId != null) {
+            // 使用数据生成 API 动态解析父方块纹理
+            Map<String, ResourceLocation> parentTex = readBlockTextures(parentId);
+            System.out.println("VSlabTextures: " + parentTex+" id:"+name+" parentId:"+parentId);
+
+            side = firstNonNull(
+                    parentTex.get("side"),
+                    parentTex.get("all"),
+                    parentTex.get("texture"),
+                    parentTex.get("particle"),
+                    firstValue(parentTex),
+                    fallbackTexture(parentId)
+            );
+            bottom = firstNonNull(parentTex.get("bottom"), parentTex.get("end"), side);
+            top    = firstNonNull(parentTex.get("top"),    parentTex.get("end"), side);
+        } else {
+            side   = textures.get("side") != null ? textures.get("side") : textures.get("all");
+            bottom = textures.getOrDefault("bottom", side);
+            top    = textures.getOrDefault("top",    side);
+        }
+
+        // 竖半砖模型
+        BlockModelBuilder slabModel = models().getBuilder(name)
+                .parent(new UncheckedModelFile(
+                        ResourceLocation.tryBuild("quark", "block/vertical_slab")))
+                .texture("bottom", bottom)
+                .texture("top",    top)
+                .texture("side",   side);
+        if (renderType != null && !renderType.isEmpty()) slabModel.renderType(renderType);
+
+        // double 变体
+        BlockModelBuilder doubleModel = models().getBuilder(name + "_double")
+                .parent(new UncheckedModelFile(securitycraftLoc("block/reinforced_cube_all")))
+                .texture("all", side);
+        if (renderType != null && !renderType.isEmpty()) doubleModel.renderType(renderType);
+
+        getVariantBuilder(block)
+                .partialState().with(VerticalSlabBlock.TYPE, VerticalSlabBlock.VerticalSlabType.NORTH)
+                .modelForState().modelFile(slabModel).rotationY(0).uvLock(true).addModel()
+                .partialState().with(VerticalSlabBlock.TYPE, VerticalSlabBlock.VerticalSlabType.SOUTH)
+                .modelForState().modelFile(slabModel).rotationY(180).uvLock(true).addModel()
+                .partialState().with(VerticalSlabBlock.TYPE, VerticalSlabBlock.VerticalSlabType.EAST)
+                .modelForState().modelFile(slabModel).rotationY(90).uvLock(true).addModel()
+                .partialState().with(VerticalSlabBlock.TYPE, VerticalSlabBlock.VerticalSlabType.WEST)
+                .modelForState().modelFile(slabModel).rotationY(270).uvLock(true).addModel()
+                .partialState().with(VerticalSlabBlock.TYPE, VerticalSlabBlock.VerticalSlabType.DOUBLE)
+                .modelForState().modelFile(doubleModel).addModel();
+
+        itemModels().withExistingParent(name, modLoc("block/" + name));
+    }
+
     // ========== 工具方法 ==========
 
     /** 快速创建 minecraft 命名空间的 ResourceLocation */
@@ -559,5 +637,123 @@ public class SCBEBlockStateProvider extends BlockStateProvider {
     }
     public static ResourceLocation securitycraftLoc(String path) {
         return ResourceLocation.tryBuild("securitycraft", path);
+    }
+
+    // ---------- 纹理读取 ----------
+
+    /**
+     * 读取方块最终纹理映射。
+     * 流程：blockstates/<id>.json -> 取第一个 model -> 沿 parent 链合并 textures。
+     */
+    private Map<String, ResourceLocation> readBlockTextures(ResourceLocation blockId) {
+        JsonObject blockstate = readJson(ResourceLocation.tryBuild(
+                blockId.getNamespace(), blockId.getPath()),"blockstates");
+        System.out.println("Blockstate: " + blockstate + " id:" + blockId);
+        if (blockstate == null) return Map.of();
+
+        String modelRef = extractFirstModelRef(blockstate);
+        System.out.println("ModelRef: " + modelRef + " id:" + blockId);
+        if (modelRef == null) return Map.of();
+
+        ResourceLocation modelLoc = parseResourceLocation(modelRef, blockId.getNamespace());
+        return collectModelTextures(modelLoc, 0);
+    }
+
+    /** 用 ExistingFileHelper 打开 JSON，路径为 assets/<ns>/<path>.json。 */
+    private JsonObject readJson(ResourceLocation loc,String preFix) {
+        try {
+            Resource resource = existingFileHelper.getResource(loc, PackType.CLIENT_RESOURCES, ".json", preFix);
+            try (Reader reader = resource.openAsReader()) {
+                return GSON.fromJson(reader, JsonObject.class);
+            } catch (IOException e) {
+                return null;
+            }
+        }catch (FileNotFoundException e) {
+            return null;
+        }
+    }
+
+    /** 递归读取模型及其所有 parent 的 textures，子模型覆盖父模型。 */
+    private Map<String, ResourceLocation> collectModelTextures(ResourceLocation modelLoc, int depth) {
+        if (depth > 16) return Map.of();
+
+        JsonObject model = readJson(ResourceLocation.tryBuild(
+                modelLoc.getNamespace(), modelLoc.getPath()),"models");
+        if (model == null) return Map.of();
+
+        Map<String, ResourceLocation> result = new HashMap<>();
+
+        if (model.has("parent")) {
+            ResourceLocation parentLoc = parseResourceLocation(
+                    model.get("parent").getAsString(), modelLoc.getNamespace());
+            result.putAll(collectModelTextures(parentLoc, depth + 1));
+        }
+
+        if (model.has("textures")) {
+            JsonObject tex = model.getAsJsonObject("textures");
+            for (Map.Entry<String, JsonElement> e : tex.entrySet()) {
+                String raw = e.getValue().getAsString();
+                if (raw.startsWith("#")) continue; // 纹理间引用，父模型里已有直接值
+                result.put(e.getKey(), parseResourceLocation(raw, modelLoc.getNamespace()));
+            }
+        }
+        return result;
+    }
+
+// ---------- JSON 结构解析 ----------
+
+    private static String extractFirstModelRef(JsonObject blockstate) {
+        if (blockstate.has("variants")) {
+            for (Map.Entry<String, JsonElement> e : blockstate.getAsJsonObject("variants").entrySet()) {
+                String ref = extractModelRef(e.getValue());
+                if (ref != null) return ref;
+            }
+        }
+        if (blockstate.has("multipart")) {
+            for (JsonElement e : blockstate.getAsJsonArray("multipart")) {
+                if (e.isJsonObject() && e.getAsJsonObject().has("apply")) {
+                    String ref = extractModelRef(e.getAsJsonObject().get("apply"));
+                    if (ref != null) return ref;
+                }
+            }
+        }
+        return null;
+    }
+
+    private static String extractModelRef(JsonElement e) {
+        if (e.isJsonArray()) {
+            for (JsonElement c : e.getAsJsonArray()) {
+                String r = extractModelRef(c);
+                if (r != null) return r;
+            }
+            return null;
+        }
+        if (e.isJsonObject() && e.getAsJsonObject().has("model")) {
+            return e.getAsJsonObject().get("model").getAsString();
+        }
+        return null;
+    }
+
+    private static ResourceLocation parseResourceLocation(String ref, String defaultNs) {
+        if (ref.contains(":")) {
+            String[] parts = ref.split(":", 2);
+            return ResourceLocation.tryBuild(parts[0], parts[1]);
+        }
+        return ResourceLocation.tryBuild(defaultNs, ref);
+    }
+
+    /** 兜底纹理：block/<path> */
+    private static ResourceLocation fallbackTexture(ResourceLocation blockId) {
+        return ResourceLocation.tryBuild(blockId.getNamespace(), "block/" + blockId.getPath());
+    }
+
+    @SafeVarargs
+    private static <T> T firstNonNull(T... values) {
+        for (T v : values) if (v != null) return v;
+        return null;
+    }
+
+    private static ResourceLocation firstValue(Map<String, ResourceLocation> map) {
+        return map.values().stream().findFirst().orElse(null);
     }
 }

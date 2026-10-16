@@ -91,7 +91,8 @@ minecraft {
 
             // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
             args '--mod', mod_id, '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/'),
-                    '--existing-mod', 'securitycraft','--existing-mod', 'create','--existing-mod', 'simplylight','--existing-mod', 'createdeco'
+                    '--existing-mod', 'securitycraft','--existing-mod', 'create','--existing-mod', 'simplylight','--existing-mod', 'createdeco',
+                    '--existing-mod', 'quark'
         }
     }
 }
@@ -132,14 +133,13 @@ repositories {
     maven {
         // location of the maven that hosts JEI files since January 2023
         name = "Jared's maven"
-        url = "https://maven.blamejared.com/"
+        url = "https://maven.blamejared.com/"  // Zeta
     }
     maven {
         // location of a maven mirror for JEI files, as a fallback
         name = "ModMaven"
         url = "https://modmaven.dev"
     }
-
 }
 
 dependencies {
@@ -179,6 +179,11 @@ dependencies {
 
     // The One Probe
     runtimeOnly(fg.deobf("curse.maven:the-one-probe-245211:8856919"))
+
+    // Quark
+    implementation(fg.deobf("org.violetmoon.zeta:Zeta:1.0-31.1"))
+    compileOnly fg.deobf("org.violetmoon.quark:Quark:4.0-462.3531")
+    runtimeOnly fg.deobf("org.violetmoon.quark:Quark:4.0-462.3531")
 
 }
 

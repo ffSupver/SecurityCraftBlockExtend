@@ -14,7 +14,8 @@ public record SCBEBlockLootData(
         /** 无掉落 */
         NO_DROP,
         /** 台阶掉落 根据BlockState */
-        SLAB
+        SLAB,
+        VERTICAL_SLAB
     }
     public static SCBEBlockLootData dropSelf(Supplier<? extends Block> block){
         return new SCBEBlockLootData(block, BlockLootType.DROP_SELF);
