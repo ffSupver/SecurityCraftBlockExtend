@@ -1,0 +1,6 @@
+{
+  "parent": "securitycraft:block/reinforced_cube_all",
+  "textures": {
+    "all": "quark:block/smooth_stone_vertical_slab_side"
+  }
+}

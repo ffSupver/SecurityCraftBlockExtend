@@ -2,6 +2,10 @@
   "values": [
     "securitycraft_block_extend:reinforced_wet_sponge",
     {
+      "id": "securitycraft_block_extend:reinforced_thatch_stairs",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_thatch_vertical_slab",
       "required": false
     }

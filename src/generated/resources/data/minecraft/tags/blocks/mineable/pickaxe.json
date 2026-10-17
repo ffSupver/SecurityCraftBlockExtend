@@ -1221,7 +1221,15 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_dripstone_bricks_stairs",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_polished_andesite_vertical_slab",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_light_gray_shingles_stairs",
       "required": false
     },
     {
@@ -1229,7 +1237,35 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_polished_calcite_stairs",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_green_shingles_stairs",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_rusty_iron_plate_stairs",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_sandstone_bricks_stairs",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_rusty_iron_plate_vertical_slab",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_brown_shingles_stairs",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_shale_stairs",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_jasper_bricks_stairs",
       "required": false
     },
     {
@@ -1257,11 +1293,23 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_black_shingles_stairs",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_polished_deepslate_vertical_slab",
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_netherrack_bricks_stairs",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_smooth_sandstone_vertical_slab",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_polished_limestone_stairs",
       "required": false
     },
     {
@@ -1277,6 +1325,10 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_cobblestone_bricks_stairs",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_jasper_vertical_slab",
       "required": false
     },
@@ -1285,11 +1337,31 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_raw_iron_bricks_stairs",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_light_gray_shingles_vertical_slab",
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_polished_jasper_stairs",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_cyan_shingles_stairs",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_andesite_bricks_stairs",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_red_sandstone_vertical_slab",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_tuff_bricks_stairs",
       "required": false
     },
     {
@@ -1302,6 +1374,10 @@
     },
     {
       "id": "securitycraft_block_extend:reinforced_purpur_vertical_slab",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_tuff_stairs",
       "required": false
     },
     {
@@ -1321,7 +1397,15 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_white_shingles_stairs",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_polished_shale_vertical_slab",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_iron_plate_stairs",
       "required": false
     },
     {
@@ -1341,6 +1425,22 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_limestone_stairs",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_magenta_shingles_stairs",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_smooth_soul_sandstone_stairs",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_light_blue_shingles_stairs",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_polished_blackstone_vertical_slab",
       "required": false
     },
@@ -1354,6 +1454,22 @@
     },
     {
       "id": "securitycraft_block_extend:reinforced_prismarine_vertical_slab",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_permafrost_bricks_stairs",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_duskbound_block_stairs",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_raw_copper_bricks_stairs",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_red_shingles_stairs",
       "required": false
     },
     {
@@ -1381,6 +1497,10 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_lime_shingles_stairs",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_nether_brick_vertical_slab",
       "required": false
     },
@@ -1389,7 +1509,27 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_blue_nether_bricks_stairs",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_diorite_bricks_stairs",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_pink_shingles_stairs",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_raw_gold_bricks_stairs",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_polished_granite_vertical_slab",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_purple_shingles_stairs",
       "required": false
     },
     {
@@ -1406,6 +1546,10 @@
     },
     {
       "id": "securitycraft_block_extend:reinforced_purple_shingles_vertical_slab",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_shingles_stairs",
       "required": false
     },
     {
@@ -1430,6 +1574,10 @@
     },
     {
       "id": "securitycraft_block_extend:reinforced_waxed_exposed_cut_copper_vertical_slab",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_blue_shingles_stairs",
       "required": false
     },
     {
@@ -1465,6 +1613,10 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_polished_myalite_stairs",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_polished_myalite_vertical_slab",
       "required": false
     },
@@ -1474,6 +1626,10 @@
     },
     {
       "id": "securitycraft_block_extend:reinforced_polished_tuff_vertical_slab",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_limestone_bricks_stairs",
       "required": false
     },
     {
@@ -1493,6 +1649,10 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_shale_bricks_stairs",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_polished_calcite_vertical_slab",
       "required": false
     },
@@ -1501,11 +1661,31 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_polished_dripstone_stairs",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_blackstone_bricks_stairs",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_diorite_vertical_slab",
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_midori_block_stairs",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_permafrost_stairs",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_jasper_bricks_vertical_slab",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_granite_bricks_stairs",
       "required": false
     },
     {
@@ -1533,11 +1713,31 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_soul_sandstone_stairs",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_oxidized_cut_copper_vertical_slab",
       "required": false
     },
     {
       "id": "securitycraft_block_extend:reinforced_myalite_vertical_slab",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_gray_shingles_stairs",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_orange_shingles_stairs",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_red_sandstone_bricks_stairs",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_polished_shale_stairs",
       "required": false
     },
     {
@@ -1554,6 +1754,10 @@
     },
     {
       "id": "securitycraft_block_extend:reinforced_andesite_vertical_slab",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_myalite_stairs",
       "required": false
     },
     {
@@ -1593,11 +1797,27 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_yellow_shingles_stairs",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_calcite_stairs",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_brown_shingles_vertical_slab",
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_polished_tuff_stairs",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_pink_shingles_vertical_slab",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_calcite_bricks_stairs",
       "required": false
     },
     {
@@ -1613,7 +1833,15 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_myalite_bricks_stairs",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_blue_shingles_vertical_slab",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_mossy_cobblestone_bricks_stairs",
       "required": false
     },
     {
@@ -1638,6 +1866,18 @@
     },
     {
       "id": "securitycraft_block_extend:reinforced_granite_vertical_slab",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_jasper_stairs",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_soul_sandstone_bricks_stairs",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_dripstone_block_stairs",
       "required": false
     },
     {

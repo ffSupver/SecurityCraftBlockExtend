@@ -70,7 +70,7 @@ public class SCBEBlockStateProvider extends BlockStateProvider {
                 case SIMPLE -> simpleGroups
                         .computeIfAbsent(data.block().get(), k -> new ArrayList<>())
                         .add(data);
-                case STAIRS -> reinforcedStairs(data.name(), data.block().get(), data.textures().get("side"));
+                case STAIRS -> reinforcedStairs(data.name(), data.block().get(), data.textures());
                 case SLAB -> reinforcedSlab(data.name(), data.block().get(), data.textures().get("side"));
                 case WALL -> reinforcedWall(data.name(), (WallBlock) data.block().get(), data.textures().get("wall"));
                 case PILLAR -> reinforcedPillar(data.name(), data.block(), data.parentModel(), data.textures());
@@ -216,14 +216,18 @@ public class SCBEBlockStateProvider extends BlockStateProvider {
 
     // ============ 楼梯：手动构建变体 ============
 
-    private void reinforcedStairs(String name, Block block, ResourceLocation texture) {
-        // 生成三个基础模型：直、内角、外角
+    private void reinforcedStairs(String name, Block block, Map<String, ResourceLocation> textures) {
+        Map<String, ResourceLocation> tex = resolveTextureSet(textures);
+        ResourceLocation side   = tex.get("side");
+        ResourceLocation bottom = tex.getOrDefault("bottom", side);
+        ResourceLocation top    = tex.getOrDefault("top",    side);
+
         ModelFile stairs      = models().withExistingParent(name, securitycraftLoc("block/reinforced_stairs"))
-                .texture("bottom", texture).texture("top", texture).texture("side", texture);
+                .texture("bottom", bottom).texture("top", top).texture("side", side);
         ModelFile stairsInner = models().withExistingParent(name + "_inner", securitycraftLoc("block/reinforced_inner_stairs"))
-                .texture("bottom", texture).texture("top", texture).texture("side", texture);
+                .texture("bottom", bottom).texture("top", top).texture("side", side);
         ModelFile stairsOuter = models().withExistingParent(name + "_outer", securitycraftLoc("block/reinforced_outer_stairs"))
-                .texture("bottom", texture).texture("top", texture).texture("side", texture);
+                .texture("bottom", bottom).texture("top", top).texture("side", side);
 
         getVariantBuilder(block).forAllStatesExcept(state -> {
             Direction facing = state.getValue(ReinforcedStairsBlock.FACING);
@@ -572,32 +576,10 @@ public class SCBEBlockStateProvider extends BlockStateProvider {
     private void reinforcedVerticalSlab(String name, Block block,
                                         Map<String, ResourceLocation> textures,
                                         String renderType) {
-
-        ResourceLocation side;
-        ResourceLocation bottom;
-        ResourceLocation top;
-
-        ResourceLocation parentId = textures.get("parentId");
-        if (parentId != null) {
-            // 使用数据生成 API 动态解析父方块纹理
-            Map<String, ResourceLocation> parentTex = readBlockTextures(parentId);
-            System.out.println("VSlabTextures: " + parentTex+" id:"+name+" parentId:"+parentId);
-
-            side = firstNonNull(
-                    parentTex.get("side"),
-                    parentTex.get("all"),
-                    parentTex.get("texture"),
-                    parentTex.get("particle"),
-                    firstValue(parentTex),
-                    fallbackTexture(parentId)
-            );
-            bottom = firstNonNull(parentTex.get("bottom"), parentTex.get("end"), side);
-            top    = firstNonNull(parentTex.get("top"),    parentTex.get("end"), side);
-        } else {
-            side   = textures.get("side") != null ? textures.get("side") : textures.get("all");
-            bottom = textures.getOrDefault("bottom", side);
-            top    = textures.getOrDefault("top",    side);
-        }
+        Map<String, ResourceLocation> tex = resolveTextureSet(textures);
+        ResourceLocation side   = tex.get("side");
+        ResourceLocation bottom = tex.getOrDefault("bottom", side);
+        ResourceLocation top    = tex.getOrDefault("top",    side);
 
         // 竖半砖模型
         BlockModelBuilder slabModel = models().getBuilder(name)
@@ -642,6 +624,43 @@ public class SCBEBlockStateProvider extends BlockStateProvider {
     // ---------- 纹理读取 ----------
 
     /**
+     * 从 data.textures() 解析出最终使用的纹理集合，结果保证包含 side/bottom/top 三个键。
+     * - 含 "parentId"：通过 readBlockTextures 动态读取该方块模型的最终纹理；
+     *   side 依次尝试 side/all/texture/particle/任意值/block/<path> 兜底；
+     *   bottom 依次尝试 bottom/end，top 依次尝试 top/end，都没有则退化为 side。
+     * - 不含 "parentId"：使用 map 里直接给出的 side/all、bottom、top。
+     */
+    private Map<String, ResourceLocation> resolveTextureSet(Map<String, ResourceLocation> textures) {
+        ResourceLocation parentId = textures.get("parentId");
+        ResourceLocation side, bottom, top;
+
+        if (parentId != null) {
+            Map<String, ResourceLocation> parentTex = readBlockTextures(parentId);
+
+            side = firstNonNull(
+                    parentTex.get("side"),
+                    parentTex.get("all"),
+                    parentTex.get("texture"),
+                    parentTex.get("particle"),
+                    firstValue(parentTex),
+                    fallbackTexture(parentId)
+            );
+            bottom = firstNonNull(parentTex.get("bottom"), parentTex.get("end"), side);
+            top    = firstNonNull(parentTex.get("top"),    parentTex.get("end"), side);
+        } else {
+            side   = firstNonNull(textures.get("side"), textures.get("all"), textures.get("texture"));
+            bottom = firstNonNull(textures.get("bottom"), textures.get("end"), side);
+            top    = firstNonNull(textures.get("top"),    textures.get("end"), side);
+        }
+
+        Map<String, ResourceLocation> result = new HashMap<>();
+        result.put("side",   side);
+        result.put("bottom", bottom);
+        result.put("top",    top);
+        return result;
+    }
+
+    /**
      * 读取方块最终纹理映射。
      * 流程：blockstates/<id>.json -> 取第一个 model -> 沿 parent 链合并 textures。
      */
@@ -655,7 +674,7 @@ public class SCBEBlockStateProvider extends BlockStateProvider {
         System.out.println("ModelRef: " + modelRef + " id:" + blockId);
         if (modelRef == null) return Map.of();
 
-        ResourceLocation modelLoc = parseResourceLocation(modelRef, blockId.getNamespace());
+        ResourceLocation modelLoc = ResourceLocation.parse(modelRef);
         return collectModelTextures(modelLoc, 0);
     }
 
@@ -684,8 +703,7 @@ public class SCBEBlockStateProvider extends BlockStateProvider {
         Map<String, ResourceLocation> result = new HashMap<>();
 
         if (model.has("parent")) {
-            ResourceLocation parentLoc = parseResourceLocation(
-                    model.get("parent").getAsString(), modelLoc.getNamespace());
+            ResourceLocation parentLoc = ResourceLocation.parse(model.get("parent").getAsString());
             result.putAll(collectModelTextures(parentLoc, depth + 1));
         }
 
@@ -694,9 +712,10 @@ public class SCBEBlockStateProvider extends BlockStateProvider {
             for (Map.Entry<String, JsonElement> e : tex.entrySet()) {
                 String raw = e.getValue().getAsString();
                 if (raw.startsWith("#")) continue; // 纹理间引用，父模型里已有直接值
-                result.put(e.getKey(), parseResourceLocation(raw, modelLoc.getNamespace()));
+                result.put(e.getKey(), ResourceLocation.parse(raw));
             }
         }
+        System.out.println("ModelTextures: " + result + " id:" + modelLoc);
         return result;
     }
 
@@ -732,14 +751,6 @@ public class SCBEBlockStateProvider extends BlockStateProvider {
             return e.getAsJsonObject().get("model").getAsString();
         }
         return null;
-    }
-
-    private static ResourceLocation parseResourceLocation(String ref, String defaultNs) {
-        if (ref.contains(":")) {
-            String[] parts = ref.split(":", 2);
-            return ResourceLocation.tryBuild(parts[0], parts[1]);
-        }
-        return ResourceLocation.tryBuild(defaultNs, ref);
     }
 
     /** 兜底纹理：block/<path> */

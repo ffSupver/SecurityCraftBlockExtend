@@ -1,0 +1,26 @@
+{
+  "variants": {
+    "type=double": {
+      "model": "securitycraft_block_extend:block/reinforced_warped_vertical_slab_double"
+    },
+    "type=east": {
+      "model": "securitycraft_block_extend:block/reinforced_warped_vertical_slab",
+      "uvlock": true,
+      "y": 90
+    },
+    "type=north": {
+      "model": "securitycraft_block_extend:block/reinforced_warped_vertical_slab",
+      "uvlock": true
+    },
+    "type=south": {
+      "model": "securitycraft_block_extend:block/reinforced_warped_vertical_slab",
+      "uvlock": true,
+      "y": 180
+    },
+    "type=west": {
+      "model": "securitycraft_block_extend:block/reinforced_warped_vertical_slab",
+      "uvlock": true,
+      "y": 270
+    }
+  }
+}
