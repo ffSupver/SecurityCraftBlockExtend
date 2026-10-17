@@ -3,11 +3,15 @@ package com.ffsupver.securityCraftBlockExtend.registeries;
 import com.ffsupver.securityCraftBlockExtend.SecurityCraftBlockExtend;
 import net.geforcemods.securitycraft.api.IReinforcedBlock;
 import net.geforcemods.securitycraft.blocks.reinforced.BaseReinforcedBlock;
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.registries.DeferredRegister;
@@ -21,6 +25,7 @@ import java.util.function.UnaryOperator;
 
 public class SCBEBlocks {
     public static DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, SecurityCraftBlockExtend.MODID);
+    public static final Map<Supplier<? extends Block>,ColorProcessor> REINFORCED_TINT_BLOCK_PROCESSORS = new HashMap<>();
     /** 所有需要"强化深色色调"的方块，注册时自动加入 */
     private static final List<Supplier<? extends Block>> REINFORCED_TINT_BLOCKS = new ArrayList<>();
     private static final Map<Supplier<? extends IReinforcedBlock>,Supplier<? extends Block>> REINFORCED_BLOCKS = new HashMap<>();
@@ -122,5 +127,24 @@ public class SCBEBlocks {
 
     public static List<Supplier<? extends Block>> getReinforcedTintBlocks() {
         return Collections.unmodifiableList(REINFORCED_TINT_BLOCKS);
+    }
+
+    public interface ColorProcessor{
+        /**
+         * 处理方块的基础 tint。
+         *
+         * @param currentTint 当前累积的 tint，初始为 0xFFFFFF
+         * @return 处理后的 tint（ARGB）
+         */
+        int process(BlockState state, BlockAndTintGetter level, BlockPos pos,
+                    int tintIndex, int currentTint);
+
+        /**
+         * 物品栏中的基础 tint 处理。默认不改变颜色。
+         * 如果方块在物品栏中也需要位置色，可重写此方法。
+         */
+        default int processItem(ItemStack stack, int tintIndex, int currentTint) {
+            return currentTint;
+        }
     }
 }

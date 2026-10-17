@@ -602,7 +602,7 @@ public class SCBEBlockStateProvider extends BlockStateProvider {
         // 竖半砖模型
         BlockModelBuilder slabModel = models().getBuilder(name)
                 .parent(new UncheckedModelFile(
-                        ResourceLocation.tryBuild("quark", "block/vertical_slab")))
+                        ResourceLocation.tryBuild("quark", "block/vertical_slab_tinted"))) // 叠加强化颜色
                 .texture("bottom", bottom)
                 .texture("top",    top)
                 .texture("side",   side);

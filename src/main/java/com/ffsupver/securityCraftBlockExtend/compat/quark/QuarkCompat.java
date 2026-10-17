@@ -6,9 +6,17 @@ import com.ffsupver.securityCraftBlockExtend.dataGen.SCBEBlockLootData;
 import com.ffsupver.securityCraftBlockExtend.dataGen.SCBEBlockModelData;
 import com.ffsupver.securityCraftBlockExtend.dataGen.SCBEBlockTagData;
 import com.ffsupver.securityCraftBlockExtend.registeries.SCBEBlocks;
+import net.minecraft.client.Minecraft;
+import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.FastColor;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
@@ -16,6 +24,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegisterEvent;
 import net.minecraftforge.registries.RegistryObject;
 import org.violetmoon.quark.content.building.block.QuarkVerticalSlabBlock;
+import org.violetmoon.quark.content.world.block.MyaliteColorLogic;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,6 +42,43 @@ public class QuarkCompat implements SCBEModCompat {
     private final List<SCBEBlockModelData> modelDataList = new ArrayList<>();
     private final List<SCBEBlockLootData> lootTableProviders = new ArrayList<>();
     private final List<SCBEBlockTagData> blockTagDataList = new ArrayList<>();
+
+    private static final SCBEBlocks.ColorProcessor MYALITE_PROCESSOR =
+            new SCBEBlocks.ColorProcessor() {
+                @Override
+                public int process(BlockState state, BlockAndTintGetter level, BlockPos pos,
+                                   int tintIndex, int currentTint) {
+                    BlockPos colorPos = pos;
+                    if (colorPos == null) {
+                        Minecraft mc = Minecraft.getInstance();
+                        colorPos = BlockPos.ZERO;
+                        if (mc.player != null) {
+                            colorPos = mc.player.blockPosition();
+                            HitResult hit = mc.hitResult;
+                            if (hit != null && hit.getType() == HitResult.Type.BLOCK) {
+                                colorPos = ((BlockHitResult) hit).getBlockPos();
+                            }
+                        }
+                    }
+                    int myaliteTint = MyaliteColorLogic.getColor(colorPos);
+                    return FastColor.ARGB32.multiply(currentTint, myaliteTint);
+                }
+
+                @Override
+                public int processItem(ItemStack stack, int tintIndex, int currentTint) {
+                    Minecraft mc = Minecraft.getInstance();
+                    BlockPos pos = BlockPos.ZERO;
+                    if (mc.player != null) {
+                        pos = mc.player.blockPosition();
+                        HitResult hit = mc.hitResult;
+                        if (hit != null && hit.getType() == HitResult.Type.BLOCK) {
+                            pos = ((BlockHitResult) hit).getBlockPos();
+                        }
+                    }
+                    int myaliteTint = MyaliteColorLogic.getColor(pos);
+                    return FastColor.ARGB32.multiply(currentTint, myaliteTint);
+                }
+            };
 
     @Override
     public String getModId() {
@@ -88,11 +134,14 @@ public class QuarkCompat implements SCBEModCompat {
                 creativeTabItems.add(reg::get);
                 lootTableProviders.add(new SCBEBlockLootData(reg,SCBEBlockLootData.BlockLootType.VERTICAL_SLAB));
                 SCBEBlocks.registerReinforcedBlockMapping(reg,reg);
+                SCBEBlocks.registerReinforcedTintBlock(reg);
+                if (id.getPath().contains("myalite")){ // 幻境石需要特殊处理
+                    SCBEBlocks.REINFORCED_TINT_BLOCK_PROCESSORS.put(reg,MYALITE_PROCESSOR);
+                }
                 blockTagDataList.add(builder.reinforced().build());
                 QUARK_REINFORCED_BLOCKS.put(block, reg);
             }
         }
-
     }
 
     @Override

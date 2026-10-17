@@ -15,6 +15,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 
+import java.util.Map;
 import java.util.function.Supplier;
 
 @Mod.EventBusSubscriber(modid = SecurityCraftBlockExtend.MODID, bus = Bus.MOD, value = Dist.CLIENT)
@@ -41,16 +42,41 @@ public class SCBEClientHandler {
                                             BlockPos pos, int tintIndex) {
         if (tintIndex != 0) return 0xFFFFFF;
 
+        int baseTint = 0xFFFFFF;
+
+        for (Map.Entry<Supplier<? extends Block>, SCBEBlocks.ColorProcessor> entry
+                : SCBEBlocks.REINFORCED_TINT_BLOCK_PROCESSORS.entrySet()) {
+            Block block = entry.getKey().get();
+            if (block != null && state.is(block)) {
+                baseTint = entry.getValue().process(state, level, pos, tintIndex, baseTint);
+            }
+        }
+
         IOwnable ownable = null;
         if (level != null && pos != null) {
             BlockEntity be = level.getBlockEntity(pos);
             if (be instanceof IOwnable o) ownable = o;
         }
-        return ClientHandler.mixWithReinforcedTintIfEnabled(0xFFFFFF, ownable);
+
+        return ClientHandler.mixWithReinforcedTintIfEnabled(baseTint, ownable);
     }
 
     private static int reinforcedItemColor(ItemStack stack, int tintIndex) {
         if (tintIndex != 0) return 0xFFFFFF;
-        return ClientHandler.mixWithReinforcedTintIfEnabled(0xFFFFFF, null);
+
+        int baseTint = 0xFFFFFF;
+        Block itemBlock = Block.byItem(stack.getItem());
+
+        if (itemBlock != null) {
+            for (Map.Entry<Supplier<? extends Block>, SCBEBlocks.ColorProcessor> entry
+                    : SCBEBlocks.REINFORCED_TINT_BLOCK_PROCESSORS.entrySet()) {
+                Block block = entry.getKey().get();
+                if (block != null && itemBlock == block) {
+                    baseTint = entry.getValue().processItem(stack, tintIndex, baseTint);
+                }
+            }
+        }
+
+        return ClientHandler.mixWithReinforcedTintIfEnabled(baseTint, null);
     }
 }
