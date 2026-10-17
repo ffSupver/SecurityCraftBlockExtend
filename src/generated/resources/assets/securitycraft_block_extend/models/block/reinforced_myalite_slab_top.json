@@ -1,0 +1,8 @@
+{
+  "parent": "securitycraft:block/reinforced_slab_top",
+  "textures": {
+    "bottom": "quark:block/myalite",
+    "side": "quark:block/myalite",
+    "top": "quark:block/myalite"
+  }
+}

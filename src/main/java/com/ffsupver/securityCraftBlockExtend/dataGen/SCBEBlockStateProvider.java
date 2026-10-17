@@ -71,7 +71,7 @@ public class SCBEBlockStateProvider extends BlockStateProvider {
                         .computeIfAbsent(data.block().get(), k -> new ArrayList<>())
                         .add(data);
                 case STAIRS -> reinforcedStairs(data.name(), data.block().get(), data.textures());
-                case SLAB -> reinforcedSlab(data.name(), data.block().get(), data.textures().get("side"));
+                case SLAB -> reinforcedSlab(data.name(), data.block().get(), data.textures());
                 case WALL -> reinforcedWall(data.name(), (WallBlock) data.block().get(), data.textures().get("wall"));
                 case PILLAR -> reinforcedPillar(data.name(), data.block(), data.parentModel(), data.textures());
                 case CREATE_CONNECTED_PANE -> reinforcedPane(data.name(), (ReinforcedPaneBlock) data.block().get(), data.renderType(), data.textures());
@@ -261,13 +261,18 @@ public class SCBEBlockStateProvider extends BlockStateProvider {
 
     // ============ 台阶：手动构建变体 ============
 
-    private void reinforcedSlab(String name, Block block, ResourceLocation texture) {
+    private void reinforcedSlab(String name, Block block, Map<String, ResourceLocation> textures) {
+        Map<String, ResourceLocation> tex = resolveTextureSet(textures);
+        ResourceLocation side   = firstNonNull(tex.get("side"), tex.get("all"), tex.get("texture"));
+        ResourceLocation bottom = tex.getOrDefault("bottom", side);
+        ResourceLocation top    = tex.getOrDefault("top",    side);
+
         ModelFile slabBottom = models().withExistingParent(name, securitycraftLoc("block/reinforced_slab"))
-                .texture("bottom", texture).texture("top", texture).texture("side", texture);
+                .texture("bottom", bottom).texture("top", top).texture("side", side);
         ModelFile slabTop = models().withExistingParent(name + "_top", securitycraftLoc("block/reinforced_slab_top"))
-                .texture("bottom", texture).texture("top", texture).texture("side", texture);
+                .texture("bottom", bottom).texture("top", top).texture("side", side);
         ModelFile slabDouble = models().withExistingParent(name + "_double", securitycraftLoc("block/reinforced_cube_all"))
-                .texture("all", texture);
+                .texture("all", side);
 
         getVariantBuilder(block)
                 .partialState().with(ReinforcedSlabBlock.TYPE, SlabType.BOTTOM)
@@ -624,34 +629,31 @@ public class SCBEBlockStateProvider extends BlockStateProvider {
     // ---------- 纹理读取 ----------
 
     /**
-     * 从 data.textures() 解析出最终使用的纹理集合，结果保证包含 side/bottom/top 三个键。
-     * - 含 "parentId"：通过 readBlockTextures 动态读取该方块模型的最终纹理；
-     *   side 依次尝试 side/all/texture/particle/任意值/block/<path> 兜底；
-     *   bottom 依次尝试 bottom/end，top 依次尝试 top/end，都没有则退化为 side。
-     * - 不含 "parentId"：使用 map 里直接给出的 side/all、bottom、top。
+     * 从 data.textures() 解析出最终使用的纹理集合。
+     * - 不含 "parentId"：直接原样返回调用方传入的 textures（保留所有键，不丢弃）。
+     * - 含 "parentId"：通过 readBlockTextures 动态读取该方块模型的最终纹理，
+     *   返回 side/bottom/top 三个键（side 依次尝试 side/all/texture/particle/任意值/block/<path> 兜底，
+     *   bottom 依次尝试 bottom/end，top 依次尝试 top/end，都退化为 side）。
      */
     private Map<String, ResourceLocation> resolveTextureSet(Map<String, ResourceLocation> textures) {
         ResourceLocation parentId = textures.get("parentId");
-        ResourceLocation side, bottom, top;
-
-        if (parentId != null) {
-            Map<String, ResourceLocation> parentTex = readBlockTextures(parentId);
-
-            side = firstNonNull(
-                    parentTex.get("side"),
-                    parentTex.get("all"),
-                    parentTex.get("texture"),
-                    parentTex.get("particle"),
-                    firstValue(parentTex),
-                    fallbackTexture(parentId)
-            );
-            bottom = firstNonNull(parentTex.get("bottom"), parentTex.get("end"), side);
-            top    = firstNonNull(parentTex.get("top"),    parentTex.get("end"), side);
-        } else {
-            side   = firstNonNull(textures.get("side"), textures.get("all"), textures.get("texture"));
-            bottom = firstNonNull(textures.get("bottom"), textures.get("end"), side);
-            top    = firstNonNull(textures.get("top"),    textures.get("end"), side);
+        if (parentId == null) {
+            // 没有 parentId，原样返回，不丢弃任何键
+            return textures;
         }
+
+        Map<String, ResourceLocation> parentTex = readBlockTextures(parentId);
+
+        ResourceLocation side = firstNonNull(
+                parentTex.get("side"),
+                parentTex.get("all"),
+                parentTex.get("texture"),
+                parentTex.get("particle"),
+                firstValue(parentTex),
+                fallbackTexture(parentId)
+        );
+        ResourceLocation bottom = firstNonNull(parentTex.get("bottom"), parentTex.get("end"), side);
+        ResourceLocation top    = firstNonNull(parentTex.get("top"),    parentTex.get("end"), side);
 
         Map<String, ResourceLocation> result = new HashMap<>();
         result.put("side",   side);

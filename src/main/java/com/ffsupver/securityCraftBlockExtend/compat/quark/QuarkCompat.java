@@ -7,16 +7,18 @@ import com.ffsupver.securityCraftBlockExtend.dataGen.SCBEBlockModelData;
 import com.ffsupver.securityCraftBlockExtend.dataGen.SCBEBlockTagData;
 import com.ffsupver.securityCraftBlockExtend.registeries.SCBEBlocks;
 import net.geforcemods.securitycraft.SecurityCraft;
+import net.geforcemods.securitycraft.blocks.reinforced.BaseReinforcedBlock;
+import net.geforcemods.securitycraft.blocks.reinforced.ReinforcedSlabBlock;
 import net.geforcemods.securitycraft.blocks.reinforced.ReinforcedStairsBlock;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.FastColor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
@@ -28,12 +30,15 @@ import net.minecraftforge.registries.RegisterEvent;
 import net.minecraftforge.registries.RegistryObject;
 import org.violetmoon.quark.content.building.block.QuarkVerticalSlabBlock;
 import org.violetmoon.quark.content.world.block.MyaliteColorLogic;
+import org.violetmoon.zeta.block.ZetaSlabBlock;
 import org.violetmoon.zeta.block.ZetaStairsBlock;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
 
@@ -100,81 +105,98 @@ public class QuarkCompat implements SCBEModCompat {
         if (!event.getRegistryKey().equals(ForgeRegistries.Keys.BLOCKS)) return;
         populated = true;
 
-        System.out.println("OnRegister QuarkCompat:\n"+ QuarkBlocksCapture.QUARK_BLOCKS.size());
+        System.out.println("OnRegister QuarkCompat:"+ QuarkBlocksCapture.QUARK_BLOCKS.size());
         for (Map.Entry<ResourceLocation, Block> bE : QuarkBlocksCapture.QUARK_BLOCKS.entrySet()){
             Block block = bE.getValue();
             ResourceLocation originalId = bE.getKey();
             String name = "reinforced_" + originalId.getPath();
-            if (block instanceof QuarkVerticalSlabBlock quarkVerticalSlabBlock){
+
+            if (block instanceof QuarkVerticalSlabBlock quarkVerticalSlabBlock) {
                 Block parent = quarkVerticalSlabBlock.parent.get();
-                ResourceLocation parentId = ForgeRegistries.BLOCKS.getKey(parent);
-                if (parentId == null) continue;
+                if (ForgeRegistries.BLOCKS.getKey(parent) == null) continue;
 
-                System.out.println("OnRegister QuarkCompat VerticalSlabBlock: "+originalId+" parent: "+parentId+ " parentBlock: "+parent+" c:"+parent.getClass().getName());
-
-                RegistryObject<ReinforcedVerticalSlab> reg = SCBEBlocks.registerBlock(
-                        name,
-                        p->new ReinforcedVerticalSlab(p, block),
-                        ()->SCBEBlocks.reinforcedCopy(block, UnaryOperator.identity()),
-                        BLOCKS
-                );
-                SCBEBlockTagData.Builder builder = new SCBEBlockTagData.Builder(reg);
-
-                System.out.println(name+"contains"+QuarkBlockTags.BLOCK_TAGS.containsKey(originalId.getPath())+" pPath:"+originalId.getPath());
-                if (QuarkBlockTags.BLOCK_TAGS.containsKey(originalId.getPath())) {
-                    QuarkBlockTags.BLOCK_TAGS.get(originalId.getPath()).forEach(builder::add);
-                }
-
-
-                modelDataList.add(new SCBEBlockModelData(
-                        name,
-                        reg,
-                        ResourceLocation.tryBuild("quark", "block/vertical_slab"),
-                        Map.of("parentId", originalId),
-                        null,
+                registerQuarkReinforced(
+                        name, originalId, block,
+                        ReinforcedVerticalSlab::new,
                         SCBEBlockModelData.BlockType.VERTICAL_SLAB,
-                        null
-                ));
-                creativeTabItems.add(reg::get);
-                lootTableProviders.add(new SCBEBlockLootData(reg,SCBEBlockLootData.BlockLootType.VERTICAL_SLAB));
-                SCBEBlocks.registerReinforcedBlockMapping(reg,reg);
-                SCBEBlocks.registerReinforcedTintBlock(reg);
-                if (originalId.getPath().contains("myalite")){ // 幻境石需要特殊处理
-                    SCBEBlocks.REINFORCED_TINT_BLOCK_PROCESSORS.put(reg,MYALITE_PROCESSOR);
-                }
-                blockTagDataList.add(builder.reinforced().build());
-                QUARK_REINFORCED_BLOCKS.put(block, reg);
-            }else if (block instanceof ZetaStairsBlock zetaStairsBlock){
-                RegistryObject<ReinforcedStairsBlock> reg = SCBEBlocks.registerBlock(
-                        name,
-                        p->new ReinforcedStairsBlock(p, block),
-                        ()->SCBEBlocks.reinforcedCopy(block, UnaryOperator.identity()),
-                        BLOCKS
+                        ResourceLocation.tryBuild("quark", "block/vertical_slab"), // 这个参数不会使用
+                        reg -> new SCBEBlockLootData(reg, SCBEBlockLootData.BlockLootType.VERTICAL_SLAB)
                 );
-                SCBEBlockTagData.Builder builder = new SCBEBlockTagData.Builder(reg);
-                if (QuarkBlockTags.BLOCK_TAGS.containsKey(originalId.getPath())) {
-                    QuarkBlockTags.BLOCK_TAGS.get(originalId.getPath()).forEach(builder::add);
-                }
-                modelDataList.add(new SCBEBlockModelData(
-                        name,
-                        reg,
-                        ResourceLocation.tryBuild(SecurityCraft.MODID, "block/reinforced_stairs"), // 不使用这个参数
-                        Map.of("parentId", originalId),
-                        null,
+
+            } else if (block instanceof ZetaStairsBlock) {
+                registerQuarkReinforced(
+                        name, originalId, block,
+                        ReinforcedStairsBlock::new,
                         SCBEBlockModelData.BlockType.STAIRS,
-                        null
-                ));
-                creativeTabItems.add(reg::get);
-                lootTableProviders.add(SCBEBlockLootData.dropSelf(reg));
-                SCBEBlocks.registerReinforcedBlockMapping(reg,reg);
-                SCBEBlocks.registerReinforcedTintBlock(reg);
-                if (originalId.getPath().contains("myalite")){ // 幻境石需要特殊处理
-                    SCBEBlocks.REINFORCED_TINT_BLOCK_PROCESSORS.put(reg,MYALITE_PROCESSOR);
-                }
-                blockTagDataList.add(builder.reinforced().build());
-                QUARK_REINFORCED_BLOCKS.put(block, reg);
+                        ResourceLocation.tryBuild(SecurityCraft.MODID, "block/reinforced_stairs"), // 这个参数不会使用
+                        SCBEBlockLootData::dropSelf
+                );
+             } else if (block instanceof ZetaSlabBlock) {
+                 registerQuarkReinforced(
+                         name, originalId, block,
+                         ReinforcedSlabBlock::new,
+                         SCBEBlockModelData.BlockType.SLAB,
+                         ResourceLocation.tryBuild(SecurityCraft.MODID, "block/reinforced_slab"), // 这个参数不会使用
+                         reg -> new SCBEBlockLootData(reg, SCBEBlockLootData.BlockLootType.SLAB)
+                 );
             }
         }
+    }
+
+    /**
+     * Quark 兼容方块统一注册流程。
+     *
+     * @param blockFactory 构造 reinforced 方块，参数为 Block.Properties 与原始方块
+     * @param modelType    数据生成时使用的模型类型
+     * @param parentModel  模型数据的父模型（部分 BlockType 不使用，但保留以便扩展）
+     * @param lootFactory  根据注册结果生成掉落表
+     */
+    private <T extends BaseReinforcedBlock> RegistryObject<T> registerQuarkReinforced(
+            String name,
+            ResourceLocation originalId,
+            Block originalBlock,
+            BiFunction<Block.Properties, Block, T> blockFactory,
+            SCBEBlockModelData.BlockType modelType,
+            ResourceLocation parentModel,
+            Function<RegistryObject<T>, SCBEBlockLootData> lootFactory) {
+
+        RegistryObject<T> reg = SCBEBlocks.registerBlock(
+                name,
+                p -> blockFactory.apply(p, originalBlock),
+                () -> SCBEBlocks.reinforcedCopy(originalBlock, UnaryOperator.identity()),
+                BLOCKS
+        );
+
+        // 标签
+        SCBEBlockTagData.Builder tagBuilder = new SCBEBlockTagData.Builder(reg);
+        List<TagKey<Block>> tags = QuarkBlockTags.BLOCK_TAGS.get(originalId.getPath());
+        if (tags != null) {
+            tags.forEach(tagBuilder::add);
+        }
+
+        // 模型数据
+        modelDataList.add(new SCBEBlockModelData(
+                name,
+                reg,
+                parentModel,
+                Map.of("parentId", originalId),
+                null,
+                modelType,
+                null
+        ));
+
+        // 创造栏、掉落、映射、tint
+        creativeTabItems.add(reg::get);
+        lootTableProviders.add(lootFactory.apply(reg));
+        SCBEBlocks.registerReinforcedBlockMapping(reg, reg);
+        SCBEBlocks.registerReinforcedTintBlock(reg);
+        if (originalId.getPath().contains("myalite")) { // 幻境石需要特殊处理
+            SCBEBlocks.REINFORCED_TINT_BLOCK_PROCESSORS.put(reg, MYALITE_PROCESSOR);
+        }
+
+        blockTagDataList.add(tagBuilder.reinforced().build());
+        QUARK_REINFORCED_BLOCKS.put(originalBlock, reg);
+        return reg;
     }
 
     @Override

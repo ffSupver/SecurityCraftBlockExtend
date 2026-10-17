@@ -1,0 +1,16 @@
+{
+  "values": [
+    {
+      "id": "securitycraft_block_extend:reinforced_ancient_planks_slab",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_blossom_planks_slab",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_azalea_planks_slab",
+      "required": false
+    }
+  ]
+}

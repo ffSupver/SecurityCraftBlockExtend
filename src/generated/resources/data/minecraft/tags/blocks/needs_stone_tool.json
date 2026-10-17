@@ -13,6 +13,10 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_raw_copper_bricks_slab",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_weathered_cut_copper_vertical_slab",
       "required": false
     },
@@ -38,6 +42,14 @@
     },
     {
       "id": "securitycraft_block_extend:reinforced_waxed_exposed_cut_copper_vertical_slab",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_raw_iron_bricks_slab",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_raw_gold_bricks_slab",
       "required": false
     },
     {

@@ -1,6 +1,10 @@
 {
   "values": [
     {
+      "id": "securitycraft_block_extend:reinforced_iron_plate_slab",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_rusty_iron_plate_stairs",
       "required": false
     },
@@ -14,6 +18,10 @@
     },
     {
       "id": "securitycraft_block_extend:reinforced_raw_iron_bricks_stairs",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_raw_copper_bricks_slab",
       "required": false
     },
     {
@@ -38,6 +46,14 @@
     },
     {
       "id": "securitycraft_block_extend:reinforced_waxed_exposed_cut_copper_vertical_slab",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_raw_iron_bricks_slab",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_rusty_iron_plate_slab",
       "required": false
     },
     {

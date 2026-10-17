@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "securitycraft_block_extend:block/reinforced_blossom_planks_slab"
+    },
+    "type=double": {
+      "model": "securitycraft_block_extend:block/reinforced_blossom_planks_slab_double"
+    },
+    "type=top": {
+      "model": "securitycraft_block_extend:block/reinforced_blossom_planks_slab_top"
+    }
+  }
+}
