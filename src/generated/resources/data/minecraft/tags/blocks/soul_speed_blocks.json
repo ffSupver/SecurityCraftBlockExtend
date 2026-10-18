@@ -17,6 +17,10 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_soul_sandstone_wall",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_soul_sandstone_bricks_slab",
       "required": false
     },
@@ -26,6 +30,10 @@
     },
     {
       "id": "securitycraft_block_extend:reinforced_cut_soul_sandstone_slab",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_soul_sandstone_bricks_wall",
       "required": false
     },
     {

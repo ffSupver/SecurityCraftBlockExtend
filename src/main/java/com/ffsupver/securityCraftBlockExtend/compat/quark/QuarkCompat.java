@@ -7,9 +7,11 @@ import com.ffsupver.securityCraftBlockExtend.dataGen.SCBEBlockModelData;
 import com.ffsupver.securityCraftBlockExtend.dataGen.SCBEBlockTagData;
 import com.ffsupver.securityCraftBlockExtend.registeries.SCBEBlocks;
 import net.geforcemods.securitycraft.SecurityCraft;
+import net.geforcemods.securitycraft.api.IReinforcedBlock;
 import net.geforcemods.securitycraft.blocks.reinforced.BaseReinforcedBlock;
 import net.geforcemods.securitycraft.blocks.reinforced.ReinforcedSlabBlock;
 import net.geforcemods.securitycraft.blocks.reinforced.ReinforcedStairsBlock;
+import net.geforcemods.securitycraft.blocks.reinforced.ReinforcedWallBlock;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
@@ -19,6 +21,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
@@ -28,10 +31,10 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegisterEvent;
 import net.minecraftforge.registries.RegistryObject;
-import org.violetmoon.quark.content.building.block.QuarkVerticalSlabBlock;
+import org.violetmoon.quark.content.building.block.*;
+import org.violetmoon.quark.content.world.block.MonsterBoxBlock;
 import org.violetmoon.quark.content.world.block.MyaliteColorLogic;
-import org.violetmoon.zeta.block.ZetaSlabBlock;
-import org.violetmoon.zeta.block.ZetaStairsBlock;
+import org.violetmoon.zeta.block.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -106,6 +109,7 @@ public class QuarkCompat implements SCBEModCompat {
         populated = true;
 
         System.out.println("OnRegister QuarkCompat:"+ QuarkBlocksCapture.QUARK_BLOCKS.size());
+        int verticalCount = 0, stairsCount = 0, slabCount = 0,wallCount = 0, unprocessCount = 0;
         for (Map.Entry<ResourceLocation, Block> bE : QuarkBlocksCapture.QUARK_BLOCKS.entrySet()){
             Block block = bE.getValue();
             ResourceLocation originalId = bE.getKey();
@@ -123,6 +127,7 @@ public class QuarkCompat implements SCBEModCompat {
                         reg -> new SCBEBlockLootData(reg, SCBEBlockLootData.BlockLootType.VERTICAL_SLAB)
                 );
 
+                verticalCount++;
             } else if (block instanceof ZetaStairsBlock) {
                 registerQuarkReinforced(
                         name, originalId, block,
@@ -131,6 +136,7 @@ public class QuarkCompat implements SCBEModCompat {
                         ResourceLocation.tryBuild(SecurityCraft.MODID, "block/reinforced_stairs"), // 这个参数不会使用
                         SCBEBlockLootData::dropSelf
                 );
+                stairsCount++;
              } else if (block instanceof ZetaSlabBlock) {
                  registerQuarkReinforced(
                          name, originalId, block,
@@ -139,8 +145,30 @@ public class QuarkCompat implements SCBEModCompat {
                          ResourceLocation.tryBuild(SecurityCraft.MODID, "block/reinforced_slab"), // 这个参数不会使用
                          reg -> new SCBEBlockLootData(reg, SCBEBlockLootData.BlockLootType.SLAB)
                  );
+                 slabCount++;
+            }else if (block instanceof ZetaWallBlock){
+                registerQuarkReinforced(
+                        name, originalId, block,
+                        ReinforcedWallBlock::new,
+                        SCBEBlockModelData.BlockType.WALL,
+                        ResourceLocation.tryBuild(SecurityCraft.MODID, "block/reinforced_wall"), // 这个参数不会使用
+                        reg -> new SCBEBlockLootData(reg, SCBEBlockLootData.BlockLootType.DROP_SELF),
+                        b->b
+                );
+                wallCount++;
+            }else if (block instanceof FlowerPotBlock || block instanceof ZetaLeavesBlock || block instanceof LeafCarpetBlock || block instanceof HollowLogBlock
+                    || block instanceof ZetaSaplingBlock || block instanceof MonsterBoxBlock || block instanceof VariantChestBlock || block instanceof StoolBlock){
+                System.out.println("QuarkUnprocessed: " + block+" id:"+originalId+" class:"+block.getClass());
+                unprocessCount++;
+            }else {
+                System.out.println("QuarkLeft: " + block+" id:"+originalId+" class:"+block.getClass());
             }
         }
+        System.out.println("QuarkReinforcedBlock: verticalCount=" + verticalCount + " stairsCount=" + stairsCount + " slabCount=" + slabCount +" wallCount="+ wallCount + " unprocessCount=" + unprocessCount+" total="+QUARK_REINFORCED_BLOCKS.size());
+
+        QUARK_REINFORCED_BLOCKS.forEach((block, reg) -> {
+            System.out.println(reg.getId());
+        });
     }
 
     /**
@@ -151,14 +179,16 @@ public class QuarkCompat implements SCBEModCompat {
      * @param parentModel  模型数据的父模型（部分 BlockType 不使用，但保留以便扩展）
      * @param lootFactory  根据注册结果生成掉落表
      */
-    private <T extends BaseReinforcedBlock> RegistryObject<T> registerQuarkReinforced(
+    private <T extends Block> RegistryObject<T> registerQuarkReinforced(
             String name,
             ResourceLocation originalId,
             Block originalBlock,
             BiFunction<Block.Properties, Block, T> blockFactory,
             SCBEBlockModelData.BlockType modelType,
             ResourceLocation parentModel,
-            Function<RegistryObject<T>, SCBEBlockLootData> lootFactory) {
+            Function<RegistryObject<T>, SCBEBlockLootData> lootFactory,
+            Function<T, IReinforcedBlock> castToReinforced
+    ) {
 
         RegistryObject<T> reg = SCBEBlocks.registerBlock(
                 name,
@@ -188,7 +218,7 @@ public class QuarkCompat implements SCBEModCompat {
         // 创造栏、掉落、映射、tint
         creativeTabItems.add(reg::get);
         lootTableProviders.add(lootFactory.apply(reg));
-        SCBEBlocks.registerReinforcedBlockMapping(reg, reg);
+        SCBEBlocks.registerReinforcedBlockMapping(()->castToReinforced.apply(reg.get()), reg);
         SCBEBlocks.registerReinforcedTintBlock(reg);
         if (originalId.getPath().contains("myalite")) { // 幻境石需要特殊处理
             SCBEBlocks.REINFORCED_TINT_BLOCK_PROCESSORS.put(reg, MYALITE_PROCESSOR);
@@ -197,6 +227,21 @@ public class QuarkCompat implements SCBEModCompat {
         blockTagDataList.add(tagBuilder.reinforced().build());
         QUARK_REINFORCED_BLOCKS.put(originalBlock, reg);
         return reg;
+    }
+
+    private <T extends BaseReinforcedBlock> RegistryObject<T> registerQuarkReinforced(
+            String name,
+            ResourceLocation originalId,
+            Block originalBlock,
+            BiFunction<Block.Properties, Block, T> blockFactory,
+            SCBEBlockModelData.BlockType modelType,
+            ResourceLocation parentModel,
+            Function<RegistryObject<T>, SCBEBlockLootData> lootFactory
+    ) {
+        return registerQuarkReinforced(
+                name,originalId,originalBlock,blockFactory,
+                modelType,parentModel,lootFactory,b->b
+        );
     }
 
     @Override

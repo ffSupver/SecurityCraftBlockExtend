@@ -11,6 +11,10 @@
     {
       "id": "securitycraft_block_extend:reinforced_dirt_bricks_slab",
       "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_dirt_bricks_wall",
+      "required": false
     }
   ]
 }

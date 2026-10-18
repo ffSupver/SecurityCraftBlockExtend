@@ -72,7 +72,7 @@ public class SCBEBlockStateProvider extends BlockStateProvider {
                         .add(data);
                 case STAIRS -> reinforcedStairs(data.name(), data.block().get(), data.textures());
                 case SLAB -> reinforcedSlab(data.name(), data.block().get(), data.textures());
-                case WALL -> reinforcedWall(data.name(), (WallBlock) data.block().get(), data.textures().get("wall"));
+                case WALL -> reinforcedWall(data.name(), (WallBlock) data.block().get(), data.textures());
                 case PILLAR -> reinforcedPillar(data.name(), data.block(), data.parentModel(), data.textures());
                 case CREATE_CONNECTED_PANE -> reinforcedPane(data.name(), (ReinforcedPaneBlock) data.block().get(), data.renderType(), data.textures());
                 case CREATE_BARS -> reinforcedBars(data.name(), (ReinforcedPaneBlock) data.block().get(),
@@ -285,17 +285,26 @@ public class SCBEBlockStateProvider extends BlockStateProvider {
         itemModels().withExistingParent(name, modLoc("block/" + name));
     }
 
-    private void reinforcedWall(String name, WallBlock block, ResourceLocation texture) {
+    private void reinforcedWall(String name, WallBlock block, Map<String, ResourceLocation> textures) {
         // wallBlock
+        Map<String, ResourceLocation> tex = resolveTextureSet(textures);
+        ResourceLocation wall = firstNonNull(
+                tex.get("wall"),      // 调用方直接传 {wall: xxx} 时命中
+                tex.get("side"),      // parentId 解析结果命中
+                tex.get("all"),
+                tex.get("texture"),
+                firstValue(tex)       // 兜底：任意一个纹理
+        );
+
         ModelFile post = models().getBuilder(name + "_post")
                 .parent(new UncheckedModelFile(securitycraftLoc("block/template_reinforced_wall_post")))
-                .texture("wall", texture);
+                .texture("wall", wall);
         ModelFile side = models().getBuilder(name + "_side")
                 .parent(new UncheckedModelFile(securitycraftLoc("block/template_reinforced_wall_side")))
-                .texture("wall", texture);
+                .texture("wall", wall);
         ModelFile sideTall = models().getBuilder(name + "_side_tall")
                 .parent(new UncheckedModelFile(securitycraftLoc("block/template_reinforced_wall_side_tall")))
-                .texture("wall", texture);
+                .texture("wall", wall);
 
         getMultipartBuilder(block)
                 .part().modelFile(post).addModel()
@@ -318,7 +327,7 @@ public class SCBEBlockStateProvider extends BlockStateProvider {
                 .condition(WallBlock.WEST_WALL, WallSide.TALL).end();
 
         itemModels().withExistingParent(name, securitycraftLoc("block/reinforced_wall_inventory"))
-                .texture("wall", texture);
+                .texture("wall", wall);
     }
 
     private void reinforcedPillar(String name,
