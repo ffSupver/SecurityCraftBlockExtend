@@ -25,19 +25,31 @@ public class BlockUtil {
         }
     }
     /**
-     * 广度优先遍历。
-     * 每个方块第一次被访问时，拿到的就是到 startPos 的最短距离，
-     * 因此不会出现 DFS 那种“深路径先标记、短路径后到被剪”导致漏方块的问题。
-     *
-     * @param startPos       起点
-     * @param walkedBlockPos 输出集合，会把符合条件的方块加进去（调用方传入，可为空集合）
-     * @param check          (位置, 进入方向) -> 是否允许遍历该方块；起点传入的 fromFace 为 null
-     * @param maxRange       最大遍历距离（按步数计）
-     * @param maxSize        遍历结果的最大方块数量；达到后立即停止遍历
+     * 广度优先遍历（遍历条件和收录条件相同）。
      */
     public static void walkAllBlocks(BlockPos startPos,
                                      Set<BlockPos> walkedBlockPos,
                                      BiPredicate<BlockPos, Direction> check,
+                                     int maxRange,
+                                     int maxSize) {
+        walkAllBlocks(startPos, walkedBlockPos, check, check, maxRange, maxSize);
+    }
+
+    /**
+     * 广度优先遍历。
+     * 每个方块第一次被访问时，拿到的就是到 startPos 的最短距离。
+     *
+     * @param startPos        起点
+     * @param walkedBlockPos  输出集合，只收录 shouldInclude 通过的方块（可以不相连）
+     * @param shouldTraverse  (位置, 进入方向) -> 是否继续向邻居扩散；返回 false 表示到此为止，不再扩展
+     * @param shouldInclude   (位置, 进入方向) -> 是否把该方块加入结果集
+     * @param maxRange        最大遍历距离（按步数计，等于 maxRange 的方块仍可收录但不扩展）
+     * @param maxSize         结果集最大数量；达到后立即停止遍历
+     */
+    public static void walkAllBlocks(BlockPos startPos,
+                                     Set<BlockPos> walkedBlockPos,
+                                     BiPredicate<BlockPos, Direction> shouldTraverse,
+                                     BiPredicate<BlockPos, Direction> shouldInclude,
                                      int maxRange,
                                      int maxSize) {
         // 数量上限保护
@@ -46,9 +58,9 @@ public class BlockUtil {
         }
 
         Queue<BlockPos> queue = new ArrayDeque<>();
-        // 记录每个方块到起点的最短距离；同时也充当“已入队/已处理”的标记，避免重复
+        // 记录每个方块到起点的最短距离；同时充当“已入队/已处理”标记，避免重复
         Map<BlockPos, Integer> distanceMap = new HashMap<>();
-        // 记录到达该方块时的“进入方向”，用于 check
+        // 记录到达该方块时的“进入方向”，用于两个谓词
         Map<BlockPos, Direction> fromFaceMap = new HashMap<>();
 
         distanceMap.put(startPos, 0);
@@ -60,34 +72,29 @@ public class BlockUtil {
             int distance = distanceMap.get(current);
             Direction fromFace = fromFaceMap.get(current);
 
-            // 已经遍历过则跳过（防御性判断，正常情况下不会触发）
-            if (walkedBlockPos.contains(current)) {
-                continue;
+            // ① 是否收录当前方块（收录和遍历互相独立）
+            if (shouldInclude.test(current, fromFace)) {
+                walkedBlockPos.add(current);
+                if (walkedBlockPos.size() >= maxSize) {
+                    return; // 达到数量上限，立即停止
+                }
             }
 
-            // 不满足条件则不遍历，也不扩展其邻居
-            if (!check.test(current, fromFace)) {
-                continue;
-            }
-
-            walkedBlockPos.add(current);
-
-            // 达到数量上限，立即停止
-            if (walkedBlockPos.size() >= maxSize) {
-                return;
-            }
-
-            // 到达最大范围，不再向外扩展
+            // ② 到达最大范围，不再向外扩展（但仍允许被收录）
             if (distance >= maxRange) {
                 continue;
             }
 
+            // ③ 是否继续向外遍历附近方块
+            if (!shouldTraverse.test(current, fromFace)) {
+                continue;
+            }
+
             AllDirectionOf(current, (neighbor, d) -> {
-                // 如果该邻居已经被以更短或相等的距离入队过，就不再入队
+                // 已经以更短或相等的距离入队过，就不再入队
                 if (distanceMap.containsKey(neighbor)) {
                     return;
                 }
-
                 distanceMap.put(neighbor, distance + 1);
                 fromFaceMap.put(neighbor, d);
                 queue.add(neighbor);
