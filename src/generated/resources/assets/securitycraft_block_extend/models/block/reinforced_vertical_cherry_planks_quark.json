@@ -1,0 +1,9 @@
+{
+  "parent": "securitycraft:block/reinforced_cube_all",
+  "textures": {
+    "all": "minecraft:block/cherry_planks",
+    "bottom": "minecraft:block/cherry_planks",
+    "side": "minecraft:block/cherry_planks",
+    "top": "minecraft:block/cherry_planks"
+  }
+}

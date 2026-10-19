@@ -6,6 +6,7 @@
   "mixins": [
     "AllContraptionTypesMixin",
     "BasePressurePlateBlockAccessor",
+    "ButtonBlockAccessor",
     "EntityKineticBulletAccessor",
     "LinearActuatorBlockEntityAccessor",
     "PlacementInfoAccessor",

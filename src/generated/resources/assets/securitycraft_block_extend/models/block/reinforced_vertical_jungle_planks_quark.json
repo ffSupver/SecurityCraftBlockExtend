@@ -1,0 +1,9 @@
+{
+  "parent": "securitycraft:block/reinforced_cube_all",
+  "textures": {
+    "all": "minecraft:block/jungle_planks",
+    "bottom": "minecraft:block/jungle_planks",
+    "side": "minecraft:block/jungle_planks",
+    "top": "minecraft:block/jungle_planks"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "values": [
+    {
+      "id": "securitycraft_block_extend:reinforced_shale_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_limestone_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_jasper_quark",
+      "required": false
+    }
+  ]
+}

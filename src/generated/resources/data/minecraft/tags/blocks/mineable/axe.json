@@ -5,6 +5,10 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_vertical_spruce_planks_quark",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_crimson_bookshelf",
       "required": false
     },
@@ -41,11 +45,23 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_blossom_planks_quark",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_azalea_ladder",
       "required": false
     },
     {
       "id": "securitycraft_block_extend:reinforced_acacia_bookshelf",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_azalea_button",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_ancient_planks_quark",
       "required": false
     },
     {
@@ -89,6 +105,10 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_vertical_birch_planks_quark",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_stick_block_quark",
       "required": false
     },
@@ -121,6 +141,10 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_ancient_button",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_blossom_bookshelf",
       "required": false
     },
@@ -129,7 +153,19 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_blossom_button",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_vertical_oak_planks_quark",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_ancient_planks_stairs",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_vertical_crimson_planks_quark",
       "required": false
     },
     {
@@ -165,6 +201,14 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_vertical_bamboo_planks_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_vertical_blossom_planks_quark",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_spruce_ladder",
       "required": false
     },
@@ -174,6 +218,14 @@
     },
     {
       "id": "securitycraft_block_extend:reinforced_azalea_wood_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_vertical_cherry_planks_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_vertical_warped_planks_quark",
       "required": false
     },
     {
@@ -197,11 +249,19 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_crate_quark",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_stripped_azalea_log_quark",
       "required": false
     },
     {
       "id": "securitycraft_block_extend:reinforced_blossom_log_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_vertical_jungle_planks_quark",
       "required": false
     },
     {
@@ -213,11 +273,19 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_vertical_dark_oak_planks_quark",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_blossom_planks_vertical_slab",
       "required": false
     },
     {
       "id": "securitycraft_block_extend:reinforced_blossom_ladder",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_vertical_mangrove_planks_quark",
       "required": false
     },
     {
@@ -246,6 +314,18 @@
     },
     {
       "id": "securitycraft_block_extend:reinforced_warped_ladder",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_vertical_acacia_planks_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_azalea_planks_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_vertical_azalea_planks_quark",
       "required": false
     },
     {

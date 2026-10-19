@@ -1,0 +1,9 @@
+{
+  "parent": "securitycraft:block/reinforced_cube_all",
+  "textures": {
+    "all": "quark:block/soul_sandstone_bricks",
+    "bottom": "quark:block/soul_sandstone_bricks",
+    "side": "quark:block/soul_sandstone_bricks",
+    "top": "quark:block/soul_sandstone_bricks"
+  }
+}

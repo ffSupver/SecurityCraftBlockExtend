@@ -1,0 +1,9 @@
+{
+  "parent": "securitycraft:block/reinforced_cube_all",
+  "textures": {
+    "all": "quark:block/myalite",
+    "bottom": "quark:block/myalite",
+    "side": "quark:block/myalite",
+    "top": "quark:block/myalite"
+  }
+}

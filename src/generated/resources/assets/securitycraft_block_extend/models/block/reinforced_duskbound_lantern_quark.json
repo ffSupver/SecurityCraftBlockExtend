@@ -1,0 +1,9 @@
+{
+  "parent": "securitycraft:block/reinforced_cube_all",
+  "textures": {
+    "all": "quark:block/duskbound_lantern",
+    "bottom": "quark:block/duskbound_lantern",
+    "side": "quark:block/duskbound_lantern",
+    "top": "quark:block/duskbound_lantern"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "parent": "securitycraft:block/reinforced_cube_all",
+  "textures": {
+    "all": "quark:block/jasper",
+    "bottom": "quark:block/jasper",
+    "side": "quark:block/jasper",
+    "top": "quark:block/jasper"
+  }
+}

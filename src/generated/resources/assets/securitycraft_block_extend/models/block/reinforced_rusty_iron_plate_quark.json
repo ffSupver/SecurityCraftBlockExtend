@@ -1,0 +1,9 @@
+{
+  "parent": "securitycraft:block/reinforced_cube_all",
+  "textures": {
+    "all": "quark:block/rusty_iron_plate",
+    "bottom": "quark:block/rusty_iron_plate",
+    "side": "quark:block/rusty_iron_plate",
+    "top": "quark:block/rusty_iron_plate"
+  }
+}

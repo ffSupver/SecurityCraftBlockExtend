@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "securitycraft_block_extend:block/reinforced_calcite_bricks_quark"
+    }
+  }
+}

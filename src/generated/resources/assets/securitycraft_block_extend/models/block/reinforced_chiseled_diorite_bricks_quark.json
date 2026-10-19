@@ -1,0 +1,9 @@
+{
+  "parent": "securitycraft:block/reinforced_cube_all",
+  "textures": {
+    "all": "quark:block/chiseled_diorite_bricks",
+    "bottom": "quark:block/chiseled_diorite_bricks",
+    "side": "quark:block/chiseled_diorite_bricks",
+    "top": "quark:block/chiseled_diorite_bricks"
+  }
+}

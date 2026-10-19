@@ -1,0 +1,24 @@
+{
+  "values": [
+    {
+      "id": "securitycraft_block_extend:reinforced_azalea_button",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_ancient_button",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_blossom_button",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_iron_button",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_gold_button",
+      "required": false
+    }
+  ]
+}

@@ -15,6 +15,10 @@
     {
       "id": "securitycraft_block_extend:reinforced_raw_gold_bricks_slab",
       "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_raw_gold_bricks_quark",
+      "required": false
     }
   ]
 }

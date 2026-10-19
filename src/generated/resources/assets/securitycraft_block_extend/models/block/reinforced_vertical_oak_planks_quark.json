@@ -1,0 +1,9 @@
+{
+  "parent": "securitycraft:block/reinforced_cube_all",
+  "textures": {
+    "all": "minecraft:block/oak_planks",
+    "bottom": "minecraft:block/oak_planks",
+    "side": "minecraft:block/oak_planks",
+    "top": "minecraft:block/oak_planks"
+  }
+}

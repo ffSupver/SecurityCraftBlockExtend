@@ -1,0 +1,44 @@
+{
+  "values": [
+    {
+      "id": "securitycraft_block_extend:reinforced_polished_limestone_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_shale_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_myalite_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_limestone_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_polished_myalite_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_polished_calcite_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_permafrost_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_polished_shale_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_polished_jasper_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_jasper_quark",
+      "required": false
+    }
+  ]
+}

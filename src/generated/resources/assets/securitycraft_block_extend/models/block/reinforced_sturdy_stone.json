@@ -1,0 +1,9 @@
+{
+  "parent": "securitycraft:block/reinforced_cube_all",
+  "textures": {
+    "all": "minecraft:block/furnace_top",
+    "bottom": "minecraft:block/furnace_top",
+    "side": "minecraft:block/furnace_top",
+    "top": "minecraft:block/furnace_top"
+  }
+}

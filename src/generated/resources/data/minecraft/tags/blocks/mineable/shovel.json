@@ -9,6 +9,10 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_dirt_bricks_quark",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_dirt_bricks_slab",
       "required": false
     },

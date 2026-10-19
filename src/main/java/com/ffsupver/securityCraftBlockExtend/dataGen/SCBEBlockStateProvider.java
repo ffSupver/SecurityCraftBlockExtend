@@ -82,6 +82,7 @@ public class SCBEBlockStateProvider extends BlockStateProvider {
                 case VERTICAL_SLAB -> reinforcedVerticalSlab(data.name(), data.block().get(), data.textures(), data.renderType());
                 case LADDER -> reinforcedLadder(data.name(), data.block().get(), data.parentModel(), data.textures());
                 case PRESSURE_PLATE -> reinforcedPressurePlate(data.name(), data.block().get(), data.parentModel(), data.textures(),data.renderType());
+                case BUTTON -> reinforcedButton(data.name(), data.block().get(), data.parentModel(), data.textures(), data.renderType());
             }
         }
 
@@ -745,6 +746,62 @@ public class SCBEBlockStateProvider extends BlockStateProvider {
                 .modelForState().modelFile(down).addModel();
 
         itemModels().withExistingParent(name, modLoc("block/" + name));
+    }
+
+    private void reinforcedButton(String name, Block block,
+                                  ResourceLocation parentModel,
+                                  Map<String, ResourceLocation> textures,
+                                  String renderType) {
+        Map<String, ResourceLocation> tex = resolveTextureSet(textures);
+
+        // Quark/vanilla 按钮模板纹理键：texture
+        ResourceLocation texture = firstNonNull(
+                tex.get("texture"),
+                tex.get("side"),
+                tex.get("all"),
+                firstValue(tex)
+        );
+
+        // 从传入的 parentModel 推导 pressed 父模型
+        // 传入的 parentModel 就是 reinforced_button，pressed = reinforced_button_pressed
+        String basePath = parentModel.getPath();
+        if (basePath.endsWith("_pressed")) {
+            basePath = basePath.substring(0, basePath.length() - "_pressed".length());
+        }
+        ResourceLocation normalParent  = ResourceLocation.tryBuild(parentModel.getNamespace(), basePath);
+        ResourceLocation pressedParent = ResourceLocation.tryBuild(parentModel.getNamespace(), basePath + "_pressed");
+
+        BlockModelBuilder normal = models().getBuilder(name)
+                .parent(new UncheckedModelFile(normalParent))
+                .texture("texture", texture);
+        BlockModelBuilder pressed = models().getBuilder(name + "_pressed")
+                .parent(new UncheckedModelFile(pressedParent))
+                .texture("texture", texture);
+        if (renderType != null && !renderType.isEmpty()) {
+            normal.renderType(renderType);
+            pressed.renderType(renderType);
+        }
+
+        // 与 vanilla BlockStateProvider.buttonBlock 相同的旋转规则：
+        //   FLOOR   → rotX=0，rotY = opposite(facing).toYRot()
+        //   WALL    → rotX=90, uvLock, rotY = opposite(facing).toYRot()
+        //   CEILING → rotX=180, rotY = facing.toYRot()
+        getVariantBuilder(block).forAllStates(state -> {
+            Direction facing = state.getValue(BlockStateProperties.HORIZONTAL_FACING);
+            AttachFace face = state.getValue(BlockStateProperties.ATTACH_FACE);
+            boolean powered = state.getValue(BlockStateProperties.POWERED);
+
+            return ConfiguredModel.builder()
+                    .modelFile(powered ? pressed : normal)
+                    .rotationX(face == AttachFace.FLOOR ? 0 : (face == AttachFace.WALL ? 90 : 180))
+                    .rotationY((int) (face == AttachFace.CEILING ? facing : facing.getOpposite()).toYRot())
+                    .uvLock(face == AttachFace.WALL)
+                    .build();
+        });
+
+        // 物品模型：securitycraft:block/reinforced_button_inventory
+        itemModels().withExistingParent(name, securitycraftLoc("block/reinforced_button_inventory"))
+                .texture("texture", texture);
     }
 
     /**

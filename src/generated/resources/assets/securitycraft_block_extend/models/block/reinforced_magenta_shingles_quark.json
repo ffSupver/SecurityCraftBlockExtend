@@ -1,0 +1,9 @@
+{
+  "parent": "securitycraft:block/reinforced_cube_all",
+  "textures": {
+    "all": "quark:block/magenta_shingles",
+    "bottom": "quark:block/magenta_shingles",
+    "side": "quark:block/magenta_shingles",
+    "top": "quark:block/magenta_shingles"
+  }
+}

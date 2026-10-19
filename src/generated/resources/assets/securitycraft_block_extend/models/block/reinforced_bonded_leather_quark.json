@@ -1,0 +1,9 @@
+{
+  "parent": "securitycraft:block/reinforced_cube_all",
+  "textures": {
+    "all": "quark:block/bonded_leather",
+    "bottom": "quark:block/bonded_leather",
+    "side": "quark:block/bonded_leather",
+    "top": "quark:block/bonded_leather"
+  }
+}

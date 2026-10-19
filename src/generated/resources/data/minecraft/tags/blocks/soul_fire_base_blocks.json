@@ -29,7 +29,19 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_cut_soul_sandstone_quark",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_cut_soul_sandstone_slab",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_smooth_soul_sandstone_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_soul_sandstone_quark",
       "required": false
     },
     {
@@ -41,11 +53,19 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_soul_sandstone_bricks_quark",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_soul_sandstone_bricks_vertical_slab",
       "required": false
     },
     {
       "id": "securitycraft_block_extend:reinforced_soul_sandstone_stairs",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_chiseled_soul_sandstone_quark",
       "required": false
     },
     {

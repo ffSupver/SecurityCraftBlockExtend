@@ -1,0 +1,9 @@
+{
+  "parent": "securitycraft:block/reinforced_cube_all",
+  "textures": {
+    "all": "minecraft:block/bamboo_planks",
+    "bottom": "minecraft:block/bamboo_planks",
+    "side": "minecraft:block/bamboo_planks",
+    "top": "minecraft:block/bamboo_planks"
+  }
+}

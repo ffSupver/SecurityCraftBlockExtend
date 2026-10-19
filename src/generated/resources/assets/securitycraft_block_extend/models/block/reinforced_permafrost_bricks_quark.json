@@ -1,0 +1,9 @@
+{
+  "parent": "securitycraft:block/reinforced_cube_all",
+  "textures": {
+    "all": "quark:block/permafrost_bricks",
+    "bottom": "quark:block/permafrost_bricks",
+    "side": "quark:block/permafrost_bricks",
+    "top": "quark:block/permafrost_bricks"
+  }
+}

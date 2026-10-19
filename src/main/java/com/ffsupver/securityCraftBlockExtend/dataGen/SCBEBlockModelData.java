@@ -25,7 +25,8 @@ public class SCBEBlockModelData {
         ON2STATE,
         VERTICAL_SLAB,
         LADDER,
-        PRESSURE_PLATE
+        PRESSURE_PLATE,
+        BUTTON
     }
 
     private final String name;

@@ -1,0 +1,9 @@
+{
+  "parent": "securitycraft:block/reinforced_cube_all",
+  "textures": {
+    "all": "quark:block/midori_block",
+    "bottom": "quark:block/midori_block",
+    "side": "quark:block/midori_block",
+    "top": "quark:block/midori_block"
+  }
+}

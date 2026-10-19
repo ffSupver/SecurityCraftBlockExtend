@@ -1,0 +1,9 @@
+{
+  "parent": "securitycraft:block/reinforced_cube_all",
+  "textures": {
+    "all": "quark:block/ancient_planks",
+    "bottom": "quark:block/ancient_planks",
+    "side": "quark:block/ancient_planks",
+    "top": "quark:block/ancient_planks"
+  }
+}

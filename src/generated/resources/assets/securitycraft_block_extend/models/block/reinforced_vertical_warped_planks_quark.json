@@ -1,0 +1,9 @@
+{
+  "parent": "securitycraft:block/reinforced_cube_all",
+  "textures": {
+    "all": "minecraft:block/warped_planks",
+    "bottom": "minecraft:block/warped_planks",
+    "side": "minecraft:block/warped_planks",
+    "top": "minecraft:block/warped_planks"
+  }
+}

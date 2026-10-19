@@ -1,0 +1,9 @@
+{
+  "parent": "securitycraft:block/reinforced_cube_all",
+  "textures": {
+    "all": "quark:block/bonded_ravager_hide",
+    "bottom": "quark:block/bonded_ravager_hide",
+    "side": "quark:block/bonded_ravager_hide",
+    "top": "quark:block/bonded_ravager_hide"
+  }
+}

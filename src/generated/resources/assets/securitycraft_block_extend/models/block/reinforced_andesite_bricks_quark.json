@@ -1,0 +1,9 @@
+{
+  "parent": "securitycraft:block/reinforced_cube_all",
+  "textures": {
+    "all": "quark:block/andesite_bricks",
+    "bottom": "quark:block/andesite_bricks",
+    "side": "quark:block/andesite_bricks",
+    "top": "quark:block/andesite_bricks"
+  }
+}

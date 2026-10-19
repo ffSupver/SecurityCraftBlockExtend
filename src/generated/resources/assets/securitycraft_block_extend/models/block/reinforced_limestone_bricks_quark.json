@@ -1,0 +1,9 @@
+{
+  "parent": "securitycraft:block/reinforced_cube_all",
+  "textures": {
+    "all": "quark:block/limestone_bricks",
+    "bottom": "quark:block/limestone_bricks",
+    "side": "quark:block/limestone_bricks",
+    "top": "quark:block/limestone_bricks"
+  }
+}

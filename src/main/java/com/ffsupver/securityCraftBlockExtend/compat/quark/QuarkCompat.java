@@ -20,6 +20,7 @@ import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -32,6 +33,7 @@ import org.violetmoon.quark.addons.oddities.block.TinyPotatoBlock;
 import org.violetmoon.quark.addons.oddities.block.pipe.BasePipeBlock;
 import org.violetmoon.quark.content.automation.block.*;
 import org.violetmoon.quark.content.building.block.*;
+import org.violetmoon.quark.content.tools.block.CloudBlock;
 import org.violetmoon.quark.content.tweaks.block.DirtyGlassBlock;
 import org.violetmoon.quark.content.tweaks.block.WaterPetalBlock;
 import org.violetmoon.quark.content.world.block.*;
@@ -121,13 +123,14 @@ public class QuarkCompat implements SCBEModCompat {
                     || block instanceof StoolBlock || block instanceof ZetaStandingSignBlock || block instanceof ZetaWallSignBlock || block instanceof ZetaCeilingHangingSignBlock
                     || block instanceof ZetaWallHangingSignBlock || block instanceof EnderWatcherBlock || block instanceof CrafterBlock || block instanceof PaperLanternBlock
                     || block instanceof ZetaFlammableBlock || block instanceof ZetaDoorBlock || block instanceof CorundumClusterBlock || block instanceof VariantFurnaceBlock
-                    || block instanceof WoodPostBlock || block instanceof GlowShroomBlock || block instanceof GlowShroomRingBlock || block instanceof ChorusVegetationBlock
+                    || block instanceof WoodPostBlock || block instanceof GlowShroomRingBlock || block instanceof ChorusVegetationBlock
                     || block instanceof ZetaFenceGateBlock || block instanceof ZetaFenceBlock || block instanceof RainbowLampBlock || block instanceof MudBrickLatticeBlock
                     || block instanceof MatrixEnchantingTableBlock || block instanceof RopeBlock || block instanceof MagnetBlock || block instanceof MovingMagnetizedBlock
                     || block instanceof ZetaPaneBlock || block instanceof IronRodBlock || block instanceof ZetaTrapdoorBlock || block instanceof BasePipeBlock
-                    || block instanceof WaterPetalBlock || block instanceof GravisandBlock || block instanceof RedstoneRandomizerBlock || block instanceof BambooMatCarpetBlock
+                    || block instanceof WaterPetalBlock || block instanceof GravisandBlock || block instanceof RedstoneRandomizerBlock || block instanceof BambooMatBlock
                     || block instanceof FeedingTroughBlock || block instanceof CelebratoryLampBlock || block instanceof CutVineBlock || block instanceof TinyPotatoBlock
-                    || block instanceof HugeGlowShroomBlock// glow_shroom_block blossom_pressure_plate压力板 woodenButten
+                    || block instanceof HugeGlowShroomBlock || block instanceof ZetaBushBlock || block instanceof ChuteBlock || block instanceof CloudBlock
+                    || block instanceof GrateBlock
             ){
 //                System.out.println("QuarkUnprocessed: " + block+" id:"+originalId+" class:"+block.getClass());
                 unprocessCount++;
@@ -215,12 +218,42 @@ public class QuarkCompat implements SCBEModCompat {
                         name, originalId, block,
                         (p,b)->new ReinforcedZetaPressurePlateBlock(p,zetaPressurePlateBlock),
                         SCBEBlockModelData.BlockType.PRESSURE_PLATE,
-                        ResourceLocation.tryBuild(SecurityCraft.MODID, "block/reinforced_pressure_plate"), // 这个参数不会使用
+                        ResourceLocation.tryBuild(SecurityCraft.MODID, "block/reinforced_pressure_plate"),
                         SCBEBlockLootData::dropSelf,
                         b->b
                 );
+            }else if (block instanceof ZetaButtonBlock zetaButtonBlock){
+                registerQuarkReinforced(
+                        name, originalId, block,
+                        (p,b)->new ReinforcedZetaButtonBlock(p,zetaButtonBlock),
+                        SCBEBlockModelData.BlockType.BUTTON,
+                        ResourceLocation.tryBuild(SecurityCraft.MODID, "block/reinforced_button"),
+                        SCBEBlockLootData::dropSelf,
+                        b->b
+                );
+            }else if (block instanceof SturdyStoneBlock){
+                registerQuarkReinforced(
+                        name, originalId, block,
+                        (p,b)->new BaseReinforcedBlock(p.pushReaction(PushReaction.BLOCK),b),
+                        SCBEBlockModelData.BlockType.SIMPLE,
+                        ResourceLocation.tryBuild(SecurityCraft.MODID, "block/reinforced_cube_all"),
+                        reg -> new SCBEBlockLootData(reg, SCBEBlockLootData.BlockLootType.DROP_SELF)
+                );
             }else {
+                // 剩下应为完整方块
                 System.out.println("QuarkLeft: " + block+" id:"+originalId+" class:"+block.getClass());
+                ResourceLocation parentModel = switch (originalId.getPath()){
+                    case "chiseled_soul_sandstone","cut_soul_sandstone","carved_mud_bricks" ->ResourceLocation.tryBuild(SecurityCraft.MODID, "block/reinforced_cube_column");
+                    case "soul_sandstone"->ResourceLocation.tryBuild(SecurityCraft.MODID, "block/reinforced_cube_bottom_top");
+                    default -> ResourceLocation.tryBuild(SecurityCraft.MODID, "block/reinforced_cube_all");
+                };
+                registerQuarkReinforced(
+                        name+"_quark", originalId, block,
+                        BaseReinforcedBlock::new,
+                        SCBEBlockModelData.BlockType.SIMPLE,
+                        parentModel,
+                        reg -> new SCBEBlockLootData(reg, SCBEBlockLootData.BlockLootType.DROP_SELF)
+                );
             }
         }
         System.out.println("QuarkReinforcedBlock: verticalCount=" + verticalCount + " stairsCount=" + stairsCount + " slabCount=" + slabCount +" wallCount="+ wallCount +

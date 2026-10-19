@@ -1,0 +1,9 @@
+{
+  "parent": "securitycraft:block/reinforced_cube_all",
+  "textures": {
+    "all": "quark:block/charcoal_block",
+    "bottom": "quark:block/charcoal_block",
+    "side": "quark:block/charcoal_block",
+    "top": "quark:block/charcoal_block"
+  }
+}
