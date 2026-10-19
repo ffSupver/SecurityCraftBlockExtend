@@ -103,7 +103,6 @@ public class QuarkCompat implements SCBEModCompat {
     @Override
     public void init(IEventBus eventBus) {
         eventBus.addListener(EventPriority.HIGH,this::onRegister);
-//        MinecraftForge.EVENT_BUS.addListener(this::onTagsUpdated);
     }
 
     private void onRegister(RegisterEvent event) {
@@ -111,8 +110,6 @@ public class QuarkCompat implements SCBEModCompat {
         if (!event.getRegistryKey().equals(ForgeRegistries.Keys.BLOCKS)) return;
         populated = true;
 
-        System.out.println("OnRegister QuarkCompat:"+ QuarkBlocksCapture.QUARK_BLOCKS.size());
-        int verticalCount = 0, stairsCount = 0, slabCount = 0,wallCount = 0,pillarCount = 0,ladderCount = 0, bookshelfCount = 0, glassCount = 0, unprocessCount = 0;
         for (Map.Entry<ResourceLocation, Block> bE : QuarkBlocksCapture.QUARK_BLOCKS.entrySet()){
             Block block = bE.getValue();
             ResourceLocation originalId = bE.getKey();
@@ -132,8 +129,7 @@ public class QuarkCompat implements SCBEModCompat {
                     || block instanceof HugeGlowShroomBlock || block instanceof ZetaBushBlock || block instanceof ChuteBlock || block instanceof CloudBlock
                     || block instanceof GrateBlock
             ){
-//                System.out.println("QuarkUnprocessed: " + block+" id:"+originalId+" class:"+block.getClass());
-                unprocessCount++;
+                // skip
             }else if (block instanceof QuarkVerticalSlabBlock quarkVerticalSlabBlock) {
                 Block parent = quarkVerticalSlabBlock.parent.get();
                 if (ForgeRegistries.BLOCKS.getKey(parent) == null) continue;
@@ -145,8 +141,6 @@ public class QuarkCompat implements SCBEModCompat {
                         ResourceLocation.tryBuild("quark", "block/vertical_slab"), // 这个参数不会使用
                         reg -> new SCBEBlockLootData(reg, SCBEBlockLootData.BlockLootType.VERTICAL_SLAB)
                 );
-
-                verticalCount++;
             } else if (block instanceof ZetaStairsBlock) {
                 registerQuarkReinforced(
                         name, originalId, block,
@@ -155,7 +149,6 @@ public class QuarkCompat implements SCBEModCompat {
                         ResourceLocation.tryBuild(SecurityCraft.MODID, "block/reinforced_stairs"), // 这个参数不会使用
                         SCBEBlockLootData::dropSelf
                 );
-                stairsCount++;
              } else if (block instanceof ZetaSlabBlock) {
                  registerQuarkReinforced(
                          name, originalId, block,
@@ -164,7 +157,6 @@ public class QuarkCompat implements SCBEModCompat {
                          ResourceLocation.tryBuild(SecurityCraft.MODID, "block/reinforced_slab"), // 这个参数不会使用
                          reg -> new SCBEBlockLootData(reg, SCBEBlockLootData.BlockLootType.SLAB)
                  );
-                 slabCount++;
             }else if (block instanceof ZetaWallBlock){
                 registerQuarkReinforced(
                         name, originalId, block,
@@ -174,7 +166,6 @@ public class QuarkCompat implements SCBEModCompat {
                         reg -> new SCBEBlockLootData(reg, SCBEBlockLootData.BlockLootType.DROP_SELF),
                         b->b
                 );
-                wallCount++;
             }else if (block instanceof ZetaPillarBlock){
                 registerQuarkReinforced(
                         name+ "_quark", originalId, block,
@@ -183,7 +174,6 @@ public class QuarkCompat implements SCBEModCompat {
                         ResourceLocation.tryBuild(SecurityCraft.MODID, "block/reinforced_cube_column"),
                         reg -> new SCBEBlockLootData(reg, SCBEBlockLootData.BlockLootType.DROP_SELF)
                 );
-                pillarCount++;
             }else if (block instanceof VariantLadderBlock){
                 registerQuarkReinforced(
                         name, originalId, block,
@@ -193,7 +183,6 @@ public class QuarkCompat implements SCBEModCompat {
                         SCBEBlockLootData::dropSelf,
                         b->b
                 );
-                ladderCount++;
             }else if (block instanceof VariantBookshelfBlock){
                 registerQuarkReinforced(
                         name, originalId, block,
@@ -202,7 +191,6 @@ public class QuarkCompat implements SCBEModCompat {
                         ResourceLocation.tryBuild(SecurityCraft.MODID, "block/reinforced_cube_column"),
                         reg -> new SCBEBlockLootData(reg, SCBEBlockLootData.BlockLootType.DROP_SELF)
                 );
-                bookshelfCount++;
             } else if (block instanceof ZetaGlassBlock) {
                 registerQuarkReinforced(
                         name+"_quark", originalId, block,
@@ -212,7 +200,6 @@ public class QuarkCompat implements SCBEModCompat {
                         reg -> new SCBEBlockLootData(reg, SCBEBlockLootData.BlockLootType.DROP_SELF),
                         b->b, "translucent"
                 );
-                glassCount++;
             }else if (block instanceof ZetaPressurePlateBlock zetaPressurePlateBlock){
                 registerQuarkReinforced(
                         name, originalId, block,
@@ -241,7 +228,6 @@ public class QuarkCompat implements SCBEModCompat {
                 );
             }else {
                 // 剩下应为完整方块
-                System.out.println("QuarkLeft: " + block+" id:"+originalId+" class:"+block.getClass());
                 ResourceLocation parentModel = switch (originalId.getPath()){
                     case "chiseled_soul_sandstone","cut_soul_sandstone","carved_mud_bricks" ->ResourceLocation.tryBuild(SecurityCraft.MODID, "block/reinforced_cube_column");
                     case "soul_sandstone"->ResourceLocation.tryBuild(SecurityCraft.MODID, "block/reinforced_cube_bottom_top");
@@ -256,12 +242,6 @@ public class QuarkCompat implements SCBEModCompat {
                 );
             }
         }
-        System.out.println("QuarkReinforcedBlock: verticalCount=" + verticalCount + " stairsCount=" + stairsCount + " slabCount=" + slabCount +" wallCount="+ wallCount +
-                " pillarCount=" + pillarCount + " ladderCount=" + ladderCount + " bookshelfCount=" + bookshelfCount + " glassCount=" + glassCount + " unprocessCount=" + unprocessCount+" total="+QUARK_REINFORCED_BLOCKS.size());
-
-//        QUARK_REINFORCED_BLOCKS.forEach((block, reg) -> {
-//            System.out.println(reg.getId());
-//        });
     }
 
     /**

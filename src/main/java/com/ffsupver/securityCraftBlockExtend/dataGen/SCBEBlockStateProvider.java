@@ -811,11 +811,9 @@ public class SCBEBlockStateProvider extends BlockStateProvider {
     private Map<String, ResourceLocation> readBlockTextures(ResourceLocation blockId) {
         JsonObject blockstate = readJson(ResourceLocation.tryBuild(
                 blockId.getNamespace(), blockId.getPath()),"blockstates");
-        System.out.println("Blockstate: " + blockstate + " id:" + blockId);
         if (blockstate == null) return Map.of();
 
         String modelRef = extractFirstModelRef(blockstate);
-        System.out.println("ModelRef: " + modelRef + " id:" + blockId);
         if (modelRef == null) return Map.of();
 
         ResourceLocation modelLoc = ResourceLocation.parse(modelRef);
@@ -859,7 +857,6 @@ public class SCBEBlockStateProvider extends BlockStateProvider {
                 result.put(e.getKey(), ResourceLocation.parse(raw));
             }
         }
-        System.out.println("ModelTextures: " + result + " id:" + modelLoc);
         return result;
     }
 
