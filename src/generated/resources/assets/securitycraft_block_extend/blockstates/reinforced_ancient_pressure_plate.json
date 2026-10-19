@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "powered=false": {
+      "model": "securitycraft_block_extend:block/reinforced_ancient_pressure_plate"
+    },
+    "powered=true": {
+      "model": "securitycraft_block_extend:block/reinforced_ancient_pressure_plate_down"
+    }
+  }
+}

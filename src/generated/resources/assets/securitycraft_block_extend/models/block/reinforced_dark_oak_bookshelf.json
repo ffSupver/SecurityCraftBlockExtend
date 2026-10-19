@@ -1,0 +1,9 @@
+{
+  "parent": "securitycraft:block/reinforced_cube_column",
+  "textures": {
+    "bottom": "minecraft:block/dark_oak_planks",
+    "end": "minecraft:block/dark_oak_planks",
+    "side": "quark:block/dark_oak_bookshelf",
+    "top": "minecraft:block/dark_oak_planks"
+  }
+}

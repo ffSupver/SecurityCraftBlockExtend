@@ -13,7 +13,7 @@ import org.violetmoon.zeta.registry.ZetaRegistry;
 public class ZetaRegistryMixin {
     @Inject(method = "registerBlock(Lnet/minecraft/world/level/block/Block;Lnet/minecraft/resources/ResourceLocation;Z)V",at = @At("HEAD"),remap = false)
     private void onRegisterBlock(Block block, ResourceLocation id, boolean hasBlockItem, CallbackInfo ci) {
-        System.out.println("Quark Registering block: " + id+" block:"+block+" hasBlockItem:"+hasBlockItem+" class:"+block.getClass().getName());
+//        System.out.println("Quark Registering block: " + id+" block:"+block+" hasBlockItem:"+hasBlockItem+" class:"+block.getClass().getName());
         QuarkBlocksCapture.capture(id, block);
     }
 }

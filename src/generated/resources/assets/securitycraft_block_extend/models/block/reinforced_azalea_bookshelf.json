@@ -1,0 +1,9 @@
+{
+  "parent": "securitycraft:block/reinforced_cube_column",
+  "textures": {
+    "bottom": "quark:block/azalea_planks",
+    "end": "quark:block/azalea_planks",
+    "side": "quark:block/azalea_bookshelf",
+    "top": "quark:block/azalea_planks"
+  }
+}

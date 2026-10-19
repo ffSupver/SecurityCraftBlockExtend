@@ -79,12 +79,9 @@ public class SCBEBlockStateProvider extends BlockStateProvider {
                         data.renderType(), data.textures());
                 case CREATE_TRACK -> reinforcedTrack(data);
                 case ON2STATE -> reinforcedOn2State(data.name(), data.block().get(),data.parentModel(), data.renderType(), data.textures());
-                case VERTICAL_SLAB -> reinforcedVerticalSlab(
-                        data.name(),
-                        data.block().get(),
-                        data.textures(),
-                        data.renderType()
-                );
+                case VERTICAL_SLAB -> reinforcedVerticalSlab(data.name(), data.block().get(), data.textures(), data.renderType());
+                case LADDER -> reinforcedLadder(data.name(), data.block().get(), data.parentModel(), data.textures());
+                case PRESSURE_PLATE -> reinforcedPressurePlate(data.name(), data.block().get(), data.parentModel(), data.textures(),data.renderType());
             }
         }
 
@@ -127,15 +124,16 @@ public class SCBEBlockStateProvider extends BlockStateProvider {
                                       ResourceLocation parentModel,
                                       Map<String, ResourceLocation> textures, String renderType
     ){
+        Map<String, ResourceLocation> tex = resolveTextureSet(textures);
+
         BlockModelBuilder builder = models().getBuilder(name)
-                .parent(new UncheckedModelFile(
-                        parentModel));
+                .parent(new UncheckedModelFile(parentModel));
 
         if (renderType != null && !renderType.isEmpty()) {
             builder.renderType(renderType);
         }
 
-        textures.forEach(builder::texture);
+        tex.forEach(builder::texture);
 
         return builder;
     }
@@ -334,9 +332,11 @@ public class SCBEBlockStateProvider extends BlockStateProvider {
                                   Supplier<? extends Block> block,
                                   ResourceLocation parentModel,
                                   Map<String, ResourceLocation> textures) {
+        Map<String, ResourceLocation> tex = resolveTextureSet(textures);
 
-        ResourceLocation end  = textures.get("end");
-        ResourceLocation side = textures.get("side");
+        // end 优先取 end，退化为 top（cube_column 的 top 与 end 相同）
+        ResourceLocation end  = firstNonNull(tex.get("end"), tex.get("top"), tex.get("side"));
+        ResourceLocation side = firstNonNull(tex.get("side"), tex.get("all"), tex.get("texture"), end);
 
         // 竖直模型：直接使用 data.parentModel
         ModelFile vertical = models().withExistingParent(name, parentModel)
@@ -625,6 +625,39 @@ public class SCBEBlockStateProvider extends BlockStateProvider {
         itemModels().withExistingParent(name, modLoc("block/" + name));
     }
 
+    private void reinforcedLadder(String name, Block block,
+                                  ResourceLocation parentModel,
+                                  Map<String, ResourceLocation> textures) {
+        Map<String, ResourceLocation> tex = resolveTextureSet(textures);
+
+        // Quark ladder 模板纹理键：texture + particle，都指向同一张图
+        ResourceLocation texture = firstNonNull(
+                tex.get("texture"),
+                tex.get("side"),
+                tex.get("all"),
+                firstValue(tex)
+        );
+        ResourceLocation particle = firstNonNull(tex.get("particle"), texture);
+
+        ModelFile ladder = models().getBuilder(name)
+                .parent(new UncheckedModelFile(parentModel))
+                .texture("texture",  texture)
+                .texture("particle", particle);
+
+        getVariantBuilder(block)
+                .partialState().with(BlockStateProperties.HORIZONTAL_FACING, Direction.NORTH)
+                .modelForState().modelFile(ladder).rotationY(0).addModel()
+                .partialState().with(BlockStateProperties.HORIZONTAL_FACING, Direction.EAST)
+                .modelForState().modelFile(ladder).rotationY(90).addModel()
+                .partialState().with(BlockStateProperties.HORIZONTAL_FACING, Direction.SOUTH)
+                .modelForState().modelFile(ladder).rotationY(180).addModel()
+                .partialState().with(BlockStateProperties.HORIZONTAL_FACING, Direction.WEST)
+                .modelForState().modelFile(ladder).rotationY(270).addModel();
+
+        itemModels().withExistingParent(name, mcLoc("item/generated"))
+                .texture("layer0", texture);
+    }
+
     // ========== 工具方法 ==========
 
     /** 快速创建 minecraft 命名空间的 ResourceLocation */
@@ -664,11 +697,54 @@ public class SCBEBlockStateProvider extends BlockStateProvider {
         ResourceLocation bottom = firstNonNull(parentTex.get("bottom"), parentTex.get("end"), side);
         ResourceLocation top    = firstNonNull(parentTex.get("top"),    parentTex.get("end"), side);
 
-        Map<String, ResourceLocation> result = new HashMap<>();
+        // 保留父模型全部键，再叠加标准键
+        Map<String, ResourceLocation> result = new HashMap<>(parentTex);
         result.put("side",   side);
         result.put("bottom", bottom);
         result.put("top",    top);
         return result;
+    }
+
+    private void reinforcedPressurePlate(String name, Block block,
+                                         ResourceLocation parentModel,
+                                         Map<String, ResourceLocation> textures,
+                                         String renderType) {
+        Map<String, ResourceLocation> tex = resolveTextureSet(textures);
+
+        // Quark/vanilla 压力板模板纹理键：texture
+        ResourceLocation texture = firstNonNull(
+                tex.get("texture"),
+                tex.get("side"),
+                tex.get("all"),
+                firstValue(tex)
+        );
+
+        // 从传入的 parentModel 推导 up/down 两个父模型
+        String basePath = parentModel.getPath();
+        if (basePath.endsWith("_up") || basePath.endsWith("_down")) {
+            basePath = basePath.substring(0, basePath.length() - 3);
+        }
+        ResourceLocation upParent   = ResourceLocation.tryBuild(parentModel.getNamespace(), basePath + "_up");
+        ResourceLocation downParent = ResourceLocation.tryBuild(parentModel.getNamespace(), basePath + "_down");
+
+        BlockModelBuilder up = models().getBuilder(name)
+                .parent(new UncheckedModelFile(upParent))
+                .texture("texture", texture);
+        BlockModelBuilder down = models().getBuilder(name + "_down")
+                .parent(new UncheckedModelFile(downParent))
+                .texture("texture", texture);
+        if (renderType != null && !renderType.isEmpty()) {
+            up.renderType(renderType);
+            down.renderType(renderType);
+        }
+
+        getVariantBuilder(block)
+                .partialState().with(BlockStateProperties.POWERED, false)
+                .modelForState().modelFile(up).addModel()
+                .partialState().with(BlockStateProperties.POWERED, true)
+                .modelForState().modelFile(down).addModel();
+
+        itemModels().withExistingParent(name, modLoc("block/" + name));
     }
 
     /**

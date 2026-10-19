@@ -1,0 +1,7 @@
+{
+  "parent": "securitycraft:block/reinforced_ladder",
+  "textures": {
+    "particle": "quark:block/acacia_ladder",
+    "texture": "quark:block/acacia_ladder"
+  }
+}

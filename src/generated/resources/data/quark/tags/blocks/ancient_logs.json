@@ -1,0 +1,20 @@
+{
+  "values": [
+    {
+      "id": "securitycraft_block_extend:reinforced_ancient_wood_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_ancient_log_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_stripped_ancient_log_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_stripped_ancient_wood_quark",
+      "required": false
+    }
+  ]
+}

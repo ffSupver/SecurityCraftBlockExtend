@@ -1,0 +1,60 @@
+{
+  "values": [
+    {
+      "id": "securitycraft_block_extend:reinforced_bamboo_ladder",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_birch_ladder",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_cherry_ladder",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_azalea_ladder",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_mangrove_ladder",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_crimson_ladder",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_dark_oak_ladder",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_spruce_ladder",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_iron_ladder",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_acacia_ladder",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_blossom_ladder",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_jungle_ladder",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_ancient_ladder",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_warped_ladder",
+      "required": false
+    }
+  ]
+}

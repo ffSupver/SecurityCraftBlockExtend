@@ -1,0 +1,72 @@
+{
+  "values": [
+    {
+      "id": "securitycraft_block_extend:reinforced_light_gray_framed_glass_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_black_framed_glass_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_lime_framed_glass_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_framed_glass_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_red_framed_glass_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_orange_framed_glass_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_gray_framed_glass_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_purple_framed_glass_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_white_framed_glass_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_brown_framed_glass_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_magenta_framed_glass_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_blue_framed_glass_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_pink_framed_glass_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_cyan_framed_glass_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_yellow_framed_glass_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_light_blue_framed_glass_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_green_framed_glass_quark",
+      "required": false
+    }
+  ]
+}

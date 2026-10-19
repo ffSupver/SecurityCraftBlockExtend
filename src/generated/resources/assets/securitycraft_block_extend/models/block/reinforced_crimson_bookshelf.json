@@ -1,0 +1,9 @@
+{
+  "parent": "securitycraft:block/reinforced_cube_column",
+  "textures": {
+    "bottom": "minecraft:block/crimson_planks",
+    "end": "minecraft:block/crimson_planks",
+    "side": "quark:block/crimson_bookshelf",
+    "top": "minecraft:block/crimson_planks"
+  }
+}

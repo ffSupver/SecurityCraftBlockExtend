@@ -1,0 +1,7 @@
+{
+  "parent": "securitycraft:block/reinforced_cube_column",
+  "textures": {
+    "end": "quark:block/diorite_pillar_top",
+    "side": "quark:block/diorite_pillar"
+  }
+}

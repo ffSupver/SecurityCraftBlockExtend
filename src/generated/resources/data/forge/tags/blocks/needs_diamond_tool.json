@@ -1,0 +1,12 @@
+{
+  "values": [
+    {
+      "id": "securitycraft_block_extend:reinforced_obsidian_pressure_plate",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_myalite_crystal_quark",
+      "required": false
+    }
+  ]
+}

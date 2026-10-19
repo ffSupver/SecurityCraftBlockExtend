@@ -1,0 +1,10 @@
+{
+  "parent": "securitycraft:block/reinforced_cube_all",
+  "render_type": "minecraft:translucent",
+  "textures": {
+    "all": "quark:block/blue_framed_glass",
+    "bottom": "quark:block/blue_framed_glass",
+    "side": "quark:block/blue_framed_glass",
+    "top": "quark:block/blue_framed_glass"
+  }
+}

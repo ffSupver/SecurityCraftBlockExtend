@@ -1,0 +1,20 @@
+{
+  "values": [
+    {
+      "id": "securitycraft_block_extend:reinforced_stick_block_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_sugar_cane_block_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_cactus_block_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_chorus_fruit_block_quark",
+      "required": false
+    }
+  ]
+}

@@ -23,7 +23,9 @@ public class SCBEBlockModelData {
         CREATE_BARS,
         CREATE_TRACK,
         ON2STATE,
-        VERTICAL_SLAB
+        VERTICAL_SLAB,
+        LADDER,
+        PRESSURE_PLATE
     }
 
     private final String name;

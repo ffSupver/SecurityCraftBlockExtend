@@ -29,11 +29,27 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_light_gray_framed_glass_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_black_framed_glass_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_lime_framed_glass_quark",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_iron_plate_stairs",
       "required": false
     },
     {
       "id": "securitycraft_block_extend:reinforced_weathered_cut_copper_vertical_slab",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_framed_glass_quark",
       "required": false
     },
     {
@@ -45,11 +61,39 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_red_framed_glass_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_orange_framed_glass_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_iron_pillar_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_gray_framed_glass_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_purple_framed_glass_quark",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_raw_iron_bricks_vertical_slab",
       "required": false
     },
     {
       "id": "securitycraft_block_extend:reinforced_raw_iron_bricks_wall",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_white_framed_glass_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_brown_framed_glass_quark",
       "required": false
     },
     {
@@ -61,7 +105,27 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_magenta_framed_glass_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_iron_ladder",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_blue_framed_glass_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_pink_framed_glass_quark",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_rusty_iron_plate_slab",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_cyan_framed_glass_quark",
       "required": false
     },
     {
@@ -85,7 +149,19 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_yellow_framed_glass_quark",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_waxed_oxidized_cut_copper_vertical_slab",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_light_blue_framed_glass_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_green_framed_glass_quark",
       "required": false
     }
   ]

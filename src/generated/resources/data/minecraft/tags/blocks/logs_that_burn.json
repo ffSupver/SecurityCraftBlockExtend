@@ -1,0 +1,52 @@
+{
+  "values": [
+    {
+      "id": "securitycraft_block_extend:reinforced_stripped_azalea_wood_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_ancient_wood_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_blossom_wood_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_ancient_log_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_stripped_ancient_log_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_stripped_ancient_wood_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_azalea_wood_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_stripped_azalea_log_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_blossom_log_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_azalea_log_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_stripped_blossom_log_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_stripped_blossom_wood_quark",
+      "required": false
+    }
+  ]
+}

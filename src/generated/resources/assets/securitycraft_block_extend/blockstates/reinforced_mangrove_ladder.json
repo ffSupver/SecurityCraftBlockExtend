@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "securitycraft_block_extend:block/reinforced_mangrove_ladder",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "securitycraft_block_extend:block/reinforced_mangrove_ladder"
+    },
+    "facing=south": {
+      "model": "securitycraft_block_extend:block/reinforced_mangrove_ladder",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "securitycraft_block_extend:block/reinforced_mangrove_ladder",
+      "y": 270
+    }
+  }
+}

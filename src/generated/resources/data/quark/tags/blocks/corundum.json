@@ -1,0 +1,40 @@
+{
+  "values": [
+    {
+      "id": "securitycraft_block_extend:reinforced_orange_corundum_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_yellow_corundum_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_white_corundum_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_indigo_corundum_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_violet_corundum_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_black_corundum_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_red_corundum_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_green_corundum_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_blue_corundum_quark",
+      "required": false
+    }
+  ]
+}

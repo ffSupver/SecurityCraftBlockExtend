@@ -1333,6 +1333,10 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_limestone_pillar_quark",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_smooth_sandstone_vertical_slab",
       "required": false
     },
@@ -1381,6 +1385,10 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_waxed_violet_corundum_quark",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_raw_iron_bricks_stairs",
       "required": false
     },
@@ -1394,6 +1402,18 @@
     },
     {
       "id": "securitycraft_block_extend:reinforced_light_gray_shingles_vertical_slab",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_tuff_pillar_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_obsidian_pressure_plate",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_orange_corundum_quark",
       "required": false
     },
     {
@@ -1414,6 +1434,18 @@
     },
     {
       "id": "securitycraft_block_extend:reinforced_sandstone_bricks_slab",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_light_gray_framed_glass_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_calcite_pillar_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_midori_pillar_quark",
       "required": false
     },
     {
@@ -1441,6 +1473,10 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_waxed_white_corundum_quark",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_purpur_vertical_slab",
       "required": false
     },
@@ -1461,6 +1497,10 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_black_framed_glass_quark",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_dripstone_block_vertical_slab",
       "required": false
     },
@@ -1470,6 +1510,18 @@
     },
     {
       "id": "securitycraft_block_extend:reinforced_polished_shale_vertical_slab",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_granite_pillar_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_yellow_corundum_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_lime_framed_glass_quark",
       "required": false
     },
     {
@@ -1498,6 +1550,10 @@
     },
     {
       "id": "securitycraft_block_extend:reinforced_red_sandstone_bricks_wall",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_framed_glass_quark",
       "required": false
     },
     {
@@ -1545,6 +1601,10 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_mud_pillar_quark",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_black_shingles_vertical_slab",
       "required": false
     },
@@ -1581,6 +1641,10 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_waxed_black_corundum_quark",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_soul_sandstone_wall",
       "required": false
     },
@@ -1597,7 +1661,15 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_shale_pillar_quark",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_dripstone_block_slab",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_waxed_orange_corundum_quark",
       "required": false
     },
     {
@@ -1606,6 +1678,10 @@
     },
     {
       "id": "securitycraft_block_extend:reinforced_cyan_shingles_vertical_slab",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_white_corundum_quark",
       "required": false
     },
     {
@@ -1669,6 +1745,18 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_red_framed_glass_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_orange_framed_glass_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_iron_pillar_quark",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_polished_calcite_slab",
       "required": false
     },
@@ -1697,7 +1785,19 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_diorite_pillar_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_gray_framed_glass_quark",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_red_shingles_slab",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_purple_framed_glass_quark",
       "required": false
     },
     {
@@ -1717,7 +1817,15 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_indigo_corundum_quark",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_raw_iron_bricks_wall",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_white_framed_glass_quark",
       "required": false
     },
     {
@@ -1750,6 +1858,10 @@
     },
     {
       "id": "securitycraft_block_extend:reinforced_soul_sandstone_bricks_wall",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_brown_framed_glass_quark",
       "required": false
     },
     {
@@ -1810,6 +1922,10 @@
     },
     {
       "id": "securitycraft_block_extend:reinforced_diorite_bricks_wall",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_myalite_pillar_quark",
       "required": false
     },
     {
@@ -1877,6 +1993,10 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_magenta_framed_glass_quark",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_limestone_bricks_stairs",
       "required": false
     },
@@ -1889,11 +2009,19 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_iron_ladder",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_stone_brick_vertical_slab",
       "required": false
     },
     {
       "id": "securitycraft_block_extend:reinforced_smooth_stone_vertical_slab",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_myalite_crystal_quark",
       "required": false
     },
     {
@@ -1921,6 +2049,10 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_blue_framed_glass_quark",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_permafrost_wall",
       "required": false
     },
@@ -1929,11 +2061,23 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_dripstone_pillar_quark",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_blue_shingles_slab",
       "required": false
     },
     {
       "id": "securitycraft_block_extend:reinforced_blackstone_bricks_wall",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_violet_corundum_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_pink_framed_glass_quark",
       "required": false
     },
     {
@@ -1965,11 +2109,23 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_waxed_red_corundum_quark",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_jasper_bricks_vertical_slab",
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_waxed_yellow_corundum_quark",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_mossy_cobblestone_bricks_slab",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_waxed_green_corundum_quark",
       "required": false
     },
     {
@@ -1978,6 +2134,10 @@
     },
     {
       "id": "securitycraft_block_extend:reinforced_polished_dripstone_vertical_slab",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_black_corundum_quark",
       "required": false
     },
     {
@@ -2005,6 +2165,14 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_cyan_framed_glass_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_red_corundum_quark",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_soul_sandstone_bricks_vertical_slab",
       "required": false
     },
@@ -2022,6 +2190,10 @@
     },
     {
       "id": "securitycraft_block_extend:reinforced_myalite_vertical_slab",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_jasper_pillar_quark",
       "required": false
     },
     {
@@ -2097,7 +2269,19 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_andesite_pillar_quark",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_brick_vertical_slab",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_green_corundum_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_waxed_blue_corundum_quark",
       "required": false
     },
     {
@@ -2106,6 +2290,10 @@
     },
     {
       "id": "securitycraft_block_extend:reinforced_tuff_wall",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_blue_corundum_quark",
       "required": false
     },
     {
@@ -2146,6 +2334,10 @@
     },
     {
       "id": "securitycraft_block_extend:reinforced_iron_plate_vertical_slab",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_yellow_framed_glass_quark",
       "required": false
     },
     {
@@ -2217,6 +2409,10 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_light_blue_framed_glass_quark",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_granite_vertical_slab",
       "required": false
     },
@@ -2229,11 +2425,19 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_green_framed_glass_quark",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_polished_jasper_slab",
       "required": false
     },
     {
       "id": "securitycraft_block_extend:reinforced_soul_sandstone_bricks_stairs",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_waxed_indigo_corundum_quark",
       "required": false
     },
     {

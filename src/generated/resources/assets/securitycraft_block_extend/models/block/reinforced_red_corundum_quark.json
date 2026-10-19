@@ -1,0 +1,10 @@
+{
+  "parent": "securitycraft:block/reinforced_cube_all",
+  "render_type": "minecraft:translucent",
+  "textures": {
+    "all": "quark:block/red_corundum",
+    "bottom": "quark:block/red_corundum",
+    "side": "quark:block/red_corundum",
+    "top": "quark:block/red_corundum"
+  }
+}

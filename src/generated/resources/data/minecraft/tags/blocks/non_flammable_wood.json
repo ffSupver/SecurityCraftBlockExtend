@@ -1,0 +1,20 @@
+{
+  "values": [
+    {
+      "id": "securitycraft_block_extend:reinforced_crimson_bookshelf",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_crimson_ladder",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_warped_bookshelf",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_warped_ladder",
+      "required": false
+    }
+  ]
+}

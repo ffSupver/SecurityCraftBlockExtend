@@ -1,0 +1,9 @@
+{
+  "parent": "securitycraft:block/reinforced_cube_column",
+  "textures": {
+    "bottom": "minecraft:block/mangrove_planks",
+    "end": "minecraft:block/mangrove_planks",
+    "side": "quark:block/mangrove_bookshelf",
+    "top": "minecraft:block/mangrove_planks"
+  }
+}

@@ -5,9 +5,11 @@
   "refmap": "securitycraft_block_extend.refmap.json",
   "mixins": [
     "AllContraptionTypesMixin",
+    "BasePressurePlateBlockAccessor",
     "EntityKineticBulletAccessor",
     "LinearActuatorBlockEntityAccessor",
     "PlacementInfoAccessor",
+    "PressurePlateBlockAccessor",
     "TrackPlacementMixin",
     "ZetaRegistryMixin"
   ],

@@ -1,0 +1,12 @@
+{
+  "values": [
+    {
+      "id": "securitycraft_block_extend:reinforced_blossom_log_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_azalea_log_quark",
+      "required": false
+    }
+  ]
+}

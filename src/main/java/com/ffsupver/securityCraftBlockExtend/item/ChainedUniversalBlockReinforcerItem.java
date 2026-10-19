@@ -47,7 +47,7 @@ public class ChainedUniversalBlockReinforcerItem extends UniversalBlockReinforce
                 }
 
                 if (firstWalkResult.equals(ChainBlockPredicateResult.SUCCESS) || firstWalkResult.equals(ChainBlockPredicateResult.PASS) && firstConverted){
-                    if (player.isShiftKeyDown() && stack.getItem() instanceof ChainedUniversalBlockReinforcerItem){
+                    if (player.isShiftKeyDown() && stack.getItem() instanceof ChainedUniversalBlockReinforcerItem && !level.isClientSide()){
                         Set<BlockPos> chainBlocks = new HashSet<>();
                         int remain = stack.isDamageableItem() ? Math.min(Config.chainedReinforcerMaxBlocks, stack.getMaxDamage() - stack.getDamageValue()) : Config.chainedReinforcerMaxBlocks;
                         BlockUtil.walkAllBlocks(

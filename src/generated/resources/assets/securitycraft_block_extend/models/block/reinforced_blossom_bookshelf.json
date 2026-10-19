@@ -1,0 +1,9 @@
+{
+  "parent": "securitycraft:block/reinforced_cube_column",
+  "textures": {
+    "bottom": "quark:block/blossom_planks",
+    "end": "quark:block/blossom_planks",
+    "side": "quark:block/blossom_bookshelf",
+    "top": "quark:block/blossom_planks"
+  }
+}

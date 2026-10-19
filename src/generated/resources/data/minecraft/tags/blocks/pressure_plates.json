@@ -1,0 +1,16 @@
+{
+  "values": [
+    {
+      "id": "securitycraft_block_extend:reinforced_azalea_pressure_plate",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_ancient_pressure_plate",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_blossom_pressure_plate",
+      "required": false
+    }
+  ]
+}
