@@ -1,5 +1,6 @@
 package com.ffsupver.securityCraftBlockExtend.dataGen;
 
+import com.ffsupver.securityCraftBlockExtend.registeries.SCBETags;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
@@ -42,7 +43,7 @@ public record SCBEBlockTagData(
         }
 
         public Builder reinforced(){
-            return this.add(BlockTags.WITHER_IMMUNE).add(BlockTags.DRAGON_IMMUNE);
+            return this.add(BlockTags.WITHER_IMMUNE).add(BlockTags.DRAGON_IMMUNE).add(SCBETags.BlockTags.REINFORCED_BLOCKS);
         }
 
         public SCBEBlockTagData build(){

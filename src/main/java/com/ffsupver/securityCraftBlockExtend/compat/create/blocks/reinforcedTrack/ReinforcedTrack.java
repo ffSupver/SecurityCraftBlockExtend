@@ -2,13 +2,11 @@ package com.ffsupver.securityCraftBlockExtend.compat.create.blocks.reinforcedTra
 
 import com.ffsupver.securityCraftBlockExtend.SecurityCraftBlockExtend;
 import com.ffsupver.securityCraftBlockExtend.compat.create.blocks.CreateReinforcedBlocks;
-import com.simibubi.create.AllBlocks;
 import com.simibubi.create.content.trains.track.TrackBlock;
 import com.simibubi.create.content.trains.track.TrackBlockEntity;
 import com.simibubi.create.content.trains.track.TrackMaterial;
 import com.simibubi.create.content.trains.track.TrackMaterialFactory;
 import com.tterrag.registrate.util.nullness.NonNullSupplier;
-import net.geforcemods.securitycraft.api.IReinforcedBlock;
 import net.geforcemods.securitycraft.api.Owner;
 import net.geforcemods.securitycraft.misc.OwnershipEvent;
 import net.geforcemods.securitycraft.util.BlockUtils;
@@ -20,7 +18,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -32,7 +29,7 @@ import static com.ffsupver.securityCraftBlockExtend.compat.create.blocks.CreateR
 import static net.geforcemods.securitycraft.blocks.OwnableBlock.getStoredDestroyTime;
 import static net.geforcemods.securitycraft.blocks.OwnableBlock.withReinforcedDestroyTime;
 
-public class ReinforcedTrack extends TrackBlock implements IReinforcedBlock {
+public class ReinforcedTrack extends TrackBlock {
     public static final TrackMaterial REINFORCED_TRACK_MATERIAL = TrackMaterialFactory.make(SecurityCraftBlockExtend.asResource("reinforced_andesite_track"))
             .block(NonNullSupplier.lazy(()->REINFORCED_TRACK))
             .customBlockFactory(ReinforcedTrack::new)
@@ -67,10 +64,6 @@ public class ReinforcedTrack extends TrackBlock implements IReinforcedBlock {
         return BlockUtils.getDestroyProgress(super::getDestroyProgress, destroyTimeForOwner, state, player, level, pos);
     }
 
-    @Override
-    public Block getVanillaBlock() {
-        return AllBlocks.TRACK.get();
-    }
 
     private boolean canBeWrenched(UseOnContext context){
         return canInteract(context.getLevel(),context.getClickedPos(),context.getPlayer());

@@ -97,6 +97,26 @@ public class CreateReinforcedBlocks {
                             )),
                     false
             );
+    public static final BlockEntry<ReinforcedPaneBlock> REINFORCED_HORIZONTAL_FRAMED_GLASS_PANE =
+            registerReinforcedPaneBlock(
+                    "reinforced_horizontal_framed_glass_pane",
+                    AllPaletteBlocks.HORIZONTAL_FRAMED_GLASS_PANE::get,
+                    builder -> builder
+                            .onRegister(CreateRegistrate.connectedTextures(
+                                    () -> new GlassPaneCTBehaviour(CTSpriteShifter.getCT(AllCTTypes.HORIZONTAL_KRYPPERS, SecurityCraftBlockExtend.asResource("block/reinforced_horizontal_framed_glass"),SecurityCraftBlockExtend.asResource("block/reinforced_horizontal_framed_glass_connected")))
+                            )),
+                    false
+            );
+    public static final BlockEntry<ReinforcedPaneBlock> REINFORCED_VERTICAL_FRAMED_GLASS_PANE =
+            registerReinforcedPaneBlock(
+                    "reinforced_vertical_framed_glass_pane",
+                    AllPaletteBlocks.VERTICAL_FRAMED_GLASS_PANE::get,
+                    builder -> builder
+                            .onRegister(CreateRegistrate.connectedTextures(
+                                    () -> new GlassPaneCTBehaviour(CTSpriteShifter.getCT(AllCTTypes.VERTICAL, SecurityCraftBlockExtend.asResource("block/reinforced_vertical_framed_glass"),SecurityCraftBlockExtend.asResource("block/reinforced_vertical_framed_glass_connected")))
+                            )),
+                    false
+            );
     public static final BlockEntry<ReinforcedPaneBlock> REINFORCED_BRASS_BARS =
             registerReinforcedPaneBlock(
                     "reinforced_brass_bars",
@@ -253,10 +273,7 @@ public class CreateReinforcedBlocks {
             ));
 
             blockLootData.add(new SCBEBlockLootData(reinforced, SCBEBlockLootData.BlockLootType.DROP_SELF));
-            blockTagData.add(new SCBEBlockTagData(
-                    reinforced,
-                    List.of(BlockTags.MINEABLE_WITH_PICKAXE, BlockTags.WITHER_IMMUNE, BlockTags.DRAGON_IMMUNE)
-            ));
+            blockTagData.add(SCBEBlockTagData.mineWithPickaxe(reinforced::get));
 
             // ================= 该 pattern 下的 partials =================
             for (PaletteBlockPartial<?> partial : pattern.getPartials()) {
@@ -264,7 +281,7 @@ public class CreateReinforcedBlocks {
                 String partialPath = partialEntry.getId().getPath();
                 String reinforcedPartialName = "reinforced_" + partialPath;
 
-                BlockEntry<? extends Block> reinforcedBlockEntry = null;
+//                BlockEntry<? extends Block> reinforcedBlockEntry = null;
                 if (partial == PaletteBlockPartial.STAIR) {
                     BlockEntry<ReinforcedStairsBlock> reinforcedStair =
                             registerReinforcedStairBlock(reinforcedPartialName, partialEntry::get);
@@ -282,12 +299,13 @@ public class CreateReinforcedBlocks {
                     ));
 
                     blockLootData.add(new SCBEBlockLootData(reinforcedStair, SCBEBlockLootData.BlockLootType.DROP_SELF));
-                    blockTagData.add(new SCBEBlockTagData(
-                            reinforcedStair,
-                            List.of(BlockTags.MINEABLE_WITH_PICKAXE, BlockTags.STAIRS)
-                    ));
+                    blockTagData.add(new SCBEBlockTagData.Builder(reinforcedStair).pickaxe().reinforced().add(BlockTags.STAIRS).build());
+//                    blockTagData.add(new SCBEBlockTagData(
+//                            reinforcedStair,
+//                            List.of(BlockTags.MINEABLE_WITH_PICKAXE, BlockTags.STAIRS)
+//                    ));
 
-                    reinforcedBlockEntry = reinforcedStair;
+//                    reinforcedBlockEntry = reinforcedStair;
                 } else if (partial == PaletteBlockPartial.SLAB || partial == PaletteBlockPartial.UNIQUE_SLAB) {
                     BlockEntry<ReinforcedSlabBlock> reinforcedSlab =
                             registerReinforcedSlabBlock(reinforcedPartialName, partialEntry::get);
@@ -305,12 +323,13 @@ public class CreateReinforcedBlocks {
                     ));
 
                     blockLootData.add(new SCBEBlockLootData(reinforcedSlab, SCBEBlockLootData.BlockLootType.SLAB));
-                    blockTagData.add(new SCBEBlockTagData(
-                            reinforcedSlab,
-                            List.of(BlockTags.MINEABLE_WITH_PICKAXE, BlockTags.SLABS)
-                    ));
+                    blockTagData.add(new SCBEBlockTagData.Builder(reinforcedSlab).pickaxe().reinforced().add(BlockTags.SLABS).build());
+//                    blockTagData.add(new SCBEBlockTagData(
+//                            reinforcedSlab,
+//                            List.of(BlockTags.MINEABLE_WITH_PICKAXE, BlockTags.SLABS)
+//                    ));
 
-                    reinforcedBlockEntry = reinforcedSlab;
+//                    reinforcedBlockEntry = reinforcedSlab;
                 } else if (partial == PaletteBlockPartial.WALL) {
                     BlockEntry<ReinforcedWallBlock> reinforcedWall =
                             registerReinforcedWallBlock(reinforcedPartialName, partialEntry::get);
@@ -328,25 +347,26 @@ public class CreateReinforcedBlocks {
                     ));
 
                     blockLootData.add(new SCBEBlockLootData(reinforcedWall, SCBEBlockLootData.BlockLootType.DROP_SELF));
-                    blockTagData.add(new SCBEBlockTagData(
-                            reinforcedWall,
-                            List.of(BlockTags.MINEABLE_WITH_PICKAXE, BlockTags.WALLS)
-                    ));
+                    blockTagData.add(new SCBEBlockTagData.Builder(reinforcedWall).pickaxe().reinforced().add(BlockTags.WALLS).build());
+                    //                    blockTagData.add(new SCBEBlockTagData(
+//                            reinforcedWall,
+//                            List.of(BlockTags.MINEABLE_WITH_PICKAXE, BlockTags.WALLS)
+//                    ));
 
-                    reinforcedBlockEntry = reinforcedWall;
+//                    reinforcedBlockEntry = reinforcedWall;
                 } else {
                     SecurityCraftBlockExtend.LOGGER.warn(
                             "Unhandled partial type: {} (pattern={}, class={})",
                             reinforcedPartialName, pattern, partial.getClass().getSimpleName());
                 }
-                if (reinforcedBlockEntry != null){
-                    blockTagData.add(
-                            new SCBEBlockTagData(
-                                    reinforcedBlockEntry,
-                                    List.of(BlockTags.WITHER_IMMUNE,BlockTags.DRAGON_IMMUNE)
-                            )
-                    );
-                }
+//                if (reinforcedBlockEntry != null){
+//                    blockTagData.add(
+//                            new SCBEBlockTagData(
+//                                    reinforcedBlockEntry,
+//                                    List.of(BlockTags.WITHER_IMMUNE,BlockTags.DRAGON_IMMUNE)
+//                            )
+//                    );
+//                }
             }
         }
     }
@@ -449,6 +469,22 @@ public class CreateReinforcedBlocks {
                          "minecraft:cutout",
                          CREATE_CONNECTED_PANE
                  ),
+                 new SCBEBlockModelData(
+                         "reinforced_horizontal_framed_glass_pane",
+                         REINFORCED_HORIZONTAL_FRAMED_GLASS_PANE,
+                         "不使用，任意占位",
+                         Map.of("edge", SecurityCraftBlockExtend.asResource("block/reinforced_framed_glass_pane_top"),"pane", SecurityCraftBlockExtend.asResource("block/reinforced_horizontal_framed_glass")),
+                         "minecraft:cutout",
+                         CREATE_CONNECTED_PANE
+                 ),
+                 new SCBEBlockModelData(
+                         "reinforced_vertical_framed_glass_pane",
+                         REINFORCED_VERTICAL_FRAMED_GLASS_PANE,
+                         "不使用，任意占位",
+                         Map.of("edge", SecurityCraftBlockExtend.asResource("block/reinforced_framed_glass_pane_top"),"pane", SecurityCraftBlockExtend.asResource("block/reinforced_vertical_framed_glass")),
+                         "minecraft:cutout",
+                         CREATE_CONNECTED_PANE
+                 ),
                  createBars(
                          "reinforced_brass_bars", REINFORCED_BRASS_BARS,
                           SecurityCraftBlockExtend.asResource("block/reinforced_brass_bars"),
@@ -487,6 +523,8 @@ public class CreateReinforcedBlocks {
                 SCBEBlockLootData.dropSelf(REINFORCED_HORIZONTAL_FRAMED_GLASS),
                 SCBEBlockLootData.dropSelf(REINFORCED_VERTICAL_FRAMED_GLASS),
                 SCBEBlockLootData.dropSelf(REINFORCED_FRAMED_GLASS_PANE),
+                SCBEBlockLootData.dropSelf(REINFORCED_HORIZONTAL_FRAMED_GLASS_PANE),
+                SCBEBlockLootData.dropSelf(REINFORCED_VERTICAL_FRAMED_GLASS_PANE),
                 SCBEBlockLootData.dropSelf(REINFORCED_BRASS_BARS),
                 SCBEBlockLootData.dropSelf(REINFORCED_ANDESITE_BARS),
                 SCBEBlockLootData.dropSelf(REINFORCED_COPPER_BARS),
@@ -506,6 +544,8 @@ public class CreateReinforcedBlocks {
                 SCBEBlockTagData.mineWithPickaxe(REINFORCED_HORIZONTAL_FRAMED_GLASS::get),
                 SCBEBlockTagData.mineWithPickaxe(REINFORCED_VERTICAL_FRAMED_GLASS::get),
                 new SCBEBlockTagData.Builder(REINFORCED_FRAMED_GLASS_PANE).pickaxe().reinforced().add(SCTags.Blocks.REINFORCED_GLASS_PANES).build(),
+                new SCBEBlockTagData.Builder(REINFORCED_HORIZONTAL_FRAMED_GLASS_PANE).pickaxe().reinforced().add(SCTags.Blocks.REINFORCED_GLASS_PANES).build(),
+                new SCBEBlockTagData.Builder(REINFORCED_VERTICAL_FRAMED_GLASS_PANE).pickaxe().reinforced().add(SCTags.Blocks.REINFORCED_GLASS_PANES).build(),
                 new SCBEBlockTagData.Builder(REINFORCED_BRASS_BARS).pickaxe().ironTool().add(AllTags.AllBlockTags.FAN_TRANSPARENT.tag).reinforced().build(),
                 new SCBEBlockTagData.Builder(REINFORCED_ANDESITE_BARS).pickaxe().add(AllTags.AllBlockTags.FAN_TRANSPARENT.tag).reinforced().build(),
                 new SCBEBlockTagData.Builder(REINFORCED_COPPER_BARS).pickaxe().add(AllTags.AllBlockTags.FAN_TRANSPARENT.tag).reinforced().build(),
@@ -608,7 +648,8 @@ public class CreateReinforcedBlocks {
     public static List<Supplier<ItemLike>> getCreativeTabItems() {
         creativeTabItems.addAll(List.of(
                 REINFORCED_STICKY_MECHANICAL_PISTON_BLOCK::get,
-                REINFORCED_MECHANICAL_PISTON_BLOCK::get
+                REINFORCED_MECHANICAL_PISTON_BLOCK::get,
+                REINFORCED_TRACK::get
         ));
         return creativeTabItems;
     }

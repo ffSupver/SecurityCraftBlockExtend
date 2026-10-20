@@ -1,0 +1,16 @@
+{
+  "type": "create:deploying",
+  "ingredients": [
+    {
+      "item": "create:track"
+    },
+    {
+      "tag": "forge:plates/steel"
+    }
+  ],
+  "results": [
+    {
+      "item": "securitycraft_block_extend:reinforced_track"
+    }
+  ]
+}

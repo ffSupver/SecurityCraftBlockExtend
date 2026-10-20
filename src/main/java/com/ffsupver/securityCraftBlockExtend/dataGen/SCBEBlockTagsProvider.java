@@ -3,6 +3,7 @@ package com.ffsupver.securityCraftBlockExtend.dataGen;
 import com.ffsupver.securityCraftBlockExtend.SecurityCraftBlockExtend;
 import com.ffsupver.securityCraftBlockExtend.compat.Mods;
 import com.ffsupver.securityCraftBlockExtend.registeries.SCBEBlocks;
+import com.ffsupver.securityCraftBlockExtend.registeries.SCBETags;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
@@ -33,8 +34,9 @@ public class SCBEBlockTagsProvider extends BlockTagsProvider {
         // ===== 原生方块标签 =====
 //        tag(BlockTags.MINEABLE_WITH_PICKAXE)
 //                .add(SCBEBlocks.REINFORCED_REINFORCED_DEEPSLATE.get());
-//        tag(BlockTags.NEEDS_STONE_TOOL)
-//                .add(SCBEBlocks.REINFORCED_REINFORCED_DEEPSLATE.get());
+        tag(SCBETags.BlockTags.REINFORCED_BLOCKS)
+                .add(SCBEBlocks.REINFORCED_REINFORCED_DEEPSLATE.get())
+                .add(SCBEBlocks.REINFORCED_WET_SPONGE.get());
 
         tag(BlockTags.MINEABLE_WITH_HOE)
                 .add(SCBEBlocks.REINFORCED_WET_SPONGE.get());

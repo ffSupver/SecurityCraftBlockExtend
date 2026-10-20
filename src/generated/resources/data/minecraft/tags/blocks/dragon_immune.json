@@ -1197,6 +1197,14 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_horizontal_framed_glass_pane",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_vertical_framed_glass_pane",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_brass_bars",
       "required": false
     },
