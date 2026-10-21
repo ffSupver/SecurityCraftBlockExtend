@@ -47,21 +47,25 @@ public class ChainedUniversalBlockReinforcerItem extends UniversalBlockReinforce
                 }
 
                 if (firstWalkResult.equals(ChainBlockPredicateResult.SUCCESS) || firstWalkResult.equals(ChainBlockPredicateResult.PASS) && firstConverted){
-                    if (player.isShiftKeyDown() && stack.getItem() instanceof ChainedUniversalBlockReinforcerItem && !level.isClientSide()){
-                        Set<BlockPos> chainBlocks = new HashSet<>();
-                        int remain = stack.isDamageableItem() ? Math.min(Config.chainedReinforcerMaxBlocks, stack.getMaxDamage() - stack.getDamageValue()) : Config.chainedReinforcerMaxBlocks;
-                        BlockUtil.walkAllBlocks(
-                                pos,
-                                chainBlocks,
-                                (checkPos, face) -> shouldWalkBlock(level, checkPos, player, face, clickBlock,pos),
-                                (checkPos,face)-> shouldAddBlock(level, checkPos, player, face,clickBlock),
-                                Config.chainedReinforcerMaxRange,
-                                remain
-                        );
+                    boolean isCooldown = player.getCooldowns().isOnCooldown(held);
+                    if (!isCooldown && player.isShiftKeyDown() && stack.getItem() instanceof ChainedUniversalBlockReinforcerItem){
+                        if (!level.isClientSide()){
+                            Set<BlockPos> chainBlocks = new HashSet<>();
+                            int remain = stack.isDamageableItem() ? Math.min(Config.chainedReinforcerMaxBlocks, stack.getMaxDamage() - stack.getDamageValue()) : Config.chainedReinforcerMaxBlocks;
+                            BlockUtil.walkAllBlocks(
+                                    pos,
+                                    chainBlocks,
+                                    (checkPos, face) -> shouldWalkBlock(level, checkPos, player, face, clickBlock, pos),
+                                    (checkPos, face) -> shouldAddBlock(level, checkPos, player, face, clickBlock),
+                                    Config.chainedReinforcerMaxRange,
+                                    remain
+                            );
 
-                        for (BlockPos chainBlock : chainBlocks) {
-                            UniversalBlockReinforcerItem.convertBlock(level.getBlockState(chainBlock), level, stack, chainBlock, event.getEntity());
+                            for (BlockPos chainBlock : chainBlocks) {
+                                UniversalBlockReinforcerItem.convertBlock(level.getBlockState(chainBlock), level, stack, chainBlock, event.getEntity());
+                            }
                         }
+                        player.getCooldowns().addCooldown(held, 5);
                     }
                 }
                 event.setCanceled(true);
