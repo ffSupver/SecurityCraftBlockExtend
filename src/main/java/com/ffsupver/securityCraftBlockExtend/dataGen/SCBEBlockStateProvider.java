@@ -27,6 +27,7 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import org.violetmoon.quark.content.building.block.VerticalSlabBlock;
+import org.violetmoon.quark.content.building.block.WoodPostBlock;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -83,6 +84,7 @@ public class SCBEBlockStateProvider extends BlockStateProvider {
                 case LADDER -> reinforcedLadder(data.name(), data.block().get(), data.parentModel(), data.textures());
                 case PRESSURE_PLATE -> reinforcedPressurePlate(data.name(), data.block().get(), data.parentModel(), data.textures(),data.renderType());
                 case BUTTON -> reinforcedButton(data.name(), data.block().get(), data.parentModel(), data.textures(), data.renderType());
+                case POST_QUARK -> reinforcedWoodPost(data.name(), data.block().get(), data.parentModel(), data.textures());
             }
         }
 
@@ -802,6 +804,98 @@ public class SCBEBlockStateProvider extends BlockStateProvider {
         // 物品模型：securitycraft:block/reinforced_button_inventory
         itemModels().withExistingParent(name, securitycraftLoc("block/reinforced_button_inventory"))
                 .texture("texture", texture);
+    }
+
+    private void reinforcedWoodPost(String name, Block block,ResourceLocation postParentModel,
+                                    Map<String, ResourceLocation> textures) {
+        Map<String, ResourceLocation> tex = resolveTextureSet(textures);
+
+        // post 主体纹理
+        ResourceLocation texture = firstNonNull(
+                tex.get("texture"),
+                tex.get("side"),
+                tex.get("all"),
+                firstValue(tex),
+                fallbackTexture(ForgeRegistries.BLOCKS.getKey(block))
+        );
+
+        // connect 纹理：默认与 post 相同；若原方块有独立的 xxx_post_connect 模型，则读取它的贴图
+        ResourceLocation connectTexture = texture;
+        ResourceLocation parentId = textures.get("parentId");
+        if (parentId != null) {
+            ResourceLocation connectModelLoc = ResourceLocation.tryBuild(
+                    parentId.getNamespace(),
+                    "block/" + parentId.getPath() + "_connect"
+            );
+            Map<String, ResourceLocation> connectTex = collectModelTextures(connectModelLoc, 0);
+            ResourceLocation t = connectTex.get("texture");
+            if (t != null) {
+                connectTexture = t;
+            }
+        }
+
+        // 三个带 tint 的自定义模型
+        ModelFile postModel = models().getBuilder(name)
+                .parent(new UncheckedModelFile(postParentModel))
+                .texture("texture", texture);
+
+        ModelFile connectModel = models().getBuilder(name + "_connect")
+                .parent(new UncheckedModelFile(modLoc("block/reinforced_post_connect_quark")))
+                .texture("texture", connectTexture);
+
+        ModelFile connectTopModel = models().getBuilder(name + "_connect_top")
+                .parent(new UncheckedModelFile(modLoc("block/reinforced_post_connect_top_quark")))
+                .texture("texture", connectTexture);
+
+        // chain 模型直接引用 quark 的（不受加固染色影响）
+        ModelFile chainSmall    = new UncheckedModelFile(modLoc("block/reinforced_chain_small_quark"));
+        ModelFile chainSmallTop = new UncheckedModelFile(modLoc("block/reinforced_chain_small_top_quark"));
+
+        MultiPartBlockStateBuilder builder = getMultipartBuilder(block);
+
+        // ===== 主轴（三种 axis）=====
+        builder.part().modelFile(postModel).addModel()
+                .condition(BlockStateProperties.AXIS, Direction.Axis.Y).end();
+        builder.part().modelFile(postModel).rotationX(90).rotationY(90).addModel()
+                .condition(BlockStateProperties.AXIS, Direction.Axis.X).end();
+        builder.part().modelFile(postModel).rotationX(90).addModel()
+                .condition(BlockStateProperties.AXIS, Direction.Axis.Z).end();
+
+        // ===== CHAIN 连接（铁链/灯笼/悬挂告示牌等）=====
+        builder.part().modelFile(chainSmall).addModel()
+                .condition(WoodPostBlock.SIDES[Direction.DOWN.ordinal()],  WoodPostBlock.PostSideType.CHAIN).end();
+        builder.part().modelFile(chainSmallTop).addModel()
+                .condition(WoodPostBlock.SIDES[Direction.UP.ordinal()],    WoodPostBlock.PostSideType.CHAIN).end();
+        builder.part().modelFile(chainSmallTop).rotationX(90).addModel()
+                .condition(WoodPostBlock.SIDES[Direction.NORTH.ordinal()], WoodPostBlock.PostSideType.CHAIN).end();
+        builder.part().modelFile(chainSmall).rotationX(90).addModel()
+                .condition(WoodPostBlock.SIDES[Direction.SOUTH.ordinal()], WoodPostBlock.PostSideType.CHAIN).end();
+        builder.part().modelFile(chainSmallTop).rotationX(90).rotationY(90).addModel()
+                .condition(WoodPostBlock.SIDES[Direction.EAST.ordinal()],  WoodPostBlock.PostSideType.CHAIN).end();
+        builder.part().modelFile(chainSmall).rotationX(90).rotationY(90).addModel()
+                .condition(WoodPostBlock.SIDES[Direction.WEST.ordinal()],  WoodPostBlock.PostSideType.CHAIN).end();
+
+        // ===== OTHER_POST 连接（另一根柱子）=====
+        builder.part().modelFile(connectModel).addModel()
+                .condition(WoodPostBlock.SIDES[Direction.DOWN.ordinal()],  WoodPostBlock.PostSideType.OTHER_POST).end();
+        builder.part().modelFile(connectTopModel).addModel()
+                .condition(WoodPostBlock.SIDES[Direction.UP.ordinal()],    WoodPostBlock.PostSideType.OTHER_POST).end();
+        builder.part().modelFile(connectTopModel).rotationX(90).addModel()
+                .condition(WoodPostBlock.SIDES[Direction.NORTH.ordinal()], WoodPostBlock.PostSideType.OTHER_POST).end();
+        builder.part().modelFile(connectModel).rotationX(90).addModel()
+                .condition(WoodPostBlock.SIDES[Direction.SOUTH.ordinal()], WoodPostBlock.PostSideType.OTHER_POST).end();
+        builder.part().modelFile(connectTopModel).rotationX(90).rotationY(90).addModel()
+                .condition(WoodPostBlock.SIDES[Direction.EAST.ordinal()],  WoodPostBlock.PostSideType.OTHER_POST).end();
+        builder.part().modelFile(connectModel).rotationX(90).rotationY(90).addModel()
+                .condition(WoodPostBlock.SIDES[Direction.WEST.ordinal()],  WoodPostBlock.PostSideType.OTHER_POST).end();
+
+        // ===== 物品模型 =====
+        if (postParentModel != null && postParentModel.equals(modLoc("block/reinforced_custom_fence_post_quark"))){
+            itemModels().withExistingParent(name,modLoc("block/reinforced_custom_post_inventory_quark"))
+                    .texture("texture", texture);
+        }else {
+            itemModels().withExistingParent(name, modLoc("block/"+name));
+        }
     }
 
     /**

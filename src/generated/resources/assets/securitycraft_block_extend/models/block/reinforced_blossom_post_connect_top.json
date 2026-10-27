@@ -1,0 +1,6 @@
+{
+  "parent": "securitycraft_block_extend:block/reinforced_post_connect_top_quark",
+  "textures": {
+    "texture": "quark:block/blossom_log"
+  }
+}

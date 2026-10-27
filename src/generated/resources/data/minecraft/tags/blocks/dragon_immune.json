@@ -1233,11 +1233,19 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_oak_post",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_dripstone_bricks_stairs",
       "required": false
     },
     {
       "id": "securitycraft_block_extend:reinforced_polished_andesite_vertical_slab",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_birch_post",
       "required": false
     },
     {
@@ -1309,6 +1317,10 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_stripped_azalea_post",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_jasper_bricks_stairs",
       "required": false
     },
@@ -1362,6 +1374,14 @@
     },
     {
       "id": "securitycraft_block_extend:reinforced_tuff_vertical_slab",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_ancient_post",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_stripped_dark_oak_post",
       "required": false
     },
     {
@@ -1433,6 +1453,10 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_mangrove_post",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_shale_wall",
       "required": false
     },
@@ -1458,6 +1482,10 @@
     },
     {
       "id": "securitycraft_block_extend:reinforced_spruce_vertical_slab",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_stripped_warped_post",
       "required": false
     },
     {
@@ -1497,7 +1525,15 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_stripped_blossom_post",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_chiseled_andesite_bricks_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_stripped_jungle_post",
       "required": false
     },
     {
@@ -1989,6 +2025,10 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_azalea_post",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_exposed_cut_copper_vertical_slab",
       "required": false
     },
@@ -2033,6 +2073,10 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_dark_oak_post",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_dripstone_bricks_quark",
       "required": false
     },
@@ -2042,6 +2086,10 @@
     },
     {
       "id": "securitycraft_block_extend:reinforced_black_shingles_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_stripped_crimson_post",
       "required": false
     },
     {
@@ -2066,6 +2114,10 @@
     },
     {
       "id": "securitycraft_block_extend:reinforced_orange_framed_glass_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_stripped_oak_post",
       "required": false
     },
     {
@@ -2098,6 +2150,10 @@
     },
     {
       "id": "securitycraft_block_extend:reinforced_polished_granite_vertical_slab",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_spruce_post",
       "required": false
     },
     {
@@ -2237,6 +2293,10 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_stripped_bamboo_post",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_blackstone_bricks_slab",
       "required": false
     },
@@ -2318,6 +2378,10 @@
     },
     {
       "id": "securitycraft_block_extend:reinforced_duskbound_block_vertical_slab",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_jungle_post",
       "required": false
     },
     {
@@ -2405,6 +2469,10 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_blossom_post",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_vertical_bamboo_planks_quark",
       "required": false
     },
@@ -2429,6 +2497,10 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_warped_post",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_blaze_lantern_quark",
       "required": false
     },
@@ -2442,6 +2514,10 @@
     },
     {
       "id": "securitycraft_block_extend:reinforced_cobbled_deepslate_vertical_slab",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_stripped_birch_post",
       "required": false
     },
     {
@@ -2506,6 +2582,10 @@
     },
     {
       "id": "securitycraft_block_extend:reinforced_vertical_cherry_planks_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_stripped_mangrove_post",
       "required": false
     },
     {
@@ -2709,6 +2789,10 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_stripped_spruce_post",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_mangrove_vertical_slab",
       "required": false
     },
@@ -2726,6 +2810,10 @@
     },
     {
       "id": "securitycraft_block_extend:reinforced_midori_block_slab",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_acacia_post",
       "required": false
     },
     {
@@ -2762,6 +2850,10 @@
     },
     {
       "id": "securitycraft_block_extend:reinforced_calcite_bricks_vertical_slab",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_cherry_post",
       "required": false
     },
     {
@@ -2825,6 +2917,10 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_stripped_cherry_post",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_light_blue_shingles_slab",
       "required": false
     },
@@ -2849,11 +2945,19 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_stripped_ancient_post",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_diorite_bricks_vertical_slab",
       "required": false
     },
     {
       "id": "securitycraft_block_extend:reinforced_andesite_vertical_slab",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_crimson_post",
       "required": false
     },
     {
@@ -2938,6 +3042,10 @@
     },
     {
       "id": "securitycraft_block_extend:reinforced_waxed_blue_corundum_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_bamboo_post",
       "required": false
     },
     {
@@ -3054,6 +3162,10 @@
     },
     {
       "id": "securitycraft_block_extend:reinforced_green_shingles_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_stripped_acacia_post",
       "required": false
     },
     {

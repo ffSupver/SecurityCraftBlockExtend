@@ -13,6 +13,14 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_warped_post",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_crimson_post",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_warped_ladder",
       "required": false
     }

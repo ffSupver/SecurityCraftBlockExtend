@@ -1,6 +1,14 @@
 {
   "values": [
     {
+      "id": "securitycraft_block_extend:reinforced_oak_post",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_birch_post",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_bamboo_ladder",
       "required": false
     },
@@ -13,7 +21,19 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_stripped_azalea_post",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_ancient_planks_slab",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_ancient_post",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_stripped_dark_oak_post",
       "required": false
     },
     {
@@ -33,11 +53,27 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_mangrove_post",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_cherry_ladder",
       "required": false
     },
     {
       "id": "securitycraft_block_extend:reinforced_spruce_vertical_slab",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_stripped_warped_post",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_stripped_blossom_post",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_stripped_jungle_post",
       "required": false
     },
     {
@@ -125,7 +161,15 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_azalea_post",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_warped_bookshelf",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_dark_oak_post",
       "required": false
     },
     {
@@ -133,7 +177,19 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_stripped_crimson_post",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_stripped_oak_post",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_dark_oak_ladder",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_spruce_post",
       "required": false
     },
     {
@@ -161,6 +217,10 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_stripped_bamboo_post",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_ancient_planks_stairs",
       "required": false
     },
@@ -178,6 +238,10 @@
     },
     {
       "id": "securitycraft_block_extend:reinforced_cherry_vertical_slab",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_jungle_post",
       "required": false
     },
     {
@@ -201,6 +265,10 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_blossom_post",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_vertical_bamboo_planks_quark",
       "required": false
     },
@@ -213,6 +281,14 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_warped_post",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_stripped_birch_post",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_acacia_vertical_slab",
       "required": false
     },
@@ -222,6 +298,10 @@
     },
     {
       "id": "securitycraft_block_extend:reinforced_vertical_cherry_planks_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_stripped_mangrove_post",
       "required": false
     },
     {
@@ -245,7 +325,15 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_stripped_spruce_post",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_mangrove_vertical_slab",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_acacia_post",
       "required": false
     },
     {
@@ -261,7 +349,23 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_cherry_post",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_vertical_jungle_planks_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_stripped_cherry_post",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_stripped_ancient_post",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_crimson_post",
       "required": false
     },
     {
@@ -278,6 +382,10 @@
     },
     {
       "id": "securitycraft_block_extend:reinforced_blossom_planks_vertical_slab",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_bamboo_post",
       "required": false
     },
     {
@@ -298,6 +406,10 @@
     },
     {
       "id": "securitycraft_block_extend:reinforced_stripped_blossom_wood_quark",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_stripped_acacia_post",
       "required": false
     },
     {

@@ -1,0 +1,6 @@
+{
+  "parent": "securitycraft_block_extend:block/reinforced_post_quark",
+  "textures": {
+    "texture": "minecraft:block/stripped_birch_log"
+  }
+}

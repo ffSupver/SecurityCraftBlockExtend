@@ -1,5 +1,6 @@
 package com.ffsupver.securityCraftBlockExtend.compat.quark;
 
+import com.ffsupver.securityCraftBlockExtend.SecurityCraftBlockExtend;
 import com.ffsupver.securityCraftBlockExtend.compat.Mods;
 import com.ffsupver.securityCraftBlockExtend.compat.SCBEModCompat;
 import com.ffsupver.securityCraftBlockExtend.dataGen.SCBEBlockLootData;
@@ -34,7 +35,6 @@ import org.violetmoon.quark.addons.oddities.block.pipe.BasePipeBlock;
 import org.violetmoon.quark.content.automation.block.*;
 import org.violetmoon.quark.content.building.block.*;
 import org.violetmoon.quark.content.tools.block.CloudBlock;
-import org.violetmoon.quark.content.tweaks.block.DirtyGlassBlock;
 import org.violetmoon.quark.content.tweaks.block.WaterPetalBlock;
 import org.violetmoon.quark.content.world.block.*;
 import org.violetmoon.zeta.block.*;
@@ -120,7 +120,7 @@ public class QuarkCompat implements SCBEModCompat {
                     || block instanceof StoolBlock || block instanceof ZetaStandingSignBlock || block instanceof ZetaWallSignBlock || block instanceof ZetaCeilingHangingSignBlock
                     || block instanceof ZetaWallHangingSignBlock || block instanceof EnderWatcherBlock || block instanceof CrafterBlock || block instanceof PaperLanternBlock
                     || block instanceof ZetaFlammableBlock || block instanceof ZetaDoorBlock || block instanceof CorundumClusterBlock || block instanceof VariantFurnaceBlock
-                    || block instanceof WoodPostBlock || block instanceof GlowShroomRingBlock || block instanceof ChorusVegetationBlock
+                    || block instanceof GlowShroomRingBlock || block instanceof ChorusVegetationBlock
                     || block instanceof ZetaFenceGateBlock || block instanceof ZetaFenceBlock || block instanceof RainbowLampBlock || block instanceof MudBrickLatticeBlock
                     || block instanceof MatrixEnchantingTableBlock || block instanceof RopeBlock || block instanceof MagnetBlock || block instanceof MovingMagnetizedBlock
                     || block instanceof ZetaPaneBlock || block instanceof IronRodBlock || block instanceof ZetaTrapdoorBlock || block instanceof BasePipeBlock
@@ -217,6 +217,14 @@ public class QuarkCompat implements SCBEModCompat {
                         ResourceLocation.tryBuild(SecurityCraft.MODID, "block/reinforced_button"),
                         SCBEBlockLootData::dropSelf,
                         b->b
+                );
+            }else if (block instanceof WoodPostBlock){
+                boolean isBambooPost = originalId.getPath().equals("bamboo_post") || originalId.getPath().equals("stripped_bamboo_post");
+                registerQuarkReinforced(
+                        name,originalId,block, ReinforcedWoodPostBlock::new,
+                        SCBEBlockModelData.BlockType.POST_QUARK,
+                        isBambooPost ? SecurityCraftBlockExtend.asResource("block/reinforced_custom_fence_post_quark") : SecurityCraftBlockExtend.asResource("block/reinforced_post_quark"),
+                        reg -> new SCBEBlockLootData(reg, SCBEBlockLootData.BlockLootType.DROP_SELF)
                 );
             }else if (block instanceof SturdyStoneBlock){
                 registerQuarkReinforced(
