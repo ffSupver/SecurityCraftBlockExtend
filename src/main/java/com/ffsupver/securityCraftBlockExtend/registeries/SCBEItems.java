@@ -1,6 +1,6 @@
 package com.ffsupver.securityCraftBlockExtend.registeries;
 
-import com.ffsupver.securityCraftBlockExtend.item.ChainedUniversalBlockReinforcerItem;
+import com.ffsupver.securityCraftBlockExtend.item.ChainedUniversalBlockReinforcer.ChainedUniversalBlockReinforcerItem;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;

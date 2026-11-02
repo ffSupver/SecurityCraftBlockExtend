@@ -18,11 +18,15 @@ public class Config
     public static final ForgeConfigSpec.IntValue CHAINED_REINFORCED_MAX_BLOCKS = BUILDER
             .comment("Maximum block count of Chained Reinforcer. Must be between 100 and 10000.")
             .defineInRange("chained_reinforcer_max_blocks", 1000, 100, 10000);
+    public static final ForgeConfigSpec.DoubleValue CHAINED_REINFORCED_INTERACT_RANGE = BUILDER
+            .comment("Interact range of Chained Reinforcer. Must be between 5.0 and 64.0.")
+            .defineInRange("chained_reinforcer_interact_range", 16.0, 5.0, 64.0);
 
     static final ForgeConfigSpec SPEC = BUILDER.build();
 
     public static int chainedReinforcerMaxRange = 32;
     public static int chainedReinforcerMaxBlocks = 1000;
+    public static double chainedReinforcerInteractRange = 16.0;
 
     @SubscribeEvent
     static void onLoad(final ModConfigEvent event)
@@ -31,6 +35,7 @@ public class Config
         if (event.getConfig().getSpec() == SPEC) {
             chainedReinforcerMaxRange = CHAINED_REINFORCED_MAX_RANGE.get();
             chainedReinforcerMaxBlocks = CHAINED_REINFORCED_MAX_BLOCKS.get();
+            chainedReinforcerInteractRange = CHAINED_REINFORCED_INTERACT_RANGE.get();
         }
     }
 }
