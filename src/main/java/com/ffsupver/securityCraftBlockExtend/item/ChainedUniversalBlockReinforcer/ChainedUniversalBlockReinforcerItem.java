@@ -2,13 +2,20 @@ package com.ffsupver.securityCraftBlockExtend.item.ChainedUniversalBlockReinforc
 
 import com.ffsupver.securityCraftBlockExtend.Config;
 import com.ffsupver.securityCraftBlockExtend.registeries.SCBEPackets;
+import com.ffsupver.securityCraftBlockExtend.screen.ChainedUniversalBlockReinforcerMenu;
 import com.ffsupver.securityCraftBlockExtend.util.BlockUtil;
 import net.geforcemods.securitycraft.ConfigHandler;
 import net.geforcemods.securitycraft.items.UniversalBlockReinforcerItem;
 import net.geforcemods.securitycraft.util.Utils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -19,6 +26,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;
@@ -31,7 +39,31 @@ public class ChainedUniversalBlockReinforcerItem extends UniversalBlockReinforce
         super(properties);
     }
 
-    public static boolean tryReinforcedBlock(Player player,Level level,BlockPos pos){
+    @Override
+    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+        if (player.isShiftKeyDown()){
+            if (!level.isClientSide) {
+                ItemStack heldItem = player.getItemInHand(hand);
+
+                NetworkHooks.openScreen((ServerPlayer) player, new MenuProvider() {
+                    @Override
+                    public Component getDisplayName() {
+                        return heldItem.getHoverName();
+                    }
+
+                    @Override
+                    public @Nullable AbstractContainerMenu createMenu(int pContainerId, Inventory pPlayerInventory, Player pPlayer) {
+                        return new ChainedUniversalBlockReinforcerMenu(pContainerId, pPlayerInventory);
+                    }
+                });
+            }
+            return InteractionResultHolder.success(player.getItemInHand(hand));
+        }else {
+            return super.use(level, player, hand);
+        }
+    }
+
+    public static boolean tryReinforcedBlock(Player player, Level level, BlockPos pos){
         ItemStack stack = player.getMainHandItem();
         Item held = stack.getItem();
 

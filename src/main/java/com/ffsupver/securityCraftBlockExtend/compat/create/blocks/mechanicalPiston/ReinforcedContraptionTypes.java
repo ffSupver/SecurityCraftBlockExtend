@@ -6,7 +6,10 @@ import com.simibubi.create.api.registry.CreateBuiltInRegistries;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 public class ReinforcedContraptionTypes {
+    private static final AtomicBoolean REGISTERED = new AtomicBoolean(false);
     public static final Holder.Reference<ContraptionType> REINFORCED_PISTON =
             Registry.registerForHolder(
                     CreateBuiltInRegistries.CONTRAPTION_TYPE,
@@ -15,7 +18,9 @@ public class ReinforcedContraptionTypes {
 
     /** 仅用于触发静态初始化，实际注册在 <clinit> 中完成。 */
     public static void init() {
-        SecurityCraftBlockExtend.LOGGER.info(
-                "[SCBE] Registered contraption type: {}", REINFORCED_PISTON.key().location());
+        if (REGISTERED.compareAndSet(false, true)) {
+            SecurityCraftBlockExtend.LOGGER.info(
+                    "[SCBE] Registered contraption type: {}", REINFORCED_PISTON.key().location());
+        }
     }
 }

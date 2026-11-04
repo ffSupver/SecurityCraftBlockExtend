@@ -6,12 +6,7 @@ import com.ffsupver.securityCraftBlockExtend.dataGen.SCBEBlockTagsProvider;
 import com.ffsupver.securityCraftBlockExtend.dataGen.SCBEItemModelProvider;
 import com.ffsupver.securityCraftBlockExtend.dataGen.SCBELootTableProvider;
 import com.ffsupver.securityCraftBlockExtend.item.ChainedUniversalBlockReinforcer.ChainedUniversalBlockReinforcerItem;
-import com.ffsupver.securityCraftBlockExtend.item.ChainedUniversalBlockReinforcer.ChainedUniversalBlockReinforcerItemRenderer;
-import com.ffsupver.securityCraftBlockExtend.item.ChainedUniversalBlockReinforcer.ChainedUniversalReinforcePacketHandler;
-import com.ffsupver.securityCraftBlockExtend.registeries.SCBEBlocks;
-import com.ffsupver.securityCraftBlockExtend.registeries.SCBEItems;
-import com.ffsupver.securityCraftBlockExtend.registeries.SCBEPackets;
-import com.ffsupver.securityCraftBlockExtend.registeries.SCBETabs;
+import com.ffsupver.securityCraftBlockExtend.registeries.*;
 import com.mojang.logging.LogUtils;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
@@ -24,7 +19,6 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
@@ -50,7 +44,6 @@ public class SecurityCraftBlockExtend
 
 
         modEventBus.addListener(this::commonSetup);
-        modEventBus.addListener(this::clientSetup);
         modEventBus.addListener(SecurityCraftBlockExtend::gatherData);
 
         SCBEItems.register(modEventBus);
@@ -59,6 +52,8 @@ public class SecurityCraftBlockExtend
         Mods.init(modEventBus);
 
         SCBETabs.register(modEventBus);
+
+        SCBEScreens.register(modEventBus);
 
         MinecraftForge.EVENT_BUS.register(this);
 
@@ -95,9 +90,5 @@ public class SecurityCraftBlockExtend
     @SubscribeEvent
     public void onLeftClickEmpty(PlayerInteractEvent.LeftClickEmpty event) {
         ChainedUniversalBlockReinforcerItem.leftClickOnEmpty(event);
-    }
-
-    private void clientSetup(FMLClientSetupEvent event){
-        MinecraftForge.EVENT_BUS.register(ChainedUniversalBlockReinforcerItemRenderer.class);
     }
 }

@@ -1,8 +1,12 @@
 package com.ffsupver.securityCraftBlockExtend;
 
+import com.ffsupver.securityCraftBlockExtend.item.ChainedUniversalBlockReinforcer.ChainedUniversalBlockReinforcerItemRenderer;
 import com.ffsupver.securityCraftBlockExtend.registeries.SCBEBlocks;
+import com.ffsupver.securityCraftBlockExtend.registeries.SCBEScreens;
+import com.ffsupver.securityCraftBlockExtend.screen.ChainedUniversalBlockReinforcerScreen;
 import net.geforcemods.securitycraft.ClientHandler;
 import net.geforcemods.securitycraft.api.IOwnable;
+import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockAndTintGetter;
@@ -11,9 +15,11 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 import java.util.Map;
 import java.util.function.Supplier;
@@ -78,5 +84,13 @@ public class SCBEClientHandler {
         }
 
         return ClientHandler.mixWithReinforcedTintIfEnabled(baseTint, null);
+    }
+
+    @SubscribeEvent
+    public static void clientSetup(FMLClientSetupEvent event){
+        MinecraftForge.EVENT_BUS.register(ChainedUniversalBlockReinforcerItemRenderer.class);
+        event.enqueueWork(()->{
+            MenuScreens.register(SCBEScreens.CHAINED_UNIVERSAL_BLOCK_REINFORCER.get(), ChainedUniversalBlockReinforcerScreen::new);
+        });
     }
 }
