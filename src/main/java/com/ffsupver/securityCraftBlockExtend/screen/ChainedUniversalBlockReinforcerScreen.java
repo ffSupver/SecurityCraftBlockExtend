@@ -4,6 +4,7 @@ import com.ffsupver.securityCraftBlockExtend.SecurityCraftBlockExtend;
 import com.ffsupver.securityCraftBlockExtend.item.ChainedUniversalBlockReinforcer.ChainedUniversalBlockReinforcerFilter;
 import net.geforcemods.securitycraft.screen.components.ToggleComponentButton;
 import net.geforcemods.securitycraft.util.Utils;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractButton;
@@ -11,8 +12,13 @@ import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.entity.player.Inventory;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.ffsupver.securityCraftBlockExtend.screen.ChainedUniversalBlockReinforcerMenu.getChainedPositionValue;
 
@@ -130,22 +136,61 @@ public class ChainedUniversalBlockReinforcerScreen extends AbstractContainerScre
     }
 
     @Override
-    public void render(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
-        super.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
+    public void render(GuiGraphics guiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
+        super.render(guiGraphics, pMouseX, pMouseY, pPartialTick);
         for (EditBox input : inputs) {
-            input.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
+            input.render(guiGraphics, pMouseX, pMouseY, pPartialTick);
         }
         for (SelectButton button : buttons) {
-            button.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
+            button.render(guiGraphics, pMouseX, pMouseY, pPartialTick);
         }
         if (pMouseX > leftPos + 5 && pMouseX < leftPos + 5 + 176 && pMouseY > topPos + 7 && pMouseY < topPos + 7 + 77){
             if (this.menu.isFillingMode){
-                renderTooltip(pGuiGraphics, pMouseX, pMouseY);
+                renderTooltip(guiGraphics, pMouseX, pMouseY);
+                // render filter button tooltip
+                for (int i = 0; i < ChainedUniversalBlockReinforcerFilter.FILTER_COUNT; i++){
+                    if (buttons[i].isHovered()){
+                        guiGraphics.renderTooltip(this.font, List.of(
+                                Component.translatable("gui.securitycraft_block_extend.chained_universal_block_reinforcer.filter",i + 1).getVisualOrderText(),
+                                Component.translatable("gui.securitycraft_block_extend.chained_universal_block_reinforcer.filter."+(buttons[i].isActiveState() ? "active" : "inactive"))
+                                        .setStyle(Style.EMPTY.withColor(ChatFormatting.GRAY)).getVisualOrderText()
+                        ), pMouseX, pMouseY);
+                    }
+                }
+                // render chainedPositionData tooltip
+                for (int i = 0;i < 6;i++){
+                    int dataX = leftPos + 120;
+                    int dataY = topPos + 16;
+                    int dataWidth = 38;
+                    int dataHeight = 11;
+                    if (isMouseInBox(pMouseX,pMouseY,dataX,dataY + i*dataHeight,dataWidth,dataHeight)){
+                        guiGraphics.renderTooltip(this.font,Component.translatable("gui.securitycraft_block_extend.chained_universal_block_reinforcer.position."+i,getChainedPositionValue(menu.serverData,i)), pMouseX, pMouseY);
+                    }
+                }
+                if (isMouseInBox(pMouseX,pMouseY,leftPos + 72, topPos + 19, 8, 4)) {
+                    guiGraphics.renderTooltip(this.font,Component.translatable("gui.securitycraft_block_extend.chained_universal_block_reinforcer.position.0",getChainedPositionValue(menu.serverData,0)), pMouseX, pMouseY);
+                }else if (isMouseInBox(pMouseX,pMouseY,leftPos + 72, topPos + 23, 34, 1)) {
+                    guiGraphics.renderTooltip(this.font,Component.translatable("gui.securitycraft_block_extend.chained_universal_block_reinforcer.position.2",getChainedPositionValue(menu.serverData,2)), pMouseX, pMouseY);
+                }else if (isMouseInBox(pMouseX,pMouseY,leftPos + 71, topPos + 24, 1, 58)){
+                    guiGraphics.renderTooltip(this.font,Component.translatable("gui.securitycraft_block_extend.chained_universal_block_reinforcer.position.1",getChainedPositionValue(menu.serverData,1)), pMouseX, pMouseY);
+                }else if (isMouseInBox(pMouseX,pMouseY,leftPos + 88, topPos + 55, 3, 24)){
+                    guiGraphics.renderTooltip(this.font,Component.translatable("gui.securitycraft_block_extend.chained_universal_block_reinforcer.position.4",getChainedPositionValue(menu.serverData,4)), pMouseX, pMouseY);
+                }else if (isMouseInBox(pMouseX,pMouseY,leftPos + 85, topPos + 79, 5, 3)){
+                    guiGraphics.renderTooltip(this.font,Component.translatable("gui.securitycraft_block_extend.chained_universal_block_reinforcer.position.3",getChainedPositionValue(menu.serverData,3)), pMouseX, pMouseY);
+                }else if (isMouseInBox(pMouseX,pMouseY,leftPos + 72, topPos + 82, 13, 1)){
+                    guiGraphics.renderTooltip(this.font,Component.translatable("gui.securitycraft_block_extend.chained_universal_block_reinforcer.position.5",getChainedPositionValue(menu.serverData,5)), pMouseX, pMouseY);
+                }else if (isMouseInBox(pMouseX,pMouseY,leftPos + 88, topPos + 52, 3, 3)){
+                    List<FormattedCharSequence> tooltips = new ArrayList<>();
+                    for (int i = 0;i < 6;i++){
+                        tooltips.add(Component.translatable("gui.securitycraft_block_extend.chained_universal_block_reinforcer.position."+i,getChainedPositionValue(menu.serverData,i)).getVisualOrderText());
+                    }
+                    guiGraphics.renderTooltip(this.font, tooltips, pMouseX, pMouseY);
+                }
             }else {
-                pGuiGraphics.renderTooltip(this.font,Component.translatable("gui.securitycraft_block_extend.chained_universal_block_reinforcer.mode.only_in_filling"), pMouseX, pMouseY);
+                guiGraphics.renderTooltip(this.font,Component.translatable("gui.securitycraft_block_extend.chained_universal_block_reinforcer.mode.only_in_filling"), pMouseX, pMouseY);
             }
         }else {
-            renderTooltip(pGuiGraphics, pMouseX, pMouseY);
+            renderTooltip(guiGraphics, pMouseX, pMouseY);
         }
     }
 
@@ -153,6 +198,11 @@ public class ChainedUniversalBlockReinforcerScreen extends AbstractContainerScre
     protected void renderLabels(GuiGraphics guiGraphics, int pMouseX, int pMouseY) {
         guiGraphics.drawString(font, title, (imageWidth - font.width(title)) / 2, 5, 0x404040, false);
         guiGraphics.drawString(font, Utils.INVENTORY_TEXT, 8, imageHeight - 96 + 2, 0x404040, false);
+    }
+
+    private boolean isMouseInBox(int mouseX,int mouseY,int x,int y,int boxWidth,int boxHeight)
+    {
+        return mouseX >= x && mouseX < x + boxWidth && mouseY >= y && mouseY < y + boxHeight;
     }
 
     private class SelectButton extends AbstractButton {
