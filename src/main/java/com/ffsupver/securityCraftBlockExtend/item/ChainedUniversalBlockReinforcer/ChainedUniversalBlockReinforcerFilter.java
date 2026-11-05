@@ -2,9 +2,13 @@ package com.ffsupver.securityCraftBlockExtend.item.ChainedUniversalBlockReinforc
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
 
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 public class ChainedUniversalBlockReinforcerFilter {
     public static String NBT_TAG = "filter";
@@ -50,8 +54,37 @@ public class ChainedUniversalBlockReinforcerFilter {
         }
     }
 
+    /**
+     * 一次性收集所有启用 filter 中允许的方块（只统计可放置为方块的 BlockItem）
+     */
+    public Set<Block> collectAllowedBlocks() {
+        Set<Block> allowed = new HashSet<>();
+        for (int i = 0; i < FILTER_COUNT; i++) {
+            if (!filterActive[i]) continue;
+            SimpleContainer filter = filters[i];
+            int size = filter.getContainerSize();
+            for (int slot = 0; slot < size; slot++) {
+                ItemStack stack = filter.getItem(slot);
+                if (stack.isEmpty()) continue;
+                if (stack.getItem() instanceof BlockItem blockItem) {
+                    allowed.add(blockItem.getBlock());
+                }
+            }
+        }
+        return allowed;
+    }
+
     public boolean isActive(int filterIndex) {
         return filterActive[filterIndex];
+    }
+    public boolean isEmpty(){
+        for (int i = 0; i < FILTER_COUNT; i++) {
+            SimpleContainer filter = filters[i];
+            if (isActive(i) && !filter.isEmpty()) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public void setActive(int filterIndex, boolean active) {

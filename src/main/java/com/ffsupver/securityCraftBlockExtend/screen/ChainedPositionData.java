@@ -10,6 +10,7 @@ import java.util.function.Supplier;
 
 public record ChainedPositionData(int x, int y, int z, int posX, int posY, int posZ) {
     public static final String NBT_TAG = "position_data";
+    public static final ChainedPositionData ZERO = new ChainedPositionData(0, 0, 0, 0, 0, 0);
     public CompoundTag toNbt(){
         CompoundTag nbt = new CompoundTag();
         nbt.putInt("x", x);
@@ -30,6 +31,13 @@ public record ChainedPositionData(int x, int y, int z, int posX, int posY, int p
                 nbt.getInt("posY"),
                 nbt.getInt("posZ")
         );
+    }
+
+    /**
+     * 是否为空，大小为0
+     */
+    public boolean isEmpty() {
+        return x == 0 || y == 0 || z == 0;
     }
 
     public boolean isValid(int max) {
