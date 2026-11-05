@@ -1,6 +1,8 @@
 package com.ffsupver.securityCraftBlockExtend.screen;
 
+import com.ffsupver.securityCraftBlockExtend.Config;
 import com.ffsupver.securityCraftBlockExtend.item.ChainedUniversalBlockReinforcer.ChainedUniversalBlockReinforcerFilter;
+import com.ffsupver.securityCraftBlockExtend.item.ChainedUniversalBlockReinforcer.ChainedUniversalBlockReinforcerItem;
 import com.ffsupver.securityCraftBlockExtend.registeries.SCBEPackets;
 import com.ffsupver.securityCraftBlockExtend.registeries.SCBEScreens;
 import net.geforcemods.securitycraft.items.UniversalBlockReinforcerItem;
@@ -16,15 +18,21 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 
+import java.util.function.BiConsumer;
+
 public class ChainedUniversalBlockReinforcerMenu extends AbstractContainerMenu {
     private final ItemStack blockReinforcer;
     protected ChainedPositionData serverData = new ChainedPositionData(0, 0, 0, 0, 0, 0);
-    private final int[] lastSent = new int[6];
+    private final int[] lastChainedPositionSent = new int[6];
+    private BiConsumer<Integer,ChainedPositionData> onPositionChanged;
     private final Player player;
     //filters
     private final SimpleContainer filterContainer;
     private final ChainedUniversalBlockReinforcerFilter filter;
     private int filterIndex;
+
+    protected boolean isFillingMode;
+    protected static final int SET_MODE_BUTTON_ID = 16;
 
     public ChainedUniversalBlockReinforcerMenu(int pContainerId, Inventory inventory) {
         super(SCBEScreens.CHAINED_UNIVERSAL_BLOCK_REINFORCER.get(), pContainerId);
@@ -34,12 +42,12 @@ public class ChainedUniversalBlockReinforcerMenu extends AbstractContainerMenu {
 
         if (nbt.contains(ChainedPositionData.NBT_TAG, CompoundTag.TAG_COMPOUND)){
             serverData = ChainedPositionData.fromNbt(nbt.getCompound(ChainedPositionData.NBT_TAG));
-            lastSent[0] = serverData.x();
-            lastSent[1] = serverData.y();
-            lastSent[2] = serverData.z();
-            lastSent[3] = serverData.posX();
-            lastSent[4] = serverData.posY();
-            lastSent[5] = serverData.posZ();
+            lastChainedPositionSent[0] = serverData.x();
+            lastChainedPositionSent[1] = serverData.y();
+            lastChainedPositionSent[2] = serverData.z();
+            lastChainedPositionSent[3] = serverData.posX();
+            lastChainedPositionSent[4] = serverData.posY();
+            lastChainedPositionSent[5] = serverData.posZ();
         }
 
         filterIndex = 0;
@@ -49,6 +57,8 @@ public class ChainedUniversalBlockReinforcerMenu extends AbstractContainerMenu {
             filter.fromNbt(nbt.getCompound(ChainedUniversalBlockReinforcerFilter.NBT_TAG));
         }
         filter.copyFilter(filterContainer,filterIndex);
+
+        isFillingMode = ChainedUniversalBlockReinforcerItem.isFillingMode(blockReinforcer);
 
         //main player inventory
         for (int i = 0; i < 3; i++) {
@@ -104,6 +114,18 @@ public class ChainedUniversalBlockReinforcerMenu extends AbstractContainerMenu {
                 filterIndex = pValue;
             }
         });
+        // sync isFillingMode
+        this.addDataSlot(new DataSlot() {
+            @Override
+            public int get() {
+                return isFillingMode ? 1 : 0;
+            }
+
+            @Override
+            public void set(int pValue) {
+                isFillingMode = pValue == 1;
+            }
+        });
     }
 
     @Override
@@ -148,14 +170,22 @@ public class ChainedUniversalBlockReinforcerMenu extends AbstractContainerMenu {
     @Override
     public boolean clickMenuButton(Player pPlayer, int pId) {
         // Only Call in Server Side
-        if (pId != filterIndex){
-            filterIndex = pId;
-            filter.copyFilter(filterContainer, filterIndex);
+        // set isFillingMode
+        if (pId == SET_MODE_BUTTON_ID){
+            isFillingMode = !isFillingMode;
+            ChainedUniversalBlockReinforcerItem.setFillingMode(blockReinforcer, isFillingMode);
         }else {
-            boolean isActive = filter.isActive(pId);
-            filter.setActive(pId, !isActive);
-            writeFilterNbt();
+            // change filterContainer
+            if (pId != filterIndex) {
+                filterIndex = pId;
+                filter.copyFilter(filterContainer, filterIndex);
+            } else {
+                boolean isActive = filter.isActive(pId);
+                filter.setActive(pId, !isActive);
+                writeFilterNbt();
+            }
         }
+
         broadcastChanges();
         return true;
     }
@@ -168,17 +198,26 @@ public class ChainedUniversalBlockReinforcerMenu extends AbstractContainerMenu {
     public void onInputChanged(int index, int value) {
         if (!player.level().isClientSide()) return;
 
-        if (lastSent[index] == value) return;
-        lastSent[index] = value;
+        if (lastChainedPositionSent[index] == value) return;
+        lastChainedPositionSent[index] = value;
 
-        SCBEPackets.INSTANCE.sendToServer(new ChainedPositionData.Packet(new ChainedPositionData(
-                lastSent[0], lastSent[1], lastSent[2],
-                lastSent[3], lastSent[4], lastSent[5]
-        )));
+        ChainedPositionData newData = buildChainedPositionData();
+        newData = newData.clamp(Config.chainedReinforcerMaxRange);
+
+        if (getChainedPositionValue(newData,index) != lastChainedPositionSent[index]){
+            onPositionChanged.accept(index, newData);
+        }
+
+        SCBEPackets.INSTANCE.sendToServer(new ChainedPositionData.Packet(newData));
+    }
+
+    public ChainedPositionData buildChainedPositionData(){
+        return new ChainedPositionData(lastChainedPositionSent[0], lastChainedPositionSent[1], lastChainedPositionSent[2], lastChainedPositionSent[3], lastChainedPositionSent[4], lastChainedPositionSent[5]);
     }
 
     public void applyClientData(ChainedPositionData fromClient) {
-        serverData = fromClient;
+        ChainedPositionData clamped = fromClient.clamp(Config.chainedReinforcerMaxRange);
+        serverData = clamped;
         writePositionDataNbt();
     }
 
@@ -208,5 +247,21 @@ public class ChainedUniversalBlockReinforcerMenu extends AbstractContainerMenu {
 
     public ChainedUniversalBlockReinforcerFilter getFilter() {
         return filter;
+    }
+
+    public static int getChainedPositionValue(ChainedPositionData chainedPositionData,int i){
+        return switch (i){
+            case 0-> chainedPositionData.x();
+            case 1-> chainedPositionData.y();
+            case 2-> chainedPositionData.z();
+            case 3-> chainedPositionData.posX();
+            case 4-> chainedPositionData.posY();
+            case 5-> chainedPositionData.posZ();
+            default-> 0;
+        };
+    }
+
+    public void setOnPositionChanged(BiConsumer<Integer, ChainedPositionData> onPositionChanged) {
+        this.onPositionChanged = onPositionChanged;
     }
 }

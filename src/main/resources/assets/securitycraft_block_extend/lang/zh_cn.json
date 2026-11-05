@@ -1,6 +1,10 @@
 {
   "itemGroup.security_craft_block_extend.main": "安全工艺:更多方块",
 
+  "gui.securitycraft_block_extend.chained_universal_block_reinforcer.mode.chained":"连锁模式",
+  "gui.securitycraft_block_extend.chained_universal_block_reinforcer.mode.filling":"填充模式",
+  "gui.securitycraft_block_extend.chained_universal_block_reinforcer.mode.only_in_filling":"仅在填充模式下可用",
+
   "item.securitycraft_block_extend.chained_universal_block_reinforcer_lv1": "连锁通用方块强化器 (一级)",
   "item.securitycraft_block_extend.chained_universal_block_reinforcer_lv2": "连锁通用方块强化器 (二级)",
   "item.securitycraft_block_extend.chained_universal_block_reinforcer_lv3": "连锁通用方块强化器 (三级)",

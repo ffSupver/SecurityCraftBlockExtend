@@ -1,6 +1,10 @@
 {
   "itemGroup.security_craft_block_extend.main": "SecurityCraft Block Extend",
 
+  "gui.securitycraft_block_extend.chained_universal_block_reinforcer.mode.chained":"Chained Mode",
+  "gui.securitycraft_block_extend.chained_universal_block_reinforcer.mode.filling":"Filling Mode",
+  "gui.securitycraft_block_extend.chained_universal_block_reinforcer.mode.only_in_filling":"Only available in Filling Mode",
+
   "item.securitycraft_block_extend.chained_universal_block_reinforcer_lv1":"Chained Universal Block Reinforcer (LvL1)",
   "item.securitycraft_block_extend.chained_universal_block_reinforcer_lv2":"Chained Universal Block Reinforcer (LvL2)",
   "item.securitycraft_block_extend.chained_universal_block_reinforcer_lv3":"Chained Universal Block Reinforcer (LvL3)",

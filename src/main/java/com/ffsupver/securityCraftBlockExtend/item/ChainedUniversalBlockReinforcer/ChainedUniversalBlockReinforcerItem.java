@@ -8,6 +8,7 @@ import net.geforcemods.securitycraft.ConfigHandler;
 import net.geforcemods.securitycraft.items.UniversalBlockReinforcerItem;
 import net.geforcemods.securitycraft.util.Utils;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -155,4 +156,16 @@ public class ChainedUniversalBlockReinforcerItem extends UniversalBlockReinforce
         return blockHit.getBlockPos();
     }
 
+    public static boolean isFillingMode(ItemStack itemStack){
+        CompoundTag nbt = itemStack.getOrCreateTag();
+        if (nbt.contains("mode", CompoundTag.TAG_BYTE)){
+            return nbt.getBoolean("mode");
+        }
+        return false;
+    }
+
+    public static void setFillingMode(ItemStack itemStack,boolean mode){
+        CompoundTag nbt = itemStack.getOrCreateTag();
+        nbt.putBoolean("mode",mode);
+    }
 }

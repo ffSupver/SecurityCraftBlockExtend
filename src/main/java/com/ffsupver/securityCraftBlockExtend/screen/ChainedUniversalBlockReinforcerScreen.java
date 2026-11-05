@@ -2,6 +2,7 @@ package com.ffsupver.securityCraftBlockExtend.screen;
 
 import com.ffsupver.securityCraftBlockExtend.SecurityCraftBlockExtend;
 import com.ffsupver.securityCraftBlockExtend.item.ChainedUniversalBlockReinforcer.ChainedUniversalBlockReinforcerFilter;
+import net.geforcemods.securitycraft.screen.components.ToggleComponentButton;
 import net.geforcemods.securitycraft.util.Utils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -13,10 +14,13 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 
+import static com.ffsupver.securityCraftBlockExtend.screen.ChainedUniversalBlockReinforcerMenu.getChainedPositionValue;
+
 public class ChainedUniversalBlockReinforcerScreen extends AbstractContainerScreen<ChainedUniversalBlockReinforcerMenu> {
     private static final ResourceLocation TEXTURE = SecurityCraftBlockExtend.asResource("textures/gui/chained_universal_block_reinforcer.png");
     private final EditBox[] inputs = new EditBox[6];
     private final SelectButton[] buttons = new SelectButton[6];
+    private ToggleComponentButton chainedModeButton;
 
 
     public ChainedUniversalBlockReinforcerScreen(ChainedUniversalBlockReinforcerMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
@@ -30,37 +34,52 @@ public class ChainedUniversalBlockReinforcerScreen extends AbstractContainerScre
         super.init();
 
         for (int i = 0; i < 6; i++) {
+            final int index = i;
             EditBox box = new EditBox(this.font, leftPos + 132, topPos + 18 + i * 11, 28, 9, Component.literal("0"));
             box.setCanLoseFocus(true);
             box.setBordered(false);
             box.setMaxLength(4);
-            box.setValue(String.valueOf(switch (i){
-                case 0-> menu.serverData.x();
-                case 1-> menu.serverData.y();
-                case 2-> menu.serverData.z();
-                case 3-> menu.serverData.posX();
-                case 4-> menu.serverData.posY();
-                case 5-> menu.serverData.posZ();
-                default-> "0";
-            }));
+            box.setValue(String.valueOf(getChainedPositionValue(this.menu.serverData,i)));
             // 非负数
             box.setFilter(text -> text.matches("\\d*"));
-            final int index = i;
             box.setResponder(text -> {
                 if (!text.isEmpty()) {
-                    this.menu.onInputChanged(index, Integer.parseInt(text));
+                    int value = Integer.parseInt(text);
+                    this.menu.onInputChanged(index, value);
                 }
             });
             this.inputs[i] = box;
             this.addWidget(box);
         }
+        this.menu.setOnPositionChanged((index,data)->{
+            for (int i = 0; i < 6; i++){
+                inputs[i].setValue(String.valueOf(getChainedPositionValue(data,i)));
+            }
+        });
 
-        ChainedUniversalBlockReinforcerFilter filter = this.menu.getFilter();
+
         for (int i = 0; i < ChainedUniversalBlockReinforcerFilter.FILTER_COUNT; i++) {
             SelectButton button = new SelectButton( leftPos + 9 + i * 9,  topPos + 18, Component.literal("1"),i);
             buttons[i] = button;
             this.addWidget(button);
         }
+
+        this.chainedModeButton = addRenderableWidget(new ToggleComponentButton(
+                leftPos + 108, topPos + 86,70,16,
+                index-> {
+                    if (index == 1) {
+                        return Component.translatable("gui.securitycraft_block_extend.chained_universal_block_reinforcer.mode.filling");
+                    } else {
+                        return Component.translatable("gui.securitycraft_block_extend.chained_universal_block_reinforcer.mode.chained");
+                    }
+                },
+        this.menu.isFillingMode ? 1 : 0,2,
+        button->{
+            if (minecraft != null && minecraft.gameMode != null) {
+                minecraft.gameMode.handleInventoryButtonClick(menu.containerId, ChainedUniversalBlockReinforcerMenu.SET_MODE_BUTTON_ID);
+            }
+        }
+        ));
     }
 
     @Override
@@ -69,6 +88,12 @@ public class ChainedUniversalBlockReinforcerScreen extends AbstractContainerScre
         for (EditBox box : inputs) {
             box.tick();
         };
+
+        // sync chainedModeButton state
+        if (menu.isFillingMode != (chainedModeButton.getCurrentIndex() == 1)){
+            chainedModeButton.setCurrentIndex(menu.isFillingMode ? 1 : 0);
+            chainedModeButton.onValueChange();
+        }
     }
 
     @Override
@@ -99,6 +124,9 @@ public class ChainedUniversalBlockReinforcerScreen extends AbstractContainerScre
     protected void renderBg(GuiGraphics guiGraphics, float pPartialTick, int pMouseX, int pMouseY) {
         renderBackground(guiGraphics);
         guiGraphics.blit(TEXTURE, leftPos, topPos, 0.0F, 0.0F, imageWidth, imageHeight, 256, 256);
+        if (!menu.isFillingMode){
+            guiGraphics.blit(TEXTURE, leftPos + 9, topPos + 26, 191, 0, 48, 48);
+        }
     }
 
     @Override
@@ -110,7 +138,15 @@ public class ChainedUniversalBlockReinforcerScreen extends AbstractContainerScre
         for (SelectButton button : buttons) {
             button.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
         }
-        renderTooltip(pGuiGraphics, pMouseX, pMouseY);
+        if (pMouseX > leftPos + 5 && pMouseX < leftPos + 5 + 176 && pMouseY > topPos + 7 && pMouseY < topPos + 7 + 77){
+            if (this.menu.isFillingMode){
+                renderTooltip(pGuiGraphics, pMouseX, pMouseY);
+            }else {
+                pGuiGraphics.renderTooltip(this.font,Component.translatable("gui.securitycraft_block_extend.chained_universal_block_reinforcer.mode.only_in_filling"), pMouseX, pMouseY);
+            }
+        }else {
+            renderTooltip(pGuiGraphics, pMouseX, pMouseY);
+        }
     }
 
     @Override
