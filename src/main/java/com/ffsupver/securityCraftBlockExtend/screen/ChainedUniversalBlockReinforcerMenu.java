@@ -130,6 +130,24 @@ public class ChainedUniversalBlockReinforcerMenu extends AbstractContainerMenu {
 
     @Override
     public ItemStack quickMoveStack(Player pPlayer, int pIndex) {
+        ItemStack clickedItem = getSlot(pIndex).getItem().copyWithCount(1);
+
+        int emptySlot = -1;
+        for (int i = 0; i < filterContainer.getContainerSize(); i++){
+            ItemStack stack = filterContainer.getItem(i);
+            if (stack.isEmpty()){
+                emptySlot = i;
+                break;
+            }
+        }
+
+        if (emptySlot != -1 && canAddItem(clickedItem)){
+            filterContainer.setItem(emptySlot, clickedItem);
+            filter.applyFilter(filterContainer, filterIndex);
+            if (!player.level().isClientSide()){
+                writeFilterNbt();
+            }
+        }
         return ItemStack.EMPTY;
     }
 
@@ -144,27 +162,31 @@ public class ChainedUniversalBlockReinforcerMenu extends AbstractContainerMenu {
             int filterSlotId = slot - 36;
             if (clickType != ClickType.CLONE && clickType != ClickType.THROW){
                 ItemStack carriedStack = getCarried().copyWithCount(1);
-                if (!carriedStack.isEmpty() && !(carriedStack.getItem() instanceof BlockItem)){
-                    return;
-                }
 
-                boolean isStackRepeat = false;
-                if (!carriedStack.isEmpty()){
-                    for (ItemStack stack : filterContainer.items) {
-                        if (stack.getItem().equals(carriedStack.getItem())) {
-                            isStackRepeat = true;
-                            break;
-                        }
-                    }
-                }
-
-                if (!isStackRepeat){
+                if (canAddItem(carriedStack)){
                     this.filterContainer.setItem(filterSlotId, carriedStack);
                     filter.applyFilter(filterContainer, filterIndex);
                     writeFilterNbt();
                 }
             }
         }
+    }
+
+    private boolean canAddItem(ItemStack itemStack){
+        if (!itemStack.isEmpty() && !(itemStack.getItem() instanceof BlockItem)){
+            return false;
+        }
+
+        boolean isStackRepeat = false;
+        if (!itemStack.isEmpty()){
+            for (ItemStack stack : filterContainer.items) {
+                if (stack.getItem().equals(itemStack.getItem())) {
+                    isStackRepeat = true;
+                    break;
+                }
+            }
+        }
+        return !isStackRepeat;
     }
 
     @Override
@@ -239,6 +261,19 @@ public class ChainedUniversalBlockReinforcerMenu extends AbstractContainerMenu {
 
             broadcastChanges();
         }
+    }
+
+    public boolean setGhostItem(int index, ItemStack stack){
+        if (!canAddItem(stack)){
+            return false;
+        }
+        filterContainer.setItem(index, stack);
+        filter.applyFilter(filterContainer, filterIndex);
+
+        if (!player.level().isClientSide()){
+            writeFilterNbt();
+        }
+        return true;
     }
 
     public int getFilterIndex() {
