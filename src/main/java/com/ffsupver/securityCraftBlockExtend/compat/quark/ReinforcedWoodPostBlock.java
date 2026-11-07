@@ -58,17 +58,6 @@ public class ReinforcedWoodPostBlock extends BaseReinforcedBlock implements Simp
             state = state.setValue(prop, WoodPostBlock.PostSideType.NONE);
         registerDefaultState(state);
     }
-//    private final Block vanillaBlock;
-//
-//    public ReinforceWoodPostBlock(Block parent, String prefix, SoundType sound) {
-//        super(null, parent, prefix, sound);
-//        this.vanillaBlock = parent;
-//    }
-//
-//    @Override
-//    public Block getVanillaBlock() {
-//        return this.vanillaBlock;
-//    }
 
     @Override
     public VoxelShape getShape(@NotNull BlockState state, @NotNull BlockGetter worldIn, @NotNull BlockPos pos, @NotNull CollisionContext context) {
@@ -157,7 +146,7 @@ public class ReinforcedWoodPostBlock extends BaseReinforcedBlock implements Simp
             return WoodPostBlock.PostSideType.CHAIN;
         }
 
-        if(sideState.getBlock() instanceof ReinforcedWoodPostBlock && sideState.getValue(AXIS) == d.getAxis()) {
+        if((sideState.getBlock() instanceof ReinforcedWoodPostBlock || sideState.getBlock() instanceof WoodPostBlock) && sideState.getValue(AXIS) == d.getAxis()) {
             return  WoodPostBlock.PostSideType.OTHER_POST;
         }
         return WoodPostBlock.PostSideType.NONE;

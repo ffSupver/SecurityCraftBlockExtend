@@ -37,7 +37,12 @@ public class ChainedUniversalBlockReinforcerItemRenderer {
         if (player.isSpectator()) return;
 
         ItemStack heldItem = player.getMainHandItem();
-        if (!(heldItem.getItem() instanceof ChainedUniversalBlockReinforcerItem)) return;
+        if (!(heldItem.getItem() instanceof ChainedUniversalBlockReinforcerItem)) {
+            heldItem = player.getOffhandItem();
+            if (!(heldItem.getItem() instanceof ChainedUniversalBlockReinforcerItem)) {
+                return;
+            }
+        }
 
         BlockPos targetPos = getTargetBlockPos(player, event.getPartialTick(), Config.chainedReinforcerInteractRange);
 

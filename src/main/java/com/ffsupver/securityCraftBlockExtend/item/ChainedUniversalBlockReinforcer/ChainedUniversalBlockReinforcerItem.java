@@ -112,43 +112,54 @@ public class ChainedUniversalBlockReinforcerItem extends UniversalBlockReinforce
     }
 
     private static void reinforcedInFillingMode(Player player,Level level,ItemStack stack,BlockPos pos){
-        CompoundTag nbt = stack.getOrCreateTag();
-        ChainedPositionData chainedPositionData = ChainedPositionData.ZERO;
-        ChainedUniversalBlockReinforcerFilter filter = new ChainedUniversalBlockReinforcerFilter();
-        if (nbt.contains(ChainedPositionData.NBT_TAG, CompoundTag.TAG_COMPOUND)){
-            chainedPositionData = ChainedPositionData.fromNbt(nbt.getCompound(ChainedPositionData.NBT_TAG));
-        }
-        if (nbt.contains(ChainedUniversalBlockReinforcerFilter.NBT_TAG, CompoundTag.TAG_COMPOUND)){
-            filter.fromNbt(nbt.getCompound(ChainedUniversalBlockReinforcerFilter.NBT_TAG));
-        }
-        if (chainedPositionData.isEmpty() || filter.isEmpty()){
-            return;
-        }
-        Set<Block> allowedBlocks = filter.collectAllowedBlocks();
-        if (allowedBlocks.isEmpty()) {
-            return;
-        }
+        if (player.isShiftKeyDown()){
+            boolean isCooldown = player.getCooldowns().isOnCooldown(stack.getItem());
+            if (isCooldown) {
+                return;
+            }
 
-        BlockPos startPos = getFillBoxStart(pos, chainedPositionData);
-        int remain = stack.isDamageableItem() ? Math.min(Config.chainedReinforcerMaxBlocks, stack.getMaxDamage() - stack.getDamageValue()) : Config.chainedReinforcerMaxBlocks;
-        for (int x = 0;x < chainedPositionData.x();x++) {
-            for (int y = 0;y < chainedPositionData.y();y++){
-                for (int z = 0;z < chainedPositionData.z();z++){
-                    if (remain <= 0){
-                        break;
-                    }
-                    BlockPos fillPos = startPos.offset(x, y, z);
-                    BlockState fillState = level.getBlockState(fillPos);
+            CompoundTag nbt = stack.getOrCreateTag();
+            ChainedPositionData chainedPositionData = ChainedPositionData.ZERO;
+            ChainedUniversalBlockReinforcerFilter filter = new ChainedUniversalBlockReinforcerFilter();
+            if (nbt.contains(ChainedPositionData.NBT_TAG, CompoundTag.TAG_COMPOUND)) {
+                chainedPositionData = ChainedPositionData.fromNbt(nbt.getCompound(ChainedPositionData.NBT_TAG));
+            }
+            if (nbt.contains(ChainedUniversalBlockReinforcerFilter.NBT_TAG, CompoundTag.TAG_COMPOUND)) {
+                filter.fromNbt(nbt.getCompound(ChainedUniversalBlockReinforcerFilter.NBT_TAG));
+            }
+            if (chainedPositionData.isEmpty() || filter.isEmpty()) {
+                return;
+            }
+            Set<Block> allowedBlocks = filter.collectAllowedBlocks();
+            if (allowedBlocks.isEmpty()) {
+                return;
+            }
 
-                    if (!allowedBlocks.contains(fillState.getBlock())) {
-                        continue;
-                    }
+            BlockPos startPos = getFillBoxStart(pos, chainedPositionData);
+            int remain = stack.isDamageableItem() ? Math.min(Config.chainedReinforcerMaxBlocks, stack.getMaxDamage() - stack.getDamageValue()) : Config.chainedReinforcerMaxBlocks;
+            for (int x = 0; x < chainedPositionData.x(); x++) {
+                for (int y = 0; y < chainedPositionData.y(); y++) {
+                    for (int z = 0; z < chainedPositionData.z(); z++) {
+                        if (remain <= 0) {
+                            break;
+                        }
+                        BlockPos fillPos = startPos.offset(x, y, z);
+                        BlockState fillState = level.getBlockState(fillPos);
 
-                    if (UniversalBlockReinforcerItem.convertBlock(fillState, level, stack, fillPos, player)){
-                        remain--;
+                        if (!allowedBlocks.contains(fillState.getBlock())) {
+                            continue;
+                        }
+
+                        if (UniversalBlockReinforcerItem.convertBlock(fillState, level, stack, fillPos, player)) {
+                            remain--;
+                        }
                     }
                 }
             }
+
+            player.getCooldowns().addCooldown(stack.getItem(), 5);
+        }else {
+            UniversalBlockReinforcerItem.convertBlock(level.getBlockState(pos), level, stack, pos, player);
         }
     }
 
