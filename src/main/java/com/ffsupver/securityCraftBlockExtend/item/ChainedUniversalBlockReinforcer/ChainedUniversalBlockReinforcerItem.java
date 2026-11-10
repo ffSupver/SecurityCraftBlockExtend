@@ -11,6 +11,7 @@ import net.geforcemods.securitycraft.util.Utils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.game.ClientboundCooldownPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -158,6 +159,9 @@ public class ChainedUniversalBlockReinforcerItem extends UniversalBlockReinforce
             }
 
             player.getCooldowns().addCooldown(stack.getItem(), 5);
+            if (player instanceof ServerPlayer serverPlayer){
+                serverPlayer.connection.send(new ClientboundCooldownPacket(stack.getItem(), 5));
+            }
         }else {
             UniversalBlockReinforcerItem.convertBlock(level.getBlockState(pos), level, stack, pos, player);
         }
