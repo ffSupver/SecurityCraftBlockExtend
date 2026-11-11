@@ -1,0 +1,8 @@
+{
+  "parent": "securitycraft_block_extend:block/connected_glass_pane/post",
+  "render_type": "minecraft:cutout_mipped",
+  "textures": {
+    "edge": "create:block/palettes/industrial_iron_window_pane_top",
+    "pane": "create:block/palettes/industrial_iron_window"
+  }
+}

@@ -37,10 +37,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraftforge.eventbus.api.IEventBus;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -87,6 +84,12 @@ public class CreateReinforcedBlocks {
                                     () -> new HorizontalCTBehaviour(AllSpriteShifts.VERTICAL_FRAMED_GLASS)
                             ))
             );
+    public static final BlockEntry<ReinforcedGlassBlock> REINFORCED_TILED_GLASS =
+            registerReinforcedGlassBlock(
+                    "reinforced_tiled_glass",
+                    AllPaletteBlocks.TILED_GLASS::get,
+                    b->{}
+            );
     public static final BlockEntry<ReinforcedPaneBlock> REINFORCED_FRAMED_GLASS_PANE =
             registerReinforcedPaneBlock(
                     "reinforced_framed_glass_pane",
@@ -121,23 +124,115 @@ public class CreateReinforcedBlocks {
             registerReinforcedPaneBlock(
                     "reinforced_brass_bars",
                     AllBlocks.BRASS_BARS::get,
-                    b->{},
                     false
             );
     public static final BlockEntry<ReinforcedPaneBlock> REINFORCED_ANDESITE_BARS =
             registerReinforcedPaneBlock(
                     "reinforced_andesite_bars",
                     AllBlocks.ANDESITE_BARS::get,
-                    b->{},
                     false
             );
     public static final BlockEntry<ReinforcedPaneBlock> REINFORCED_COPPER_BARS =
             registerReinforcedPaneBlock(
                     "reinforced_copper_bars",
                     AllBlocks.COPPER_BARS::get,
-                    b->{},
                     false
             );
+    public static final BlockEntry<ReinforcedPaneBlock> REINFORCED_OAK_WINDOW_PANE = registerReinforcedWindowPane(
+            "reinforced_oak_window_pane","oak_window",AllPaletteBlocks.OAK_WINDOW_PANE::get,ResourceLocation.parse("block/oak_planks")
+    );
+    public static final BlockEntry<ReinforcedPaneBlock> REINFORCED_SPRUCE_WINDOW_PANE = registerReinforcedWindowPane(
+            "reinforced_spruce_window_pane","spruce_window",AllPaletteBlocks.SPRUCE_WINDOW_PANE::get,ResourceLocation.parse("block/spruce_planks")
+    );
+    public static final BlockEntry<ReinforcedPaneBlock> REINFORCED_BIRCH_WINDOW_PANE = registerReinforcedWindowPane(
+            "reinforced_birch_window_pane","birch_window",AllPaletteBlocks.BIRCH_WINDOW_PANE::get,ResourceLocation.parse("block/birch_planks"),"translucent"
+    );
+    public static final BlockEntry<ReinforcedPaneBlock> REINFORCED_JUNGLE_WINDOW_PANE = registerReinforcedWindowPane(
+            "reinforced_jungle_window_pane","jungle_window",AllPaletteBlocks.JUNGLE_WINDOW_PANE::get,ResourceLocation.parse("block/jungle_planks")
+    );
+    public static final BlockEntry<ReinforcedPaneBlock> REINFORCED_ACACIA_WINDOW_PANE = registerReinforcedWindowPane(
+            "reinforced_acacia_window_pane","acacia_window",AllPaletteBlocks.ACACIA_WINDOW_PANE::get,ResourceLocation.parse("block/acacia_planks")
+    );
+    public static final BlockEntry<ReinforcedPaneBlock> REINFORCED_DARK_OAK_WINDOW_PANE = registerReinforcedWindowPane(
+            "reinforced_dark_oak_window_pane","dark_oak_window",AllPaletteBlocks.DARK_OAK_WINDOW_PANE::get,ResourceLocation.parse("block/dark_oak_planks")
+    );
+    public static final BlockEntry<ReinforcedPaneBlock> REINFORCED_MANGROVE_WINDOW_PANE = registerReinforcedWindowPane(
+            "reinforced_mangrove_window_pane","mangrove_window",AllPaletteBlocks.MANGROVE_WINDOW_PANE::get,ResourceLocation.parse("block/mangrove_planks")
+    );
+    public static final BlockEntry<ReinforcedPaneBlock> REINFORCED_CRIMSON_WINDOW_PANE = registerReinforcedWindowPane(
+            "reinforced_crimson_window_pane","crimson_window",AllPaletteBlocks.CRIMSON_WINDOW_PANE::get,ResourceLocation.parse("block/crimson_planks")
+    );
+    public static final BlockEntry<ReinforcedPaneBlock> REINFORCED_WARPED_WINDOW_PANE = registerReinforcedWindowPane(
+            "reinforced_warped_window_pane","warped_window",AllPaletteBlocks.WARPED_WINDOW_PANE::get,ResourceLocation.parse("block/warped_planks")
+    );
+    public static final BlockEntry<ReinforcedPaneBlock> REINFORCED_CHEERY_WINDOW_PANE = registerReinforcedWindowPane(
+            "reinforced_cherry_window_pane","cherry_window",AllPaletteBlocks.CHERRY_WINDOW_PANE::get,ResourceLocation.parse("block/cherry_planks")
+    );
+    public static final BlockEntry<ReinforcedPaneBlock> REINFORCED_BAMBOO_WINDOW_PANE = registerReinforcedWindowPane(
+            "reinforced_bamboo_window_pane","bamboo_window",AllPaletteBlocks.BAMBOO_WINDOW_PANE::get,ResourceLocation.parse("block/bamboo_planks")
+    );
+    public static final BlockEntry<ReinforcedPaneBlock> REINFORCED_ORNATE_WINDOW_PANE = registerReinforcedWindowPane(
+            "reinforced_ornate_iron_window_pane","ornate_iron_window",AllPaletteBlocks.ORNATE_IRON_WINDOW_PANE::get,Create.asResource("block/palettes/ornate_iron_window_pane_top")
+    );
+    public static final BlockEntry<ReinforcedPaneBlock> REINFORCED_INDUSTRIAL_IRON_WINDOW_PANE = registerReinforcedWindowPane(
+            "reinforced_industrial_iron_window_pane","industrial_iron_window",
+            AllPaletteBlocks.INDUSTRIAL_IRON_WINDOW_PANE::get,Create.asResource("block/palettes/industrial_iron_window_pane_top"),
+            ()->AllSpriteShifts.INDUSTRIAL_IRON_WINDOW,"cutout_mipped"
+    );
+    public static final BlockEntry<ReinforcedPaneBlock> REINFORCED_WEATHERED_IRON_WINDOW_PANE = registerReinforcedWindowPane(
+            "reinforced_weathered_iron_window_pane","weathered_iron_window",AllPaletteBlocks.WEATHERED_IRON_WINDOW_PANE::get,
+            Create.asResource("block/palettes/weathered_iron_window_pane_top"),"translucent", WeatheredIronWindowPaneCTBehaviour::new
+    );
+    public static final BlockEntry<ReinforcedGlassBlock> REINFORCED_OAK_WINDOW = registerReinforcedWindow(
+            "reinforced_oak_window","oak_window",AllPaletteBlocks.OAK_WINDOW::get,ResourceLocation.parse("block/oak_planks")
+    );
+    public static final BlockEntry<ReinforcedGlassBlock> REINFORCED_SPRUCE_WINDOW = registerReinforcedWindow(
+            "reinforced_spruce_window","spruce_window",AllPaletteBlocks.SPRUCE_WINDOW::get,ResourceLocation.parse("block/spruce_planks")
+    );
+    public static final BlockEntry<ReinforcedGlassBlock> REINFORCED_BIRCH_WINDOW = registerReinforcedWindow(
+            "reinforced_birch_window","birch_window",AllPaletteBlocks.BIRCH_WINDOW::get,ResourceLocation.parse("block/birch_planks"),"translucent"
+    );
+    public static final BlockEntry<ReinforcedGlassBlock> REINFORCED_JUNGLE_WINDOW = registerReinforcedWindow(
+            "reinforced_jungle_window","jungle_window",AllPaletteBlocks.JUNGLE_WINDOW::get,ResourceLocation.parse("block/jungle_planks")
+    );
+    public static final BlockEntry<ReinforcedGlassBlock> REINFORCED_ACACIA_WINDOW = registerReinforcedWindow(
+            "reinforced_acacia_window","acacia_window",AllPaletteBlocks.ACACIA_WINDOW::get,ResourceLocation.parse("block/acacia_planks")
+    );
+    public static final BlockEntry<ReinforcedGlassBlock> REINFORCED_DARK_OAK_WINDOW = registerReinforcedWindow(
+            "reinforced_dark_oak_window","dark_oak_window",AllPaletteBlocks.DARK_OAK_WINDOW::get,ResourceLocation.parse("block/dark_oak_planks")
+    );
+    public static final BlockEntry<ReinforcedGlassBlock> REINFORCED_MANGROVE_WINDOW = registerReinforcedWindow(
+            "reinforced_mangrove_window","mangrove_window",AllPaletteBlocks.MANGROVE_WINDOW::get,ResourceLocation.parse("block/mangrove_planks")
+    );
+    public static final BlockEntry<ReinforcedGlassBlock> REINFORCED_CRIMSON_WINDOW = registerReinforcedWindow(
+            "reinforced_crimson_window","crimson_window",AllPaletteBlocks.CRIMSON_WINDOW::get,ResourceLocation.parse("block/crimson_planks")
+    );
+    public static final BlockEntry<ReinforcedGlassBlock> REINFORCED_WARPED_WINDOW = registerReinforcedWindow(
+            "reinforced_warped_window","warped_window",AllPaletteBlocks.WARPED_WINDOW::get,ResourceLocation.parse("block/warped_planks")
+    );
+    public static final BlockEntry<ReinforcedGlassBlock> REINFORCED_CHERRY_WINDOW = registerReinforcedWindow(
+            "reinforced_cherry_window","cherry_window",AllPaletteBlocks.CHERRY_WINDOW::get,ResourceLocation.parse("block/cherry_planks")
+    );
+    public static final BlockEntry<ReinforcedGlassBlock> REINFORCED_BAMBOO_WINDOW = registerReinforcedWindow(
+            "reinforced_bamboo_window","bamboo_window",AllPaletteBlocks.BAMBOO_WINDOW::get,ResourceLocation.parse("block/bamboo_planks")
+    );
+    public static final BlockEntry<ReinforcedGlassBlock> REINFORCED_ORNATE_IRON_WINDOW = registerReinforcedWindow(
+            "reinforced_ornate_iron_window","ornate_iron_window",AllPaletteBlocks.ORNATE_IRON_WINDOW::get,Create.asResource("block/palettes/ornate_iron_window_end")
+    );
+    public static final BlockEntry<ReinforcedGlassBlock> REINFORCED_INDUSTRIAL_IRON_WINDOW = registerReinforcedWindow(
+            "reinforced_industrial_iron_window","industrial_iron_window",AllPaletteBlocks.INDUSTRIAL_IRON_WINDOW::get,Create.asResource("block/palettes/industrial_iron_window_end"),
+            ()->AllSpriteShifts.INDUSTRIAL_IRON_WINDOW,"cutout_mipped"
+    );
+    public static final BlockEntry<ReinforcedGlassBlock> REINFORCED_WEATHERED_IRON_WINDOW = registerReinforcedWindow(
+            "reinforced_weathered_iron_window","weathered_iron_window",AllPaletteBlocks.WEATHERED_IRON_WINDOW::get,
+            Set.of(
+                    Create.asResource("block/palettes/weathered_iron_window_1_end"),
+                    Create.asResource("block/palettes/weathered_iron_window_2_end"),
+                    Create.asResource("block/palettes/weathered_iron_window_3_end"),
+                    Create.asResource("block/palettes/weathered_iron_window_4_end")
+            ),
+            "translucent", WeatheredIronWindowCTBehaviour::new
+    );
 
     public static final BlockEntry<ReinforcedMechanicalPistonBlock> REINFORCED_MECHANICAL_PISTON_BLOCK = REGISTRATE
             .block("reinforced_mechanical_piston",ReinforcedMechanicalPistonBlock::normal)
@@ -281,7 +376,6 @@ public class CreateReinforcedBlocks {
                 String partialPath = partialEntry.getId().getPath();
                 String reinforcedPartialName = "reinforced_" + partialPath;
 
-//                BlockEntry<? extends Block> reinforcedBlockEntry = null;
                 if (partial == PaletteBlockPartial.STAIR) {
                     BlockEntry<ReinforcedStairsBlock> reinforcedStair =
                             registerReinforcedStairBlock(reinforcedPartialName, partialEntry::get);
@@ -300,12 +394,6 @@ public class CreateReinforcedBlocks {
 
                     blockLootData.add(new SCBEBlockLootData(reinforcedStair, SCBEBlockLootData.BlockLootType.DROP_SELF));
                     blockTagData.add(new SCBEBlockTagData.Builder(reinforcedStair).pickaxe().reinforced().add(BlockTags.STAIRS).build());
-//                    blockTagData.add(new SCBEBlockTagData(
-//                            reinforcedStair,
-//                            List.of(BlockTags.MINEABLE_WITH_PICKAXE, BlockTags.STAIRS)
-//                    ));
-
-//                    reinforcedBlockEntry = reinforcedStair;
                 } else if (partial == PaletteBlockPartial.SLAB || partial == PaletteBlockPartial.UNIQUE_SLAB) {
                     BlockEntry<ReinforcedSlabBlock> reinforcedSlab =
                             registerReinforcedSlabBlock(reinforcedPartialName, partialEntry::get);
@@ -324,12 +412,6 @@ public class CreateReinforcedBlocks {
 
                     blockLootData.add(new SCBEBlockLootData(reinforcedSlab, SCBEBlockLootData.BlockLootType.SLAB));
                     blockTagData.add(new SCBEBlockTagData.Builder(reinforcedSlab).pickaxe().reinforced().add(BlockTags.SLABS).build());
-//                    blockTagData.add(new SCBEBlockTagData(
-//                            reinforcedSlab,
-//                            List.of(BlockTags.MINEABLE_WITH_PICKAXE, BlockTags.SLABS)
-//                    ));
-
-//                    reinforcedBlockEntry = reinforcedSlab;
                 } else if (partial == PaletteBlockPartial.WALL) {
                     BlockEntry<ReinforcedWallBlock> reinforcedWall =
                             registerReinforcedWallBlock(reinforcedPartialName, partialEntry::get);
@@ -348,27 +430,81 @@ public class CreateReinforcedBlocks {
 
                     blockLootData.add(new SCBEBlockLootData(reinforcedWall, SCBEBlockLootData.BlockLootType.DROP_SELF));
                     blockTagData.add(new SCBEBlockTagData.Builder(reinforcedWall).pickaxe().reinforced().add(BlockTags.WALLS).build());
-                    //                    blockTagData.add(new SCBEBlockTagData(
-//                            reinforcedWall,
-//                            List.of(BlockTags.MINEABLE_WITH_PICKAXE, BlockTags.WALLS)
-//                    ));
-
-//                    reinforcedBlockEntry = reinforcedWall;
                 } else {
                     SecurityCraftBlockExtend.LOGGER.warn(
                             "Unhandled partial type: {} (pattern={}, class={})",
                             reinforcedPartialName, pattern, partial.getClass().getSimpleName());
                 }
-//                if (reinforcedBlockEntry != null){
-//                    blockTagData.add(
-//                            new SCBEBlockTagData(
-//                                    reinforcedBlockEntry,
-//                                    List.of(BlockTags.WITHER_IMMUNE,BlockTags.DRAGON_IMMUNE)
-//                            )
-//                    );
-//                }
             }
         }
+    }
+
+    private static BlockEntry<ReinforcedGlassBlock> registerReinforcedWindow(String id, String originId, Supplier<Block> vanillaBlock, Set<ResourceLocation> endTextures, String renderType, Supplier<ConnectedTextureBehaviour> connectedTexture){
+        String sideTexturePath = "block/palettes/" + originId;
+        BlockEntry<ReinforcedGlassBlock> reg = registerReinforcedGlassBlock(id, vanillaBlock, b-> b.onRegister(CreateRegistrate.connectedTextures(
+                connectedTexture
+        )));
+
+        Iterator<ResourceLocation> iterator = endTextures.iterator();
+        int index = 1;
+        while (iterator.hasNext()){
+            ResourceLocation endTexture = iterator.next();
+            blockModelData.add(new SCBEBlockModelData(
+                    id+"_"+index, reg, "block/reinforced_cube_column",
+                    Map.of("end", endTexture, "side", Create.asResource(sideTexturePath)),
+                    renderType,
+                    SIMPLE
+            ));
+            index++;
+        }
+
+        blockLootData.add(SCBEBlockLootData.dropSelf(reg));
+        blockTagData.add(new  SCBEBlockTagData.Builder(reg).reinforced().build());
+        creativeTabItems.add(reg::get);
+        return reg;
+    }
+    private static BlockEntry<ReinforcedGlassBlock> registerReinforcedWindow(String id, String originId, Supplier<Block> vanillaBlock, ResourceLocation endTexture, String renderType, Supplier<ConnectedTextureBehaviour> connectedTexture) {
+        return registerReinforcedWindow(id,originId,vanillaBlock,Set.of(endTexture),renderType,connectedTexture);
+    }
+    private static BlockEntry<ReinforcedGlassBlock> registerReinforcedWindow(String id, String originId, Supplier<Block> vanillaBlock, ResourceLocation endTexture, Supplier<CTSpriteShiftEntry> ctShift, String renderType){
+        return registerReinforcedWindow(id,originId,vanillaBlock,endTexture,renderType,()->new HorizontalCTBehaviour(ctShift.get()));
+    }
+    private static BlockEntry<ReinforcedGlassBlock> registerReinforcedWindow(String id, String originId, Supplier<Block> vanillaBlock, ResourceLocation endTexture) {
+        return registerReinforcedWindow(id, originId, vanillaBlock, endTexture, "minecraft:cutout_mipped");
+    }
+    private static BlockEntry<ReinforcedGlassBlock> registerReinforcedWindow(String id, String originId, Supplier<Block> vanillaBlock, ResourceLocation endTexture, String renderType) {
+        String sideTexturePath = "block/palettes/" + originId;
+        return registerReinforcedWindow(id,originId,vanillaBlock,endTexture,()->CTSpriteShifter.getCT(AllCTTypes.VERTICAL, Create.asResource(sideTexturePath),Create.asResource(sideTexturePath+"_connected")),renderType);
+    }
+    private static BlockEntry<ReinforcedPaneBlock> registerReinforcedWindowPane(String id, String originId, Supplier<Block> vanillaBlock, ResourceLocation edgeTexture, String renderType, Supplier<ConnectedTextureBehaviour> connectedTexture){
+        String paneTexturePath = "block/palettes/" + originId;
+        BlockEntry<ReinforcedPaneBlock> reg = registerReinforcedPaneBlock(id, vanillaBlock,b->{
+            b.onRegister(CreateRegistrate.connectedTextures(
+                    connectedTexture
+            ));
+        }, true);
+
+        blockModelData.add(new SCBEBlockModelData(
+                id,reg,"",
+                Map.of("edge",edgeTexture,"pane",Create.asResource(paneTexturePath)),
+                renderType,
+                CREATE_CONNECTED_PANE
+        ));
+
+        blockLootData.add(SCBEBlockLootData.dropSelf(reg));
+        blockTagData.add(new  SCBEBlockTagData.Builder(reg).reinforced().add(SCTags.Blocks.REINFORCED_GLASS_PANES).build());
+        creativeTabItems.add(reg::get);
+        return reg;
+    }
+    private static BlockEntry<ReinforcedPaneBlock> registerReinforcedWindowPane(String id, String originId, Supplier<Block> vanillaBlock, ResourceLocation edgeTexture, Supplier<CTSpriteShiftEntry> ctShift, String renderType){
+        return registerReinforcedWindowPane(id,originId,vanillaBlock,edgeTexture,renderType,()->new GlassPaneCTBehaviour(ctShift.get()));
+    }
+    private static BlockEntry<ReinforcedPaneBlock> registerReinforcedWindowPane(String id, String originId, Supplier<Block> vanillaBlock, ResourceLocation edgeTexture, String renderType) {
+        String paneTexturePath = "block/palettes/" + originId;
+        return registerReinforcedWindowPane(id,originId,vanillaBlock,edgeTexture,()->CTSpriteShifter.getCT(AllCTTypes.VERTICAL, Create.asResource(paneTexturePath),Create.asResource(paneTexturePath+"_connected")),renderType);
+    }
+    private static BlockEntry<ReinforcedPaneBlock> registerReinforcedWindowPane(String id, String originId, Supplier<Block> vanillaBlock, ResourceLocation edgeTexture) {
+        return registerReinforcedWindowPane(id, originId, vanillaBlock, edgeTexture, "minecraft:cutout_mipped");
     }
 
     private static ResourceLocation paletteTexture(String variant, String texture) {
@@ -462,6 +598,14 @@ public class CreateReinforcedBlocks {
                          )
                  ),
                  new SCBEBlockModelData(
+                         "reinforced_tiled_glass",
+                         REINFORCED_TILED_GLASS,
+                         "block/reinforced_cube_all",
+                         Map.of("all", Create.asResource("block/palettes/tiled_glass")),
+                         "minecraft:cutout",
+                         SIMPLE
+                 ),
+                 new SCBEBlockModelData(
                          "reinforced_framed_glass_pane",
                          REINFORCED_FRAMED_GLASS_PANE,
                          "不使用，任意占位",
@@ -522,6 +666,7 @@ public class CreateReinforcedBlocks {
                 SCBEBlockLootData.dropSelf(REINFORCED_FRAMED_GLASS),
                 SCBEBlockLootData.dropSelf(REINFORCED_HORIZONTAL_FRAMED_GLASS),
                 SCBEBlockLootData.dropSelf(REINFORCED_VERTICAL_FRAMED_GLASS),
+                SCBEBlockLootData.dropSelf(REINFORCED_TILED_GLASS),
                 SCBEBlockLootData.dropSelf(REINFORCED_FRAMED_GLASS_PANE),
                 SCBEBlockLootData.dropSelf(REINFORCED_HORIZONTAL_FRAMED_GLASS_PANE),
                 SCBEBlockLootData.dropSelf(REINFORCED_VERTICAL_FRAMED_GLASS_PANE),
@@ -543,6 +688,7 @@ public class CreateReinforcedBlocks {
                 SCBEBlockTagData.mineWithPickaxe(REINFORCED_FRAMED_GLASS::get),
                 SCBEBlockTagData.mineWithPickaxe(REINFORCED_HORIZONTAL_FRAMED_GLASS::get),
                 SCBEBlockTagData.mineWithPickaxe(REINFORCED_VERTICAL_FRAMED_GLASS::get),
+                SCBEBlockTagData.mineWithPickaxe(REINFORCED_TILED_GLASS::get),
                 new SCBEBlockTagData.Builder(REINFORCED_FRAMED_GLASS_PANE).pickaxe().reinforced().add(SCTags.Blocks.REINFORCED_GLASS_PANES).build(),
                 new SCBEBlockTagData.Builder(REINFORCED_HORIZONTAL_FRAMED_GLASS_PANE).pickaxe().reinforced().add(SCTags.Blocks.REINFORCED_GLASS_PANES).build(),
                 new SCBEBlockTagData.Builder(REINFORCED_VERTICAL_FRAMED_GLASS_PANE).pickaxe().reinforced().add(SCTags.Blocks.REINFORCED_GLASS_PANES).build(),
@@ -615,6 +761,9 @@ public class CreateReinforcedBlocks {
         BlockEntry<ReinforcedPaneBlock> blockEntry = registerReinforcedBlock(name, (p) -> new ReinforcedPaneBlock(SCBEBlocks.reinforcedCopy(vanillaBlock.get(), UnaryOperator.identity()), vanillaBlock.get()), blockBuilderConsumer, registerReinforcedTint);
         SCBEBlocks.registerReinforcedBlockMapping(blockEntry,blockEntry);
         return blockEntry;
+    }
+    public static BlockEntry<ReinforcedPaneBlock> registerReinforcedPaneBlock(String name, Supplier<Block> vanillaBlock,boolean registerReinforcedTint) {
+        return registerReinforcedPaneBlock(name, vanillaBlock, (p) -> {}, registerReinforcedTint);
     }
 
     public static <B extends Block> BlockEntry<B> registerReinforcedBlock(String name, Function<BlockBehaviour.Properties,B> reinforcedBlock) {

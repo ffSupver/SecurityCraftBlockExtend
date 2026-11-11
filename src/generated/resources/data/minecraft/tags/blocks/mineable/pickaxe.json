@@ -1193,6 +1193,10 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_tiled_glass",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_framed_glass_pane",
       "required": false
     },

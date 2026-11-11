@@ -137,6 +137,118 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_oak_window_pane",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_spruce_window_pane",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_birch_window_pane",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_jungle_window_pane",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_acacia_window_pane",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_dark_oak_window_pane",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_mangrove_window_pane",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_crimson_window_pane",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_warped_window_pane",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_cherry_window_pane",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_bamboo_window_pane",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_ornate_iron_window_pane",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_industrial_iron_window_pane",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_weathered_iron_window_pane",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_oak_window",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_spruce_window",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_birch_window",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_jungle_window",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_acacia_window",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_dark_oak_window",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_mangrove_window",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_crimson_window",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_warped_window",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_cherry_window",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_bamboo_window",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_ornate_iron_window",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_industrial_iron_window",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_weathered_iron_window",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_cut_diorite",
       "required": false
     },
@@ -1190,6 +1302,10 @@
     },
     {
       "id": "securitycraft_block_extend:reinforced_vertical_framed_glass",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_tiled_glass",
       "required": false
     },
     {

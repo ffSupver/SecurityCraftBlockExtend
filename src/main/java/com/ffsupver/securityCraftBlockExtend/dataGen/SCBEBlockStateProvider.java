@@ -385,11 +385,11 @@ public class SCBEBlockStateProvider extends BlockStateProvider {
         ResourceLocation paneTexture = textures.get("pane");
         ResourceLocation edgeTexture = textures.get("edge");
 
-        ModelFile post     = buildPaneModel(name + "_post",     Create.asResource("block/connected_glass_pane/post"),     renderType, paneTexture, edgeTexture);
-        ModelFile side     = buildPaneModel(name + "_side",     Create.asResource("block/connected_glass_pane/side"),     renderType, paneTexture, edgeTexture);
-        ModelFile sideAlt  = buildPaneModel(name + "_side_alt", Create.asResource("block/connected_glass_pane/side_alt"), renderType, paneTexture, edgeTexture);
-        ModelFile noSide   = buildPaneModel(name + "_noside",     Create.asResource("block/connected_glass_pane/noside"),     renderType, paneTexture, edgeTexture);
-        ModelFile noSideAlt= buildPaneModel(name + "_noside_alt", Create.asResource("block/connected_glass_pane/noside_alt"), renderType, paneTexture, edgeTexture);
+        ModelFile post     = buildPaneModel(name + "_post",     SecurityCraftBlockExtend.asResource("block/connected_glass_pane/post"),     renderType, paneTexture, edgeTexture);
+        ModelFile side     = buildPaneModel(name + "_side",     SecurityCraftBlockExtend.asResource("block/connected_glass_pane/side"),     renderType, paneTexture, edgeTexture);
+        ModelFile sideAlt  = buildPaneModel(name + "_side_alt", SecurityCraftBlockExtend.asResource("block/connected_glass_pane/side_alt"), renderType, paneTexture, edgeTexture);
+        ModelFile noSide   = buildPaneModel(name + "_noside",     SecurityCraftBlockExtend.asResource("block/connected_glass_pane/noside"),     renderType, paneTexture, edgeTexture);
+        ModelFile noSideAlt= buildPaneModel(name + "_noside_alt", SecurityCraftBlockExtend.asResource("block/connected_glass_pane/noside_alt"), renderType, paneTexture, edgeTexture);
 
         getMultipartBuilder(block)
                 .part().modelFile(post).addModel().end()

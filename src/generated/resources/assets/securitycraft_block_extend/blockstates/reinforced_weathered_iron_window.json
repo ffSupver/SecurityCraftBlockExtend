@@ -1,0 +1,18 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "securitycraft_block_extend:block/reinforced_weathered_iron_window_1"
+      },
+      {
+        "model": "securitycraft_block_extend:block/reinforced_weathered_iron_window_2"
+      },
+      {
+        "model": "securitycraft_block_extend:block/reinforced_weathered_iron_window_3"
+      },
+      {
+        "model": "securitycraft_block_extend:block/reinforced_weathered_iron_window_4"
+      }
+    ]
+  }
+}

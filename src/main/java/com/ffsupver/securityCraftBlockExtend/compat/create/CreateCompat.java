@@ -23,38 +23,6 @@ public class CreateCompat implements SCBEModCompat {
     public void init(IEventBus eventBus) {
         CreateReinforcedBlocks.register(eventBus);
         eventBus.addListener(this::onCommonSetup);
-//        ChainedUniversalBlockReinforcerItem.chainBlockPredicates.add(new ChainedUniversalBlockReinforcerItem.ChainBlockPredicate() {
-//            @Override
-//            public ChainedUniversalBlockReinforcerItem.ChainBlockPredicateResult test(BlockPos pos, BlockState state, Player player) {
-//                ItemStack offHandItem = player.getOffhandItem();
-//                Block checkBlock = state.getBlock();
-//                if (offHandItem.getItem() instanceof FilterItem filterItem){
-//                   Set<Block> blockList = new HashSet<>();
-//                   Arrays.stream(filterItem.getFilterItems(offHandItem)).forEach(
-//                           itemStack -> {
-//                               if (itemStack.getItem() instanceof BlockItem blockItem){
-//                                   blockList.add(blockItem.getBlock());
-//                               }
-//                           }
-//                   );
-//                   if (blockList.contains(checkBlock)){
-//                       return ChainedUniversalBlockReinforcerItem.ChainBlockPredicateResult.SUCCESS;
-//                   }else{
-//                       return ChainedUniversalBlockReinforcerItem.ChainBlockPredicateResult.FAIL;
-//                   }
-//                }
-//                return ChainedUniversalBlockReinforcerItem.ChainBlockPredicateResult.PASS;
-//            }
-//
-//            @Override
-//            public ChainedUniversalBlockReinforcerItem.ChainBlockPredicateResult shouldWalk(BlockPos pos, BlockState state, Player player) {
-//                ItemStack offHandItem = player.getOffhandItem();
-//                if (offHandItem.getItem() instanceof FilterItem){
-//                    return ChainedUniversalBlockReinforcerItem.ChainBlockPredicateResult.SUCCESS;
-//                }
-//                return ChainedUniversalBlockReinforcerItem.ChainBlockPredicateResult.PASS;
-//            }
-//        });
     }
 
     public void onCommonSetup(FMLCommonSetupEvent event){
