@@ -383,7 +383,18 @@
   "block.securitycraft_block_extend.reinforced_copper_catwalk": "强化铜栈桥",
   "block.securitycraft_block_extend.reinforced_industrial_iron_catwalk": "强化工业铁栈桥",
   "block.securitycraft_block_extend.reinforced_zinc_catwalk": "强化锌栈桥",
-
+  "block.securitycraft_block_extend.reinforced_andesite_window_deco": "强化安山窗户",
+  "block.securitycraft_block_extend.reinforced_copper_window_deco": "强化铜窗户",
+  "block.securitycraft_block_extend.reinforced_iron_window_deco": "强化铁窗户",
+  "block.securitycraft_block_extend.reinforced_industrial_iron_window_deco": "强化工业铁窗户",
+  "block.securitycraft_block_extend.reinforced_brass_window_deco": "强化黄铜窗户",
+  "block.securitycraft_block_extend.reinforced_zinc_window_deco": "强化锌窗户",
+  "block.securitycraft_block_extend.reinforced_andesite_window_pane_deco": "强化安山窗户板",
+  "block.securitycraft_block_extend.reinforced_copper_window_pane_deco": "强化铜窗户板",
+  "block.securitycraft_block_extend.reinforced_iron_window_pane_deco": "强化铁窗户板",
+  "block.securitycraft_block_extend.reinforced_industrial_iron_window_pane_deco": "强化工业铁窗户板",
+  "block.securitycraft_block_extend.reinforced_brass_window_pane_deco": "强化黄铜窗户板",
+  "block.securitycraft_block_extend.reinforced_zinc_window_pane_deco": "强化锌窗户板",
 
 
 

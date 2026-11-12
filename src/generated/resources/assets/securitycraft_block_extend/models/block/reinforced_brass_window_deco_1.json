@@ -1,0 +1,8 @@
+{
+  "parent": "securitycraft:block/reinforced_cube_column",
+  "render_type": "minecraft:cutout_mipped",
+  "textures": {
+    "end": "createdeco:block/palettes/windows/brass_window",
+    "side": "createdeco:block/palettes/windows/brass_window"
+  }
+}

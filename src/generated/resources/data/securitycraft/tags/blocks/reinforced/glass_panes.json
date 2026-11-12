@@ -57,6 +57,30 @@
       "required": false
     },
     {
+      "id": "securitycraft_block_extend:reinforced_andesite_window_pane_deco",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_copper_window_pane_deco",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_iron_window_pane_deco",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_industrial_iron_window_pane_deco",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_brass_window_pane_deco",
+      "required": false
+    },
+    {
+      "id": "securitycraft_block_extend:reinforced_zinc_window_pane_deco",
+      "required": false
+    },
+    {
       "id": "securitycraft_block_extend:reinforced_framed_glass_pane",
       "required": false
     },

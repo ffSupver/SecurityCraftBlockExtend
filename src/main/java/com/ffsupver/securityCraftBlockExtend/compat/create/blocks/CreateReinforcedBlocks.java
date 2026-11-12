@@ -224,7 +224,7 @@ public class CreateReinforcedBlocks {
             ()->AllSpriteShifts.INDUSTRIAL_IRON_WINDOW,"cutout_mipped"
     );
     public static final BlockEntry<ReinforcedGlassBlock> REINFORCED_WEATHERED_IRON_WINDOW = registerReinforcedWindow(
-            "reinforced_weathered_iron_window","weathered_iron_window",AllPaletteBlocks.WEATHERED_IRON_WINDOW::get,
+            "reinforced_weathered_iron_window",Create.asResource("block/palettes/weathered_iron_window"),AllPaletteBlocks.WEATHERED_IRON_WINDOW::get,
             Set.of(
                     Create.asResource("block/palettes/weathered_iron_window_1_end"),
                     Create.asResource("block/palettes/weathered_iron_window_2_end"),
@@ -439,8 +439,7 @@ public class CreateReinforcedBlocks {
         }
     }
 
-    private static BlockEntry<ReinforcedGlassBlock> registerReinforcedWindow(String id, String originId, Supplier<Block> vanillaBlock, Set<ResourceLocation> endTextures, String renderType, Supplier<ConnectedTextureBehaviour> connectedTexture){
-        String sideTexturePath = "block/palettes/" + originId;
+    protected static BlockEntry<ReinforcedGlassBlock> registerReinforcedWindow(String id, ResourceLocation sideTexture, Supplier<Block> vanillaBlock, Set<ResourceLocation> endTextures, String renderType, Supplier<ConnectedTextureBehaviour> connectedTexture){
         BlockEntry<ReinforcedGlassBlock> reg = registerReinforcedGlassBlock(id, vanillaBlock, b-> b.onRegister(CreateRegistrate.connectedTextures(
                 connectedTexture
         )));
@@ -451,7 +450,7 @@ public class CreateReinforcedBlocks {
             ResourceLocation endTexture = iterator.next();
             blockModelData.add(new SCBEBlockModelData(
                     id+"_"+index, reg, "block/reinforced_cube_column",
-                    Map.of("end", endTexture, "side", Create.asResource(sideTexturePath)),
+                    Map.of("end", endTexture, "side", sideTexture),
                     renderType,
                     SIMPLE
             ));
@@ -463,21 +462,25 @@ public class CreateReinforcedBlocks {
         creativeTabItems.add(reg::get);
         return reg;
     }
-    private static BlockEntry<ReinforcedGlassBlock> registerReinforcedWindow(String id, String originId, Supplier<Block> vanillaBlock, ResourceLocation endTexture, String renderType, Supplier<ConnectedTextureBehaviour> connectedTexture) {
+    protected static BlockEntry<ReinforcedGlassBlock> registerReinforcedWindow(String id, ResourceLocation originId, Supplier<Block> vanillaBlock, ResourceLocation endTexture, String renderType, Supplier<ConnectedTextureBehaviour> connectedTexture) {
         return registerReinforcedWindow(id,originId,vanillaBlock,Set.of(endTexture),renderType,connectedTexture);
     }
-    private static BlockEntry<ReinforcedGlassBlock> registerReinforcedWindow(String id, String originId, Supplier<Block> vanillaBlock, ResourceLocation endTexture, Supplier<CTSpriteShiftEntry> ctShift, String renderType){
+    protected static BlockEntry<ReinforcedGlassBlock> registerReinforcedWindow(String id, String originId, Supplier<Block> vanillaBlock, ResourceLocation endTexture, String renderType, Supplier<ConnectedTextureBehaviour> connectedTexture) {
+        String sideTexturePath = "block/palettes/" + originId;
+        return registerReinforcedWindow(id,Create.asResource(sideTexturePath),vanillaBlock,Set.of(endTexture),renderType,connectedTexture);
+    }
+    protected static BlockEntry<ReinforcedGlassBlock> registerReinforcedWindow(String id, String originId, Supplier<Block> vanillaBlock, ResourceLocation endTexture, Supplier<CTSpriteShiftEntry> ctShift, String renderType){
         return registerReinforcedWindow(id,originId,vanillaBlock,endTexture,renderType,()->new HorizontalCTBehaviour(ctShift.get()));
     }
-    private static BlockEntry<ReinforcedGlassBlock> registerReinforcedWindow(String id, String originId, Supplier<Block> vanillaBlock, ResourceLocation endTexture) {
+    protected static BlockEntry<ReinforcedGlassBlock> registerReinforcedWindow(String id, String originId, Supplier<Block> vanillaBlock, ResourceLocation endTexture) {
         return registerReinforcedWindow(id, originId, vanillaBlock, endTexture, "minecraft:cutout_mipped");
     }
-    private static BlockEntry<ReinforcedGlassBlock> registerReinforcedWindow(String id, String originId, Supplier<Block> vanillaBlock, ResourceLocation endTexture, String renderType) {
+    protected static BlockEntry<ReinforcedGlassBlock> registerReinforcedWindow(String id, String originId, Supplier<Block> vanillaBlock, ResourceLocation endTexture, String renderType) {
         String sideTexturePath = "block/palettes/" + originId;
         return registerReinforcedWindow(id,originId,vanillaBlock,endTexture,()->CTSpriteShifter.getCT(AllCTTypes.VERTICAL, Create.asResource(sideTexturePath),Create.asResource(sideTexturePath+"_connected")),renderType);
     }
-    private static BlockEntry<ReinforcedPaneBlock> registerReinforcedWindowPane(String id, String originId, Supplier<Block> vanillaBlock, ResourceLocation edgeTexture, String renderType, Supplier<ConnectedTextureBehaviour> connectedTexture){
-        String paneTexturePath = "block/palettes/" + originId;
+    protected static BlockEntry<ReinforcedPaneBlock> registerReinforcedWindowPane(String id, ResourceLocation originId, Supplier<Block> vanillaBlock, ResourceLocation edgeTexture, String renderType, Supplier<ConnectedTextureBehaviour> connectedTexture){
+
         BlockEntry<ReinforcedPaneBlock> reg = registerReinforcedPaneBlock(id, vanillaBlock,b->{
             b.onRegister(CreateRegistrate.connectedTextures(
                     connectedTexture
@@ -486,7 +489,7 @@ public class CreateReinforcedBlocks {
 
         blockModelData.add(new SCBEBlockModelData(
                 id,reg,"",
-                Map.of("edge",edgeTexture,"pane",Create.asResource(paneTexturePath)),
+                Map.of("edge",edgeTexture,"pane",originId),
                 renderType,
                 CREATE_CONNECTED_PANE
         ));
@@ -496,14 +499,18 @@ public class CreateReinforcedBlocks {
         creativeTabItems.add(reg::get);
         return reg;
     }
-    private static BlockEntry<ReinforcedPaneBlock> registerReinforcedWindowPane(String id, String originId, Supplier<Block> vanillaBlock, ResourceLocation edgeTexture, Supplier<CTSpriteShiftEntry> ctShift, String renderType){
+    protected static BlockEntry<ReinforcedPaneBlock> registerReinforcedWindowPane(String id, String originId, Supplier<Block> vanillaBlock, ResourceLocation edgeTexture, String renderType, Supplier<ConnectedTextureBehaviour> connectedTexture) {
+        String paneTexturePath = "block/palettes/" + originId;
+        return registerReinforcedWindowPane(id,Create.asResource(paneTexturePath),vanillaBlock,edgeTexture,renderType,connectedTexture);
+    }
+    protected static BlockEntry<ReinforcedPaneBlock> registerReinforcedWindowPane(String id, String originId, Supplier<Block> vanillaBlock, ResourceLocation edgeTexture, Supplier<CTSpriteShiftEntry> ctShift, String renderType){
         return registerReinforcedWindowPane(id,originId,vanillaBlock,edgeTexture,renderType,()->new GlassPaneCTBehaviour(ctShift.get()));
     }
-    private static BlockEntry<ReinforcedPaneBlock> registerReinforcedWindowPane(String id, String originId, Supplier<Block> vanillaBlock, ResourceLocation edgeTexture, String renderType) {
+    protected static BlockEntry<ReinforcedPaneBlock> registerReinforcedWindowPane(String id, String originId, Supplier<Block> vanillaBlock, ResourceLocation edgeTexture, String renderType) {
         String paneTexturePath = "block/palettes/" + originId;
         return registerReinforcedWindowPane(id,originId,vanillaBlock,edgeTexture,()->CTSpriteShifter.getCT(AllCTTypes.VERTICAL, Create.asResource(paneTexturePath),Create.asResource(paneTexturePath+"_connected")),renderType);
     }
-    private static BlockEntry<ReinforcedPaneBlock> registerReinforcedWindowPane(String id, String originId, Supplier<Block> vanillaBlock, ResourceLocation edgeTexture) {
+    protected static BlockEntry<ReinforcedPaneBlock> registerReinforcedWindowPane(String id, String originId, Supplier<Block> vanillaBlock, ResourceLocation edgeTexture) {
         return registerReinforcedWindowPane(id, originId, vanillaBlock, edgeTexture, "minecraft:cutout_mipped");
     }
 

@@ -383,7 +383,18 @@
   "block.securitycraft_block_extend.reinforced_copper_catwalk": "Reinforced Copper Catwalk",
   "block.securitycraft_block_extend.reinforced_industrial_iron_catwalk": "Reinforced Industrial Iron Catwalk",
   "block.securitycraft_block_extend.reinforced_zinc_catwalk": "Reinforced Zinc Catwalk",
-
+  "block.securitycraft_block_extend.reinforced_andesite_window_deco": "Reinforced Andesite Window",
+  "block.securitycraft_block_extend.reinforced_copper_window_deco": "Reinforced Copper Window",
+  "block.securitycraft_block_extend.reinforced_iron_window_deco": "Reinforced Iron Window",
+  "block.securitycraft_block_extend.reinforced_industrial_iron_window_deco": "Reinforced Industrial Iron Window",
+  "block.securitycraft_block_extend.reinforced_brass_window_deco": "Reinforced Brass Window",
+  "block.securitycraft_block_extend.reinforced_zinc_window_deco": "Reinforced Zinc Window",
+  "block.securitycraft_block_extend.reinforced_andesite_window_pane_deco": "Reinforced Andesite Window Pane",
+  "block.securitycraft_block_extend.reinforced_copper_window_pane_deco": "Reinforced Copper Window Pane",
+  "block.securitycraft_block_extend.reinforced_iron_window_pane_deco": "Reinforced Iron Window Pane",
+  "block.securitycraft_block_extend.reinforced_industrial_iron_window_pane_deco": "Reinforced Industrial Iron Window Pane",
+  "block.securitycraft_block_extend.reinforced_brass_window_pane_deco": "Reinforced Brass Window Pane",
+  "block.securitycraft_block_extend.reinforced_zinc_window_pane_deco": "Reinforced Zinc Window Pane",
 
 
 

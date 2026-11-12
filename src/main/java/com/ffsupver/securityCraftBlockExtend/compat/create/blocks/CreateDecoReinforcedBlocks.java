@@ -5,18 +5,21 @@ import com.ffsupver.securityCraftBlockExtend.dataGen.SCBEBlockLootData;
 import com.ffsupver.securityCraftBlockExtend.dataGen.SCBEBlockTagData;
 import com.ffsupver.securityCraftBlockExtend.registeries.SCBEBlocks;
 import com.github.talrey.createdeco.BlockRegistry;
+import com.github.talrey.createdeco.CreateDecoMod;
 import com.github.talrey.createdeco.ItemRegistry;
 import com.github.talrey.createdeco.blocks.CatwalkBlock;
 import com.github.talrey.createdeco.connected.CatwalkCTBehaviour;
 import com.github.talrey.createdeco.items.CatwalkBlockItem;
 import com.simibubi.create.AllTags;
-import com.simibubi.create.foundation.block.connected.AllCTTypes;
-import com.simibubi.create.foundation.block.connected.CTSpriteShiftEntry;
-import com.simibubi.create.foundation.block.connected.CTSpriteShifter;
+import com.simibubi.create.content.decoration.palettes.ConnectedGlassPaneBlock;
+import com.simibubi.create.content.decoration.palettes.WindowBlock;
+import com.simibubi.create.foundation.block.connected.*;
 import com.simibubi.create.foundation.data.CreateRegistrate;
 import com.tterrag.registrate.providers.ProviderType;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
+import net.geforcemods.securitycraft.blocks.reinforced.ReinforcedGlassBlock;
+import net.geforcemods.securitycraft.blocks.reinforced.ReinforcedPaneBlock;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.SoundType;
@@ -25,11 +28,16 @@ import net.minecraftforge.client.model.generators.ConfiguredModel;
 import java.util.*;
 import java.util.function.Supplier;
 
+import static com.ffsupver.securityCraftBlockExtend.compat.create.blocks.CreateReinforcedBlocks.registerReinforcedWindow;
+import static com.ffsupver.securityCraftBlockExtend.compat.create.blocks.CreateReinforcedBlocks.registerReinforcedWindowPane;
+
 public class CreateDecoReinforcedBlocks {
     private static final CreateRegistrate REGISTRATE = CreateReinforcedBlocks.REGISTRATE;
 
     public static final Map<String, CTSpriteShiftEntry> REINFORCED_CATWALK_TOPS = new HashMap<>();
     public static final Map<String, BlockEntry<ReinforcedCatwalkBlock>> REINFORCED_CATWALKS = new HashMap<>();
+    public static final Map<String, BlockEntry<ReinforcedGlassBlock>> REINFORCED_WINDOWS = new HashMap<>();
+    public static final Map<String, BlockEntry<ReinforcedPaneBlock>> REINFORCED_WINDOW_PANES = new HashMap<>();
     static {
         List<String> metals = new ArrayList<>(ItemRegistry.METAL_TYPES.keySet());
         for (String metal : metals) {
@@ -44,8 +52,87 @@ public class CreateDecoReinforcedBlocks {
         }
 
         metals.forEach(CreateDecoReinforcedBlocks::registerReinforcedCatwalk);
+
+        registerDecoReinforcedWindow(BlockRegistry.ANDESITE_WINDOW, "andesite");
+        registerDecoReinforcedWindow(BlockRegistry.COPPER_WINDOW, "copper");
+        registerDecoReinforcedWindow(BlockRegistry.IRON_WINDOW, "iron");
+        registerDecoReinforcedWindow(BlockRegistry.INDUSTRIAL_IRON_WINDOW, "industrial_iron");
+        registerDecoReinforcedWindow(BlockRegistry.BRASS_WINDOW, "brass");
+        registerDecoReinforcedWindow(BlockRegistry.ZINC_WINDOW, "zinc");
+        registerDecoReinforcedWindowPane(BlockRegistry.ANDESITE_WINDOW_PANE, "andesite");
+        registerDecoReinforcedWindowPane(BlockRegistry.COPPER_WINDOW_PANE, "copper");
+        registerDecoReinforcedWindowPane(BlockRegistry.IRON_WINDOW_PANE, "iron");
+        registerDecoReinforcedWindowPane(BlockRegistry.INDUSTRIAL_IRON_WINDOW_PANE, "industrial_iron");
+        registerDecoReinforcedWindowPane(BlockRegistry.BRASS_WINDOW_PANE, "brass");
+        registerDecoReinforcedWindowPane(BlockRegistry.ZINC_WINDOW_PANE, "zinc");
     }
     public static void register(){}
+    private static void registerDecoReinforcedWindow(Supplier<WindowBlock> windowBlock,String metalN){
+        String regName = "reinforced_" + metalN + "_window_deco";
+
+        // 1. 定义纹理路径
+        ResourceLocation sideTexture = CreateDecoMod.id(
+                "block/palettes/windows/" + metalN + "_window"
+        );
+        ResourceLocation sideConnectTexture = CreateDecoMod.id(
+                "block/palettes/windows/" + metalN + "_window_connected"
+        );
+        ResourceLocation endTexture = CreateDecoMod.id(
+                "block/palettes/windows/" + metalN + "_window_end"
+        );
+
+        // 2. 为强化窗户构造专用的 CT 映射
+        CTSpriteShiftEntry ctShift = CTSpriteShifter.getCT(
+                AllCTTypes.VERTICAL,
+                sideTexture,
+                sideConnectTexture
+        );
+
+        // 3. 调用你的注册方法
+        BlockEntry<ReinforcedGlassBlock> reinforcedWindow = registerReinforcedWindow(
+                regName,
+                sideTexture,
+                windowBlock::get,
+                sideTexture,
+                "minecraft:cutout_mipped",
+                () -> new HorizontalCTBehaviour(ctShift)
+        );
+
+        REINFORCED_WINDOWS.put(metalN, reinforcedWindow);
+    }
+    private static void registerDecoReinforcedWindowPane(Supplier<ConnectedGlassPaneBlock> windowPaneBlock, String metalN){
+        String regName = "reinforced_" + metalN + "_window_pane_deco";
+
+        // 1. 定义纹理路径
+        ResourceLocation sideTexture = CreateDecoMod.id(
+                "block/palettes/windows/" + metalN + "_window"
+        );
+        ResourceLocation sideConnectTexture = CreateDecoMod.id(
+                "block/palettes/windows/" + metalN + "_window_connected"
+        );
+        ResourceLocation endTexture = CreateDecoMod.id(
+                "block/palettes/windows/" + metalN + "_window_end"
+        );
+
+        // 2. 为强化窗户构造专用的 CT 映射
+        CTSpriteShiftEntry ctShift = CTSpriteShifter.getCT(
+                AllCTTypes.VERTICAL,
+                sideTexture,
+                sideConnectTexture
+        );
+
+        // 3. 调用你的注册方法
+        BlockEntry<ReinforcedPaneBlock> reinforcedWindow = registerReinforcedWindowPane(
+                regName,
+                sideTexture,
+                windowPaneBlock::get,
+                endTexture,
+                "minecraft:cutout_mipped",
+                () -> new GlassPaneCTBehaviour(ctShift)
+        );
+
+        REINFORCED_WINDOW_PANES.put(metalN, reinforcedWindow);
+    }
     private static void registerReinforcedCatwalk(String metal) {
         String regName = "reinforced_" + metal.toLowerCase(Locale.ROOT).replace(" ", "_") + "_catwalk";
         ResourceLocation catwalkTexture = SecurityCraftBlockExtend.asResource(
