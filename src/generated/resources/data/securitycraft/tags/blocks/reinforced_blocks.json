@@ -2927,10 +2927,6 @@
       "required": false
     },
     {
-      "id": "securitycraft_block_extend:reinforced_crate_quark",
-      "required": false
-    },
-    {
       "id": "securitycraft_block_extend:reinforced_stripped_azalea_log_quark",
       "required": false
     },

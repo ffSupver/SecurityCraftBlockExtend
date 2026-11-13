@@ -30,14 +30,12 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.*;
-import org.violetmoon.quark.addons.oddities.block.MagnetBlock;
-import org.violetmoon.quark.addons.oddities.block.MatrixEnchantingTableBlock;
-import org.violetmoon.quark.addons.oddities.block.MovingMagnetizedBlock;
-import org.violetmoon.quark.addons.oddities.block.TinyPotatoBlock;
+import org.violetmoon.quark.addons.oddities.block.*;
 import org.violetmoon.quark.addons.oddities.block.pipe.BasePipeBlock;
 import org.violetmoon.quark.content.automation.block.*;
 import org.violetmoon.quark.content.building.block.*;
 import org.violetmoon.quark.content.building.module.CompressedBlocksModule;
+import org.violetmoon.quark.content.building.module.VerticalPlanksModule;
 import org.violetmoon.quark.content.tools.block.CloudBlock;
 import org.violetmoon.quark.content.tweaks.block.WaterPetalBlock;
 import org.violetmoon.quark.content.world.block.*;
@@ -136,7 +134,7 @@ public class QuarkCompat implements SCBEModCompat {
                     || block instanceof StoolBlock || block instanceof ZetaStandingSignBlock || block instanceof ZetaWallSignBlock || block instanceof ZetaCeilingHangingSignBlock
                     || block instanceof ZetaWallHangingSignBlock || block instanceof EnderWatcherBlock || block instanceof CrafterBlock || block instanceof PaperLanternBlock
                     || block instanceof ZetaFlammableBlock || block instanceof ZetaDoorBlock || block instanceof CorundumClusterBlock || block instanceof VariantFurnaceBlock
-                    || block instanceof GlowShroomRingBlock || block instanceof ChorusVegetationBlock
+                    || block instanceof GlowShroomRingBlock || block instanceof ChorusVegetationBlock || block instanceof CrateBlock
                     || block instanceof ZetaFenceGateBlock || block instanceof ZetaFenceBlock || block instanceof RainbowLampBlock || block instanceof MudBrickLatticeBlock
                     || block instanceof MatrixEnchantingTableBlock || block instanceof RopeBlock || block instanceof MagnetBlock || block instanceof MovingMagnetizedBlock
                     || block instanceof ZetaPaneBlock || block instanceof IronRodBlock || block instanceof ZetaTrapdoorBlock || block instanceof BasePipeBlock
@@ -257,6 +255,9 @@ public class QuarkCompat implements SCBEModCompat {
                     case "soul_sandstone"->ResourceLocation.tryBuild(SecurityCraft.MODID, "block/reinforced_cube_bottom_top");
                     default -> ResourceLocation.tryBuild(SecurityCraft.MODID, "block/reinforced_cube_all");
                 };
+                if (originalId.getPath().startsWith("vertical_") && originalId.getPath().endsWith("_planks")){
+                    parentModel = SecurityCraftBlockExtend.asResource("block/reinforced_vertical_planks");
+                }
                 registerQuarkReinforced(
                         name+"_quark", originalId, block,
                         BaseReinforcedBlock::new,
