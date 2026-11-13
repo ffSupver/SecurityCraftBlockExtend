@@ -1,5 +1,6 @@
 {
   "itemGroup.security_craft_block_extend.main": "安全工艺:更多方块",
+  "itemGroup.security_craft_block_extend.quark": "安全工艺:更多方块-夸克",
 
   "gui.securitycraft_block_extend.chained_universal_block_reinforcer.mode.chained":"连锁模式",
   "gui.securitycraft_block_extend.chained_universal_block_reinforcer.mode.filling":"填充模式",

@@ -12,9 +12,12 @@ import net.geforcemods.securitycraft.api.IReinforcedBlock;
 import net.geforcemods.securitycraft.blocks.reinforced.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.FastColor;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.ItemLike;
@@ -34,6 +37,7 @@ import org.violetmoon.quark.addons.oddities.block.TinyPotatoBlock;
 import org.violetmoon.quark.addons.oddities.block.pipe.BasePipeBlock;
 import org.violetmoon.quark.content.automation.block.*;
 import org.violetmoon.quark.content.building.block.*;
+import org.violetmoon.quark.content.building.module.CompressedBlocksModule;
 import org.violetmoon.quark.content.tools.block.CloudBlock;
 import org.violetmoon.quark.content.tweaks.block.WaterPetalBlock;
 import org.violetmoon.quark.content.world.block.*;
@@ -48,15 +52,27 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
 
+import static com.ffsupver.securityCraftBlockExtend.registeries.SCBEBlocks.REINFORCED_REINFORCED_DEEPSLATE;
+import static com.ffsupver.securityCraftBlockExtend.registeries.SCBETabs.CREATIVE_MODE_TABS;
+
 public class QuarkCompat implements SCBEModCompat {
     protected static final DeferredRegister<Block> BLOCKS = SCBEBlocks.BLOCKS;
     public static final Map<Block,RegistryObject<? extends Block>> QUARK_REINFORCED_BLOCKS = new HashMap<>();
     private boolean populated = false;
 
-    private final List<Supplier<ItemLike>> creativeTabItems = new ArrayList<>();
+    private static final List<Supplier<ItemLike>> creativeTabItems = new ArrayList<>();
     private final List<SCBEBlockModelData> modelDataList = new ArrayList<>();
     private final List<SCBEBlockLootData> lootTableProviders = new ArrayList<>();
     private final List<SCBEBlockTagData> blockTagDataList = new ArrayList<>();
+
+    public static final RegistryObject<CreativeModeTab> SECURITY_CRAFT_BLOCK_EXTEND_QUARK = CREATIVE_MODE_TABS.register("security_craft_block_extend_quark", () -> CreativeModeTab.builder()
+            .withTabsBefore(CreativeModeTabs.COMBAT)
+            .title(Component.translatable("itemGroup.security_craft_block_extend.quark"))
+            .icon(() -> QUARK_REINFORCED_BLOCKS.getOrDefault(CompressedBlocksModule.blaze_lantern,REINFORCED_REINFORCED_DEEPSLATE)
+            .get().asItem().getDefaultInstance())
+            .displayItems((parameters, output) -> {
+                creativeTabItems.forEach(itemLikeSupplier -> output.accept(itemLikeSupplier.get()));
+            }).build());
 
     private static final SCBEBlocks.ColorProcessor MYALITE_PROCESSOR =
             new SCBEBlocks.ColorProcessor() {
@@ -346,10 +362,10 @@ public class QuarkCompat implements SCBEModCompat {
         return modelDataList;
     }
 
-    @Override
-    public List<Supplier<ItemLike>> getCreativeTabItems() {
-        return creativeTabItems;
-    }
+//    @Override
+//    public List<Supplier<ItemLike>> getCreativeTabItems() {
+//        return creativeTabItems;
+//    }
 
     @Override
     public List<SCBEBlockLootData> getBlockLootData() {
