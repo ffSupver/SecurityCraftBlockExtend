@@ -35,6 +35,10 @@
     {
       "id": "securitycraft_block_extend:reinforced_zinc_catwalk",
       "required": false
+    },
+    {
+      "id": "#quark:ladders",
+      "required": false
     }
     ]
 }

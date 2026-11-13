@@ -56,6 +56,8 @@ public class CreateReinforcedBlocks {
 
     public static final BlockEntry<BaseReinforcedBlock> REINFORCED_BRASS_BLOCK = registerReinforcedBlock("reinforced_brass_block", AllBlocks.BRASS_BLOCK);
     public static final BlockEntry<BaseReinforcedBlock> REINFORCED_ANDESITE_ALLOY_BLOCK = registerReinforcedBlock("reinforced_andesite_alloy_block", AllBlocks.ANDESITE_ALLOY_BLOCK);
+    public static final BlockEntry<BaseReinforcedBlock> REINFORCED_INDUSTRIAL_IRON_BLOCK = registerReinforcedBlock("reinforced_industrial_iron_block", AllBlocks.INDUSTRIAL_IRON_BLOCK);
+    public static final BlockEntry<BaseReinforcedBlock> REINFORCED_WEATHERED_IRON_BLOCK = registerReinforcedBlock("reinforced_weathered_iron_block", AllBlocks.WEATHERED_IRON_BLOCK);
 
     public static final BlockEntry<ReinforcedGlassBlock> REINFORCED_FRAMED_GLASS =
             registerReinforcedGlassBlock(
@@ -565,6 +567,18 @@ public class CreateReinforcedBlocks {
                         Map.of("all", Create.asResource("block/andesite_block"))
                  ),
                  new SCBEBlockModelData(
+                         "reinforced_industrial_iron_block",
+                         REINFORCED_INDUSTRIAL_IRON_BLOCK,
+                         "block/reinforced_cube_column",
+                         Map.of("side", Create.asResource("block/industrial_iron_block"),"end", Create.asResource("block/industrial_iron_block_top"))
+                 ),
+                 new SCBEBlockModelData(
+                         "reinforced_weathered_iron_block",
+                         REINFORCED_WEATHERED_IRON_BLOCK,
+                         "block/reinforced_cube_column",
+                         Map.of("side", Create.asResource("block/weathered_iron_block"),"end", Create.asResource("block/weathered_iron_block_top"))
+                 ),
+                 new SCBEBlockModelData(
                          "reinforced_framed_glass",
                          REINFORCED_FRAMED_GLASS,
                          "block/reinforced_cube_all",
@@ -670,6 +684,8 @@ public class CreateReinforcedBlocks {
         blockLootData.addAll(List.of(
                 SCBEBlockLootData.dropSelf(REINFORCED_BRASS_BLOCK),
                 SCBEBlockLootData.dropSelf(REINFORCED_ANDESITE_ALLOY_BLOCK),
+                SCBEBlockLootData.dropSelf(REINFORCED_INDUSTRIAL_IRON_BLOCK),
+                SCBEBlockLootData.dropSelf(REINFORCED_WEATHERED_IRON_BLOCK),
                 SCBEBlockLootData.dropSelf(REINFORCED_FRAMED_GLASS),
                 SCBEBlockLootData.dropSelf(REINFORCED_HORIZONTAL_FRAMED_GLASS),
                 SCBEBlockLootData.dropSelf(REINFORCED_VERTICAL_FRAMED_GLASS),
@@ -692,6 +708,8 @@ public class CreateReinforcedBlocks {
         blockTagData.addAll(List.of(
                 new SCBEBlockTagData.Builder(REINFORCED_BRASS_BLOCK).pickaxe().ironTool().reinforced().build(),
                 new SCBEBlockTagData.Builder(REINFORCED_ANDESITE_ALLOY_BLOCK).pickaxe().add(BlockTags.NEEDS_STONE_TOOL).reinforced().build(),
+                new SCBEBlockTagData.Builder(REINFORCED_INDUSTRIAL_IRON_BLOCK).pickaxe().add(BlockTags.NEEDS_STONE_TOOL).reinforced().build(),
+                new SCBEBlockTagData.Builder(REINFORCED_WEATHERED_IRON_BLOCK).pickaxe().add(BlockTags.NEEDS_STONE_TOOL).reinforced().build(),
                 SCBEBlockTagData.mineWithPickaxe(REINFORCED_FRAMED_GLASS::get),
                 SCBEBlockTagData.mineWithPickaxe(REINFORCED_HORIZONTAL_FRAMED_GLASS::get),
                 SCBEBlockTagData.mineWithPickaxe(REINFORCED_VERTICAL_FRAMED_GLASS::get),
